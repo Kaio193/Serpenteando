@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/grouped_background">
+    android:background="@color/cascavel_bg">
 
     <TextView
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         android:paddingTop="@dimen/space_20"
         android:paddingHorizontal="@dimen/space_20"
         android:paddingBottom="@dimen/space_8"
-        style="@style/AppleLargeTitle"
+        style="@style/SerpenteandoLargeTitle"
         android:text="Conteúdo Educativo"
         android:textStyle="bold" />
 

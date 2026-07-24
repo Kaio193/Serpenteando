@@ -49,7 +49,7 @@
             android:fontFamily="@font/inter"
             android:clickable="true"
             android:focusable="true"
-            android:textColor="@android:color/black"
+            android:textColor="@color/cascavel_bg"
             android:background="@drawable/chip_active"
             android:layout_marginEnd="@dimen/space_4" />
 
