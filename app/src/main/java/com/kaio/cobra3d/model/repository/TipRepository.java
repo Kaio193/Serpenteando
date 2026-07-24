@@ -1,0 +1,91 @@
+package com.kaio.cobra3d.model.repository;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.kaio.cobra3d.model.db.Contract;
+import com.kaio.cobra3d.model.entity.Tip;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TipRepository {
+
+    private final SQLiteDatabase db;
+
+    public TipRepository(SQLiteDatabase db) {
+        this.db = db;
+    }
+
+    public List<Tip> getAll() {
+        List<Tip> list = new ArrayList<>();
+        Cursor c = db.query(Contract.TipsTable.TABLE_NAME, null, null, null,
+                null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                list.add(cursorToTip(c));
+            }
+            c.close();
+        }
+        return list;
+    }
+
+    public Tip getRandom() {
+        Cursor c = db.rawQuery(
+                "SELECT * FROM " + Contract.TipsTable.TABLE_NAME +
+                        " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1" +
+                        " ORDER BY RANDOM() LIMIT 1", null);
+        if (c != null && c.moveToFirst()) {
+            Tip tip = cursorToTip(c);
+            c.close();
+            return tip;
+        }
+        return null;
+    }
+
+    public Tip getById(long id) {
+        Cursor c = db.query(Contract.TipsTable.TABLE_NAME, null,
+                Contract.TipsTable.COL_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        if (c != null && c.moveToFirst()) {
+            Tip tip = cursorToTip(c);
+            c.close();
+            return tip;
+        }
+        return null;
+    }
+
+    public long insert(Tip tip) {
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
+        cv.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
+        cv.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
+        return db.insert(Contract.TipsTable.TABLE_NAME, null, cv);
+    }
+
+    public int update(Tip tip) {
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
+        cv.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
+        cv.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
+        return db.update(Contract.TipsTable.TABLE_NAME, cv,
+                Contract.TipsTable.COL_ID + " = ?",
+                new String[]{String.valueOf(tip.getId())});
+    }
+
+    public int delete(long id) {
+        return db.delete(Contract.TipsTable.TABLE_NAME,
+                Contract.TipsTable.COL_ID + " = ?",
+                new String[]{String.valueOf(id)});
+    }
+
+    private Tip cursorToTip(Cursor c) {
+        Tip tip = new Tip();
+        tip.setId(c.getLong(c.getColumnIndexOrThrow(Contract.TipsTable.COL_ID)));
+        tip.setTipText(c.getString(c.getColumnIndexOrThrow(Contract.TipsTable.COL_TIP_TEXT)));
+        tip.setCategory(c.getString(c.getColumnIndexOrThrow(Contract.TipsTable.COL_CATEGORY)));
+        tip.setActive(c.getInt(c.getColumnIndexOrThrow(Contract.TipsTable.COL_IS_ACTIVE)) == 1);
+        return tip;
+    }
+}

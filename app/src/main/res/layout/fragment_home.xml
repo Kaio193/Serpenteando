@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cascavel_bg"
+    tools:context=".view.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <!-- TOOLBAR TRANSLUCIDA -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar_home"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/cascavel_glass_bg"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:letterSpacing="-0.02"
+                android:text="@string/app_name"
+                android:textColor="@color/cascavel_on_bg"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/cascavel_gold" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- HERO SECTION -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_hero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/hero_gradient_overlay"
+            android:paddingBottom="24dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_home">
+
+            <TextView
+                android:id="@+id/tv_hero_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/inter"
+                android:letterSpacing="-0.02"
+                android:text="@string/hero_title_home"
+                android:textColor="@color/cascavel_on_bg"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_hero_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter"
+                android:text="@string/home_subtitle"
+                android:textColor="@color/cascavel_on_surface_variant"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_hero_title" />
+
+            <ImageView
+                android:id="@+id/iv_cascavel_hero"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:alpha="0.7"
+                android:scaleType="fitCenter"
+                android:src="@drawable/snake_hero"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_hero_subtitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/spacer_hero"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toBottomOf="@id/container_hero" />
+
+        <!-- PROGRESS CARDS SECTION -->
+        <LinearLayout
+            android:id="@+id/container_progress_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/spacer_hero">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_pontuacao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/chip_inactive"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_lbl_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/home_score_label"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/progressScoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="0"
+                    android:textColor="@color/cascavel_jade"
+                    android:textSize="34sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_lbl_score" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="pts"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/progressScoreText"
+                    app:layout_constraintStart_toEndOf="@id/progressScoreText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_missoes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/chip_inactive"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_lbl_missoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/home_missions_label"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/progressMissionsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="0"
+                    android:textColor="@color/cascavel_gold"
+                    android:textSize="34sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_lbl_missoes" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/home_missions_active"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/progressMissionsText"
+                    app:layout_constraintStart_toEndOf="@id/progressMissionsText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_streak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/chip_inactive"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_lbl_streak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/home_streak_label"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/progressStreakText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="0"
+                    android:textColor="@color/cascavel_gold"
+                    android:textSize="34sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_lbl_streak" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_fire"
+                    app:layout_constraintBottom_toBottomOf="@id/progressStreakText"
+                    app:layout_constraintStart_toEndOf="@id/progressStreakText"
+                    app:layout_constraintTop_toTopOf="@id/progressStreakText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <!-- EXPLORAR SECTION -->
+        <TextView
+            android:id="@+id/tv_explorar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/home_explore_title"
+            android:textColor="@color/cascavel_on_bg"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_progress_cards" />
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_explorar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/tv_explorar_title">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exploreQuizCard"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/chip_inactive"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_quiz_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_quiz"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/cascavel_jade" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/home_grid_quiz"
+                        android:textColor="@color/cascavel_on_bg"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exploreMythsCard"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/chip_inactive"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_mitos_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_mitos"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/cascavel_gold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/home_grid_myths"
+                        android:textColor="@color/cascavel_on_bg"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exploreAnatomyCard"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/chip_inactive"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv_anatomy_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_3d"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/system_gray" />
+
+                    <TextView
+                        android:id="@+id/tv_anatomy_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/home_grid_3d"
+                        android:textColor="@color/system_gray"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <View
+                        android:id="@+id/v_anatomy_overlay"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="#4D0B1210"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_anatomy_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/chip_active"
+                        android:fontFamily="@font/inter"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
+                        android:text="@string/home_coming_soon"
+                        android:textColor="@color/cascavel_bg"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- CATEGORIAS SECTION -->
+        <TextView
+            android:id="@+id/tv_categories_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/home_categories"
+            android:textColor="@color/cascavel_on_bg"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hsv_explorar" />
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_chips_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/tv_categories_title">
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCobras"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/home_category_cobras"
+                    android:textColor="@drawable/selector_chip_text"
+                    app:chipBackgroundColor="@drawable/selector_chip_bg" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAnfibios"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_category_anfibios"
+                    android:textColor="@drawable/selector_chip_text"
+                    app:chipBackgroundColor="@drawable/selector_chip_bg" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPeconhentos"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_category_peconhentos"
+                    android:textColor="@drawable/selector_chip_text"
+                    app:chipBackgroundColor="@drawable/selector_chip_bg" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipNaoPeconhentos"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_category_nao_peconhentos"
+                    android:textColor="@drawable/selector_chip_text"
+                    app:chipBackgroundColor="@drawable/selector_chip_bg" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTodas"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_todas"
+                    android:textColor="@drawable/selector_chip_text"
+                    app:chipBackgroundColor="@drawable/selector_chip_bg" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <!-- DICA DO DIA SECTION -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_tip_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/chip_inactive"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/hsv_chips_categories">
+
+            <TextView
+                android:id="@+id/tv_tip_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:text="@string/home_tip_title"
+                android:textColor="@color/cascavel_gold"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tipText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/cascavel_on_bg"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_tip_lbl" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

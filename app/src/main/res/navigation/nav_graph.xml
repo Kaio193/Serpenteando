@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.kaio.cobra3d.view.HomeFragment"
+        android:label="Início"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_content"
+            app:destination="@id/nav_content"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_to_myth_truth"
+            app:destination="@id/nav_myth_truth"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_quiz"
+        android:name="com.kaio.cobra3d.view.QuizFragment"
+        android:label="Quiz"
+        tools:layout="@layout/fragment_quiz" />
+
+    <fragment
+        android:id="@+id/nav_missions"
+        android:name="com.kaio.cobra3d.view.MissionFragment"
+        android:label="Missões"
+        tools:layout="@layout/fragment_missions" />
+
+    <fragment
+        android:id="@+id/nav_anatomy"
+        android:name="com.kaio.cobra3d.view.Anatomy3DFragment"
+        android:label="3D"
+        tools:layout="@layout/fragment_anatomy" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.kaio.cobra3d.view.SettingsFragment"
+        android:label="Config"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_content"
+        android:name="com.kaio.cobra3d.view.ContentListFragment"
+        android:label="Conteúdo">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_content_to_detail"
+            app:destination="@id/nav_content_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_content_detail"
+        android:name="com.kaio.cobra3d.view.ContentDetailFragment"
+        android:label="Detalhes">
+        <argument
+            android:name="contentId"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_myth_truth"
+        android:name="com.kaio.cobra3d.view.MythTruthFragment"
+        android:label="Mitos e Verdades"
+        tools:layout="@layout/fragment_myth_truth" />
+
+</navigation>

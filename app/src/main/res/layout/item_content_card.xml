@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/space_8"
+    style="@style/AppleCard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/space_16">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/AppleHeadline" />
+
+            <TextView
+                android:id="@+id/categoryBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AppleFootnote"
+                android:background="@color/secondary_system_bg"
+                android:paddingHorizontal="@dimen/space_8"
+                android:paddingVertical="@dimen/space_4"
+                android:textColor="@color/cascavel_jade" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/previewText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppleFootnote"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingTop="@dimen/space_8" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

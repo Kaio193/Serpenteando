@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/cascavel_bg">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:paddingHorizontal="@dimen/space_20"
+        android:paddingTop="@dimen/space_16"
+        android:paddingBottom="@dimen/space_32">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SerpenteandoLargeTitle"
+                android:text="Ajustes"
+                android:textStyle="bold" />
+
+            <!-- GERAL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24"
+                android:layout_marginBottom="@dimen/space_6"
+                style="@style/SerpenteandoCaption"
+                android:text="GERAL"
+                android:textColor="@color/cascavel_on_surface_variant" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/settings_group_bg">
+
+                <include layout="@layout/item_settings_row_switch"
+                    android:id="@+id/rowDarkMode" />
+                <include layout="@layout/item_settings_row_switch"
+                    android:id="@+id/rowVoiceMode" />
+            </LinearLayout>
+
+            <!-- SOBRE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24"
+                android:layout_marginBottom="@dimen/space_6"
+                style="@style/SerpenteandoCaption"
+                android:text="SOBRE"
+                android:textColor="@color/cascavel_on_surface_variant" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/settings_group_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/min_touch_target"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/space_16"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView style="@style/SerpenteandoBody" android:text="Versão" android:layout_width="0dp" android:layout_weight="1" />
+                    <TextView style="@style/SerpenteandoFootnote" android:text="0.1.0" android:textColor="@color/cascavel_on_surface_variant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- APOIO -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_24"
+                android:layout_marginBottom="@dimen/space_6"
+                style="@style/SerpenteandoCaption"
+                android:text="APOIO"
+                android:textColor="@color/cascavel_on_surface_variant" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/settings_group_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/min_touch_target"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/space_16"
+                    android:background="?attr/selectableItemBackground">
+                    <TextView style="@style/SerpenteandoBody" android:text="Fale Conosco" android:layout_width="0dp" android:layout_weight="1" />
+                    <TextView style="@style/SerpenteandoBody" android:text="›" android:textColor="@color/cascavel_on_surface_variant" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

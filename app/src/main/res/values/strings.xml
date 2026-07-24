@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Serpenteando</string>
+
+    <!-- ========== BOTTOM NAV / NAV GRAPH ========== -->
+    <string name="nav_home">Início</string>
+    <string name="nav_learn">Aprender</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_missions">Missões</string>
+    <string name="nav_3d">3D</string>
+    <string name="nav_settings">Config</string>
+    <string name="nav_content">Conteúdo</string>
+    <string name="nav_details">Detalhes</string>
+    <string name="nav_myths_truths">Mitos e Verdades</string>
+
+    <!-- ========== HOME ========== -->
+    <string name="hero_title_home">Conheça as serpentes brasileiras</string>
+    <string name="home_title">Serpenteando</string>
+    <string name="home_subtitle">Explore, aprenda e domine o universo das cobras brasileiras</string>
+    <string name="home_score_label">Pontuação</string>
+    <string name="home_missions_label">Missões</string>
+    <string name="home_missions_active">ativas</string>
+    <string name="home_streak_label">Sequência</string>
+    <string name="home_streak_days">Dias</string>
+    <string name="home_explore_title">Explorar</string>
+    <string name="home_categories">Categorias</string>
+    <string name="home_todas">Todas</string>
+    <string name="home_tip_title">Dica do dia</string>
+    <string name="home_category_cobras">Cobras</string>
+    <string name="home_category_anfibios">Anfíbios</string>
+    <string name="home_category_peconhentos">Peçonhentos</string>
+    <string name="home_category_nao_peconhentos">Não\npeçonhentos</string>
+    <string name="home_grid_quiz">Quiz</string>
+    <string name="home_grid_missions">Missões</string>
+    <string name="home_grid_myths">Mitos</string>
+    <string name="home_grid_3d">3D</string>
+    <string name="home_coming_soon">EM BREVE</string>
+
+    <!-- ========== QUIZ ========== -->
+    <string name="quiz_submit">Responder</string>
+    <string name="quiz_next">Próxima</string>
+    <string name="quiz_select_answer">Selecione uma resposta</string>
+    <string name="quiz_difficulty_title">Selecionar Dificuldade</string>
+    <string name="quiz_difficulty_all">Todas as perguntas</string>
+    <string name="quiz_difficulty_easy">Fácil</string>
+    <string name="quiz_difficulty_medium">Médio</string>
+    <string name="quiz_difficulty_hard">Difícil</string>
+    <string name="quiz_counter" formatted="false">Pergunta %d de %d</string>
+    <string name="quiz_score">Pontuação: %d</string>
+    <string name="quiz_result_title">Resultado do Quiz</string>
+    <string name="quiz_result_passed">Parabéns! Você passou!</string>
+    <string name="quiz_result_failed">Não foi dessa vez. Tente novamente!</string>
+    <string name="quiz_correct_prefix">Correto! </string>
+    <string name="quiz_incorrect_prefix">Incorreto. </string>
+    <string name="quiz_no_questions">Nenhuma pergunta encontrada</string>
+    <string name="quiz_ok">OK</string>
+    <string name="question_option_a">Opção A</string>
+    <string name="question_option_b">Opção B</string>
+    <string name="question_option_c">Opção C</string>
+    <string name="question_option_d">Opção D</string>
+
+    <!-- ========== MISSIONS ========== -->
+    <string name="missions_verify">Verificar Missão</string>
+    <string name="missions_empty">Nenhuma missão disponível</string>
+    <string name="missions_select">Selecione uma missão</string>
+    <string name="missions_points_suffix"> pts)</string>
+    <string name="missions_back">Voltar</string>
+    <string name="missions_complete_title">Missão Completa!</string>
+    <string name="missions_retry_title">Tente Novamente</string>
+    <string name="missions_complete_msg">Parabéns! Você completou a missão!</string>
+    <string name="missions_retry_msg">Revise suas seleções. Tente novamente!</string>
+    <string name="missions_not_found">Missão não encontrada</string>
+    <string name="missions_ok">OK</string>
+
+    <!-- ========== MYTHS & TRUTHS ========== -->
+    <string name="myths_title">Mitos e Verdades</string>
+    <string name="myths_filter_all">Todos</string>
+    <string name="myths_filter_myths">Mitos</string>
+    <string name="myths_filter_truths">Verdades</string>
+    <string name="myths_badge_myth">MITO</string>
+    <string name="myths_badge_truth">VERDADE</string>
+
+    <!-- ========== 3D ANATOMY ========== -->
+    <string name="anatomy_loading">Inicializando Filament…</string>
+    <string name="anatomy_loading_alt">Carregando…</string>
+    <string name="anatomy_hint">Toque na cobra para explorar</string>
+    <string name="anatomy_btn_skin">Pe</string>
+    <string name="anatomy_btn_muscle">Mu</string>
+    <string name="anatomy_btn_circulatory">Ci</string>
+    <string name="anatomy_btn_organs">Or</string>
+    <string name="anatomy_desc_skin">Camada Pele</string>
+    <string name="anatomy_desc_muscle">Camada Muscular</string>
+    <string name="anatomy_desc_circulatory">Camada Circulatória</string>
+    <string name="anatomy_desc_organs">Camada Órgãos</string>
+    <string name="anatomy_no_layers">Nenhuma camada encontrada</string>
+    <string name="error_3d_unsupported">Dispositivo não suporta gráficos 3D.</string>
+
+    <!-- ========== CONTENT ========== -->
+    <string name="content_title">Conteúdo Educativo</string>
+    <string name="content_not_found">Conteúdo não encontrado</string>
+    <string name="content_category_cobras">Cobras</string>
+    <string name="content_category_anfibios">Anfíbios</string>
+    <string name="content_category_peconhentos">Peçonhentos</string>
+    <string name="content_category_nao_peconhentos">Não Peçonhentos</string>
+
+    <!-- ========== SETTINGS ========== -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_voice_mode">Modo Voz</string>
+    <string name="settings_voice_subtitle">Ler conteúdo em voz alta</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_about_text">Serpenteando v1.0\nApp educacional sobre cobras\nDesenvolvido por Kaio - IFPB</string>
+    <string name="settings_voice_on">Modo voz ativado</string>
+    <string name="settings_voice_off">Modo voz desativado</string>
+    <string name="settings_voice_speech">Modo voz ativado. As informações serão lidas em voz alta.</string>
+
+    <!-- ========== GENERAL ========== -->
+    <string name="general_tip_not_found">Nenhuma dica disponível</string>
+    <string name="general_voice_on">Modo voz ativado</string>
+</resources>

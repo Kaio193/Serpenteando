@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Ofensiva de 7 dias",
+    "description": "Responda quizzes por 7 dias seguidos",
+    "totalDays": 7,
+    "points": 500,
+    "items": [
+      {"id": 1, "text": "Responda 3 quizzes do nível fácil", "done": true},
+      {"id": 2, "text": "Responda 2 quizzes do nível médio", "done": true},
+      {"id": 3, "text": "Responda 1 quiz do nível difícil", "done": false},
+      {"id": 4, "text": "Identifique 5 serpentes no modo anatomia", "done": false}
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Explorador da Fauna",
+    "description": "Conheça todas as serpentes da enciclopédia",
+    "totalDays": 0,
+    "points": 300,
+    "items": [
+      {"id": 1, "text": "Veja os detalhes de 5 serpentes diferentes", "done": true},
+      {"id": 2, "text": "Use a busca para encontrar uma serpente específica", "done": false},
+      {"id": 3, "text": "Leia a curiosidade de 3 serpentes", "done": false},
+      {"id": 4, "text": "Compartilhe o app com um amigo", "done": false}
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Mestre da Anatomia",
+    "description": "Explore o modelo 3D e aprenda anatomia",
+    "totalDays": 0,
+    "points": 400,
+    "items": [
+      {"id": 1, "text": "Visualize o modelo 3D da cascavel", "done": true},
+      {"id": 2, "text": "Alterne entre as 4 camadas anatômicas", "done": false},
+      {"id": 3, "text": "Toque em 3 hotspots diferentes", "done": false},
+      {"id": 4, "text": "Use o tour guiado completo", "done": false}
+    ]
+  }
+]

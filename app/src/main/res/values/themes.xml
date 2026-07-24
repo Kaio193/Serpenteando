@@ -1,0 +1,56 @@
+﻿<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Serpenteando" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Cascavel primary = Neon Jade -->
+        <item name="colorPrimary">@color/cascavel_jade</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryContainer">@color/cascavel_jade_dim</item>
+        <item name="colorSecondary">@color/cascavel_jade_dim</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorTertiary">@color/cascavel_gold</item>
+        <item name="colorOnTertiary">@color/black</item>
+        <item name="colorAccent">@color/cascavel_jade</item>
+
+        <!-- Font -->
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Theme.Serpenteando" parent="Theme.Serpenteando.Light" />
+
+    <style name="Theme.Serpenteando.Dark" parent="Base.Theme.Serpenteando">
+        <item name="colorSurface">@color/cascavel_surface</item>
+        <item name="colorOnSurface">@color/cascavel_on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/cascavel_on_surface_variant</item>
+        <item name="colorSurfaceContainerLow">@color/cascavel_surface</item>
+        <item name="colorSurfaceContainer">@color/cascavel_surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/cascavel_surface_container_high</item>
+        <item name="colorOutline">@color/cascavel_outline</item>
+        <item name="colorOutlineVariant">@color/cascavel_outline_variant</item>
+        <item name="android:windowBackground">@color/cascavel_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">@bool/window_light_status_bar</item>
+        <item name="android:textColorPrimary">@color/cascavel_on_bg</item>
+        <item name="android:textColorSecondary">@color/cascavel_on_surface_variant</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="Theme.Serpenteando.Light" parent="Base.Theme.Serpenteando">
+        <item name="colorSurface">@color/cascavel_surface_light</item>
+        <item name="colorOnSurface">@color/cascavel_on_surface_light</item>
+        <item name="colorOnSurfaceVariant">@color/cascavel_on_surface_variant_light</item>
+        <item name="colorSurfaceContainerLow">@color/cascavel_surface_light</item>
+        <item name="colorSurfaceContainer">@color/cascavel_surface_container_light</item>
+        <item name="colorSurfaceContainerHigh">@color/cascavel_surface_container_high_light</item>
+        <item name="colorOutline">@color/cascavel_outline_light</item>
+        <item name="colorOutlineVariant">@color/cascavel_outline_variant_light</item>
+        <item name="android:windowBackground">@color/cascavel_bg_light</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorPrimary">@color/cascavel_on_bg_light</item>
+        <item name="android:textColorSecondary">@color/cascavel_on_surface_variant_light</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+</resources>

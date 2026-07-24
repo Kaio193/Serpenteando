@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <com.kaio.cobra3d.view.renderer.AnatomySurfaceView
+        android:id="@+id/anatomySurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/modelPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inicializando Filament..."
+        android:gravity="center"
+        android:layout_gravity="center"
+        style="@style/SerpenteandoBody"
+        android:textColor="@color/text_secondary" />
+
+    <LinearLayout
+        android:id="@+id/hotspotInfoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@color/glass_bg"
+        android:padding="@dimen/space_16"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/hotspotInfoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/SerpenteandoHeadline"
+            android:textColor="@color/label" />
+
+        <TextView
+            android:id="@+id/hotspotInfoDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            style="@style/SerpenteandoFootnote"
+            android:textColor="@color/secondary_label" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/infoOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="100dp"
+        android:background="@color/glass_bg"
+        android:padding="@dimen/space_16"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/structureName"
+                style="@style/SerpenteandoTitle3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gold" />
+
+            <TextView
+                android:id="@+id/structureFunction"
+                style="@style/SerpenteandoSubhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4" />
+
+            <TextView
+                android:id="@+id/structureHowItWorks"
+                style="@style/SerpenteandoBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:maxLines="4"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/structureCuriosity"
+                style="@style/SerpenteandoFootnote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:padding="@dimen/space_8"
+                android:background="@color/dark_card"
+                android:maxLines="3"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/space_16">
+
+        <TextView
+            android:id="@+id/layerNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SerpenteandoTitle3"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/layerDescriptionText"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            style="@style/SerpenteandoFootnote"
+            android:textColor="@color/system_gray_5"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/space_16"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/btnLayerSkin"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:background="@drawable/circle_button_layer"
+            android:backgroundTint="@color/cascavel_jade"
+            android:text="Pe"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="@dimen/space_8"
+            android:contentDescription="Camada Pele" />
+
+        <TextView
+            android:id="@+id/btnLayerMuscle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:background="@drawable/circle_button_layer"
+            android:backgroundTint="@color/cascavel_jade_bright"
+            android:text="Mu"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="@dimen/space_8"
+            android:contentDescription="Camada Muscular" />
+
+        <TextView
+            android:id="@+id/btnLayerCirculatory"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:background="@drawable/circle_button_layer"
+            android:backgroundTint="@color/gold"
+            android:text="Ci"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="@dimen/space_8"
+            android:contentDescription="Camada CirculatÃ³ria" />
+
+        <TextView
+            android:id="@+id/btnLayerOrgans"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:background="@drawable/circle_button_layer"
+            android:backgroundTint="@color/cascavel_gold"
+            android:text="Or"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Camada Ã“rgÃ£os" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hotspotsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="120dp"
+        android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/space_8"
+        android:paddingEnd="@dimen/space_8"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    <TextView
+        android:id="@+id/hintTouchExplore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="160dp"
+        android:text="Toque na cobra para explorar"
+        style="@style/SerpenteandoBody"
+        android:textColor="@color/white"
+        android:alpha="0.6"
+        android:padding="@dimen/space_12"
+        android:background="@color/glass_clear" />
+
+</FrameLayout>

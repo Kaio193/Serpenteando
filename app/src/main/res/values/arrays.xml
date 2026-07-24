@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="difficulty_options">
+        <item>Todas as perguntas</item>
+        <item>Fácil</item>
+        <item>Médio</item>
+        <item>Difícil</item>
+    </array>
+
+    <array name="category_display_names">
+        <item>Cobras</item>
+        <item>Anfíbios</item>
+        <item>Peçonhentos</item>
+        <item>Não Peçonhentos</item>
+    </array>
+
+    <array name="myth_filter_options">
+        <item>Todos</item>
+        <item>Mitos</item>
+        <item>Verdades</item>
+    </array>
+</resources>

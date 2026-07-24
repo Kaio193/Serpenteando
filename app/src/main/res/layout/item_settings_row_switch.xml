@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/min_touch_target"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="@dimen/space_16"
+    android:background="?attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/rowTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        style="@style/SerpenteandoBody" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/rowSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:thumbTint="@color/cascavel_jade"
+        android:trackTint="@color/cascavel_outline" />
+</LinearLayout>
