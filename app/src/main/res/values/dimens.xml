@@ -69,6 +69,21 @@
     <dimen name="bottom_nav_height">80dp</dimen>
     <dimen name="progress_strip_height">72dp</dimen>
 
+    <!-- Quiz specific -->
+    <dimen name="quiz_option_height">56dp</dimen>
+    <dimen name="quiz_button_height">52dp</dimen>
+    <dimen name="quiz_letter_size">28dp</dimen>
+    <dimen name="serp_quiz_question">18sp</dimen>
+    <dimen name="serp_quiz_letter">14sp</dimen>
+
+    <!-- Home specific -->
+    <dimen name="home_explore_card_width">140dp</dimen>
+    <dimen name="home_explore_card_height">160dp</dimen>
+    <dimen name="home_hero_image_width">200dp</dimen>
+    <dimen name="home_hero_image_height">120dp</dimen>
+    <dimen name="home_profile_icon_size">40dp</dimen>
+    <dimen name="home_icon_size">32dp</dimen>
+
     <!-- Backward-compat aliases -->
     <dimen name="apple_large_title">@dimen/serp_large_title</dimen>
     <dimen name="apple_title1">@dimen/serp_title1</dimen>

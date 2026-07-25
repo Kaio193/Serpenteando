@@ -35,10 +35,12 @@
     <string name="home_grid_myths">Mitos</string>
     <string name="home_grid_3d">3D</string>
     <string name="home_coming_soon">EM BREVE</string>
+    <string name="home_score_pts">pts</string>
+    <string name="home_tip_text">Sabia que a cascavel balança o chocalho para avisar que está ali e evitar confrontos?</string>
+    <string name="home_tip_example">Sabia que a cascavel balança o chocalho para avisar que está ali e evitar confrontos?</string>
 
     <!-- ========== QUIZ ========== -->
     <string name="quiz_submit">Responder</string>
-    <string name="quiz_next">Próxima</string>
     <string name="quiz_select_answer">Selecione uma resposta</string>
     <string name="quiz_difficulty_title">Selecionar Dificuldade</string>
     <string name="quiz_difficulty_all">Todas as perguntas</string>
@@ -53,7 +55,19 @@
     <string name="quiz_correct_prefix">Correto! </string>
     <string name="quiz_incorrect_prefix">Incorreto. </string>
     <string name="quiz_no_questions">Nenhuma pergunta encontrada</string>
+    <string name="quiz_title">Quiz</string>
+    <string name="quiz_label_correct">CORRECT</string>
+    <string name="quiz_correct_example">Correto!</string>
+    <string name="quiz_easy">Fácil</string>
+    <string name="quiz_medium">Médio</string>
+    <string name="quiz_hard">Difícil</string>
+    <string name="quiz_score_format" formatted="false">%d pts</string>
+    <string name="quiz_counter_format" formatted="false">Questão %d de %d</string>
+    <string name="quiz_question_example">Qual destas serpentes é considerada a mais peçonhenta do Brasil?</string>
+    <string name="quiz_next">Próxima</string>
     <string name="quiz_ok">OK</string>
+    <string name="quiz_star_filled">★</string>
+    <string name="quiz_check_icon">✓</string>
     <string name="question_option_a">Opção A</string>
     <string name="question_option_b">Opção B</string>
     <string name="question_option_c">Opção C</string>
@@ -114,6 +128,12 @@
     <string name="settings_voice_speech">Modo voz ativado. As informações serão lidas em voz alta.</string>
 
     <!-- ========== GENERAL ========== -->
+    <!-- ========== CONTENT DESCRIPTIONS ========== -->
+    <string name="desc_menu">Menu</string>
+    <string name="desc_icon_quiz">Quiz</string>
+    <string name="desc_icon_myths">Mitos e Verdades</string>
+    <string name="desc_icon_anatomy">Anatomia 3D</string>
+
     <string name="general_tip_not_found">Nenhuma dica disponível</string>
     <string name="general_voice_on">Modo voz ativado</string>
 </resources>
