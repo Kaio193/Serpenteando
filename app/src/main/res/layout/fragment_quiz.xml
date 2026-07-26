@@ -5,7 +5,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cascavel_bg">
+    android:background="@android:color/transparent"
+    tools:context=".view.QuizFragment">
 
     <ImageView
         android:id="@+id/backButton"
@@ -207,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
-                android:background="@drawable/option_default"
+                android:background="@drawable/option_default_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:minHeight="@dimen/quiz_option_height"
@@ -264,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:background="@drawable/option_default"
+                android:background="@drawable/option_default_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:minHeight="@dimen/quiz_option_height"
@@ -321,7 +322,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:background="@drawable/option_default"
+                android:background="@drawable/option_default_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:minHeight="@dimen/quiz_option_height"
@@ -378,7 +379,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
-                android:background="@drawable/option_default"
+                android:background="@drawable/option_default_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:minHeight="@dimen/quiz_option_height"
