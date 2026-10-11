@@ -4,6 +4,10 @@ import com.kaio.cobra3d.model.entity.MythTruth;
 
 import java.util.List;
 
+/**
+ * Contrato MVP pra Tela de Mitos e Verdades.
+ * [ALÉM DO TEI] Lista de cards com frase + explicação.
+ */
 public interface MythTruthContract {
 
     interface View {

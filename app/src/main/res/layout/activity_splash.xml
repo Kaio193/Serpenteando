@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash_cobra">
@@ -11,21 +12,25 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <!-- Logo do app (favicon) -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_favicon"
+            android:importantForAccessibility="no"
+            android:contentDescription="@string/app_name"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Favicon" />
+
+        <!-- Nome do app -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             style="@style/SerpenteandoLargeTitle"
             android:text="@string/app_name"
-            android:textColor="@color/cascavel_jade_bright"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            style="@style/SerpenteandoBody"
-            android:text="Cobras Brasileiras"
-            android:textColor="@color/cascavel_on_surface_variant" />
+            android:textColor="@color/cascavel_on_bg"
+            android:textStyle="bold"
+            android:textSize="36sp" />
 
     </LinearLayout>
 

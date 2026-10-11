@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/mode_light_screen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/space_20"
+            android:paddingTop="@dimen/space_32"
+            android:paddingBottom="@dimen/space_32">
+
+            <!-- Header com botao voltar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Item 11 do Kaio (11/10/2026): o ic_arrow_right tem stroke
+                     BRANCO, entao sumia no modo claro. O tint com cascavel_on_bg
+                     resolve no claro (#1C1C1E) e NAO mexe no escuro (#E8F0EA),
+                     porque a cor muda junto com o tema. -->
+                <ImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:padding="10dp"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/cascavel_on_bg"
+                    android:contentDescription="@string/desc_menu"
+                    android:importantForAccessibility="no"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09): o
+                     logo fica SO na Home. O logo grande aqui de baixo continua. -->
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/space_10"
+                    style="@style/SerpenteandoLargeTitle"
+                    android:text="@string/about_title" />
+            </LinearLayout>
+
+            <!-- Aqui tinha uma imagem de modo decorativa (mode_light, alpha 0.15)
+                 que era só um placeholder. Agora a imagem do modo de verdade
+                 (@drawable/mode_light) é o fundo da própria tela, então essa
+                 imagem virou redundante e foi removida. -->
+
+            <!-- Logo + Nome do app -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_favicon"
+                    android:importantForAccessibility="no"
+                    android:contentDescription="@string/app_name"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Favicon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_12"
+                    style="@style/SerpenteandoTitle1"
+                    android:text="@string/app_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    style="@style/SerpenteandoFootnote"
+                    android:text="@string/about_version" />
+            </LinearLayout>
+
+            <!-- Descricao do projeto -->
+            <androidx.cardview.widget.CardView
+                style="@style/SerpenteandoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_48">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/SerpenteandoBody"
+                    android:text="@string/about_description"
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:lineSpacingMultiplier="1.4" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- DESENVOLVEDORES -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_48"
+                android:layout_marginBottom="@dimen/space_8"
+                style="@style/SerpenteandoCaption"
+                android:text="@string/section_developers"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_12"
+                android:background="@drawable/settings_group_bg">
+
+                <!-- Kaio Dantas -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="@dimen/space_12">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:id="@+id/profileKaio"
+                        android:src="@drawable/profile_kaio"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/cascavel_outline" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/space_12">
+
+                        <!-- Nome + LinkedIn + e-mail (dados reais do Kaio) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/SerpenteandoHeadline"
+                                android:text="Kaio Dantas" />
+
+                            <ImageView
+                                android:id="@+id/linkedinKaio"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_8"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_linkedin"
+                                android:src="@drawable/ic_linkedin"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/instagramKaio"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_instagram"
+                                android:src="@drawable/ic_instagram"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/emailKaio"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_email"
+                                android:src="@drawable/ic_email"
+                                app:tint="@color/cascavel_jade_bright" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            style="@style/SerpenteandoFootnote"
+                            android:text="@string/role_developer"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Ebert Souza -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="@dimen/space_12">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:id="@+id/profileEbert"
+                        android:src="@drawable/profile_ebert"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/cascavel_outline" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/space_12">
+
+                        <!-- Nome + LinkedIn + e-mail (dados reais do Ebert) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/SerpenteandoHeadline"
+                                android:text="Ebert Souza" />
+
+                            <ImageView
+                                android:id="@+id/linkedinEbert"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_8"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_linkedin"
+                                android:src="@drawable/ic_linkedin"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/instagramEbert"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_instagram"
+                                android:src="@drawable/ic_instagram"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/emailEbert"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_email"
+                                android:src="@drawable/ic_email"
+                                app:tint="@color/cascavel_jade_bright" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            style="@style/SerpenteandoFootnote"
+                            android:text="@string/role_developer"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ORIENTADOR -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_48"
+                android:layout_marginBottom="@dimen/space_8"
+                style="@style/SerpenteandoCaption"
+                android:text="@string/section_advisor"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/space_12"
+                android:background="@drawable/settings_group_bg">                <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:id="@+id/profileAlexandre"
+                        android:src="@drawable/profile_alexandre"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/cascavel_outline" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/space_12">
+
+                    <!-- Nome + LinkedIn + e-mail (dados reais do Alexandre) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/SerpenteandoHeadline"
+                            android:text="Alexandre Costa"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/linkedinAlexandre"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/space_8"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="@string/social_linkedin"
+                            android:src="@drawable/ic_linkedin"
+                            app:tint="@color/cascavel_jade_bright" />
+
+                        <ImageView
+                            android:id="@+id/instagramAlexandre"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/space_6"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="@string/social_instagram"
+                            android:src="@drawable/ic_instagram"
+                            app:tint="@color/cascavel_jade_bright" />
+
+                        <ImageView
+                            android:id="@+id/emailAlexandre"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="@dimen/space_6"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="@string/social_email"
+                            android:src="@drawable/ic_email"
+                            app:tint="@color/cascavel_jade_bright" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        style="@style/SerpenteandoFootnote"
+                        android:text="@string/role_advisor"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- AVALIADOR -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_48"
+                android:layout_marginBottom="@dimen/space_8"
+                style="@style/SerpenteandoCaption"
+                android:text="@string/section_evaluator"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/space_12"
+                android:background="@drawable/settings_group_bg">                <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:id="@+id/profileFelipe"
+                        android:src="@drawable/profile_felipe"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/cascavel_outline" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/space_12">
+
+                        <!-- Nome + LinkedIn + e-mail (dados reais do Felipe) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/SerpenteandoHeadline"
+                                android:text="Felipe Barbosa" />
+
+                            <ImageView
+                                android:id="@+id/linkedinFelipe"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_8"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_linkedin"
+                                android:src="@drawable/ic_linkedin"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/instagramFelipe"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_instagram"
+                                android:src="@drawable/ic_instagram"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/emailFelipe"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_email"
+                                android:src="@drawable/ic_email"
+                                app:tint="@color/cascavel_jade_bright" />
+                        </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        style="@style/SerpenteandoFootnote"
+                        android:text="@string/role_evaluator"
+                        android:textColor="@color/cascavel_on_surface_variant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- CLIENTE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_48"
+                android:layout_marginBottom="@dimen/space_8"
+                style="@style/SerpenteandoCaption"
+                android:text="@string/section_client"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/space_12"
+                android:background="@drawable/settings_group_bg">                <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:id="@+id/profilePaulo"
+                        android:src="@drawable/profile_paulo"
+                        android:scaleType="centerCrop"
+                        android:importantForAccessibility="no"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/cascavel_outline" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="@dimen/space_12">
+
+                        <!-- Nome + e-mail. O Paulo NAO mandou LinkedIn, entao o lugar
+                             do LinkedIn fica sem icone (nada de dado inventado). -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/SerpenteandoHeadline"
+                                android:text="Paulo Ragner" />
+
+                            <ImageView
+                                android:id="@+id/instagramPaulo"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_8"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_instagram"
+                                android:src="@drawable/ic_instagram"
+                                app:tint="@color/cascavel_jade_bright" />
+
+                            <ImageView
+                                android:id="@+id/emailPaulo"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="@dimen/space_6"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:contentDescription="@string/social_email"
+                                android:src="@drawable/ic_email"
+                                app:tint="@color/cascavel_jade_bright" />
+                        </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        style="@style/SerpenteandoFootnote"
+                        android:text="@string/role_client"
+                        android:textColor="@color/cascavel_on_surface_variant" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

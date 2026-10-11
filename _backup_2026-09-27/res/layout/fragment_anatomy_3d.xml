@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tela 3D — SÓ o modelo.
+     Pedido do Kaio (23/09): sem camadas, sem hotspots, sem tour, sem botão.
+     A interação fica toda no próprio SurfaceView: arrastar gira, pinça dá zoom.
+     O modelo vem de assets/Serpente_3D.glb (Anatomy3DRenderer). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.kaio.cobra3d.view.renderer.AnatomySurfaceView
+        android:id="@+id/anatomySurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

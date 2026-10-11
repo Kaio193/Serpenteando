@@ -4,6 +4,10 @@ import com.kaio.cobra3d.model.entity.Content;
 
 import java.util.List;
 
+/**
+ * Contrato MVP pra Tela de Conteúdo (artigos sobre serpentes).
+ * [ALÉM DO TEI] Lista + detalhe — padrão CRUD básico.
+ */
 public interface ContentContract {
 
     interface View {

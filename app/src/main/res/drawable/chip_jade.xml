@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Verde EXATO da classificacao "Inofensiva" (cascavel_jade_bright = #66BB6A).
+         Itens 6 e 7 do Kaio (11/10/2026): os 3 filtros de Mitos e os elementos de
+         idioma usam este mesmo verde, com o texto em cascavel_on_button (branco).
+         Nao e um verde novo: e o mesmo token do badge_safe. -->
+    <solid android:color="@color/cascavel_jade_bright" />
+    <stroke
+        android:width="1dp"
+        android:color="@color/cascavel_jade_bright" />
+    <corners android:radius="@dimen/radius_circular" />
+</shape>

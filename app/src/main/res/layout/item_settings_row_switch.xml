@@ -8,6 +8,14 @@
     android:paddingHorizontal="@dimen/space_16"
     android:background="?attr/selectableItemBackground">
 
+    <ImageView
+        android:id="@+id/rowIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="@dimen/space_12"
+        android:importantForAccessibility="no"
+        app:tint="@color/cascavel_on_surface_variant" />
+
     <TextView
         android:id="@+id/rowTitle"
         android:layout_width="0dp"
@@ -15,11 +23,18 @@
         android:layout_weight="1"
         style="@style/SerpenteandoBody" />
 
+    <!-- saveEnabled=false: este layout é incluído VÁRIAS vezes na mesma tela,
+         então todas as linhas têm o MESMO id (rowSwitch). O Android salva/
+         restaura estado por id — com id repetido os switches copiavam o estado
+         um do outro (ligavam/desligavam juntos no modo claro/escuro).
+         O valor correto é sempre relido das preferências no código. -->
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/rowSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="0dp"
+        android:saveEnabled="false"
+        android:soundEffectsEnabled="false"
         android:thumbTint="@color/cascavel_jade"
         android:trackTint="@color/cascavel_outline" />
 </LinearLayout>

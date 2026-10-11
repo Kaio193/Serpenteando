@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/mode_light_screen">
+
+    <!-- CABEÇALHO PADRÃO (item 11): seta + favicon arredondado + título,
+         na mesma altura e no mesmo estilo da tela Início. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_32"
+        android:layout_marginBottom="@dimen/space_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Botão voltar -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:contentDescription="@string/desc_menu"
+            android:padding="10dp"
+            android:scaleX="-1"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/cascavel_on_bg" />
+
+        <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09): o logo fica
+             SO na Home. -->
+
+        <!-- Título da tela -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_10"
+            style="@style/SerpenteandoLargeTitle"
+            android:text="@string/content_list_title"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Filtros — estilo idêntico ao de Mitos (TextViews individuais) -->
+    <!-- baselineAligned=false: sem isso o LinearLayout alinha os chips PELA
+         LINHA DE BASE DO TEXTO, e o chip de texto maior ("Não Peçonhentas")
+         descia uns pixels em relação aos outros — ficavam desalinhados. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:paddingHorizontal="@dimen/space_20"
+        android:paddingBottom="@dimen/space_12">
+
+        <TextView
+            android:id="@+id/filterAll"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/content_tab_all"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="13sp"
+            android:fontFamily="@font/inter"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/cascavel_on_button"
+            android:background="@drawable/chip_active"
+            android:layout_marginEnd="@dimen/space_4" />
+
+        <TextView
+            android:id="@+id/filterVenomous"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/content_tab_venomous"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="13sp"
+            android:fontFamily="@font/inter"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/cascavel_on_button"
+            android:background="@drawable/chip_inactive"
+            android:layout_marginHorizontal="@dimen/space_4" />
+
+        <TextView
+            android:id="@+id/filterNonVenomous"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/content_tab_non_venomous"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="13sp"
+            android:fontFamily="@font/inter"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@color/cascavel_on_button"
+            android:background="@drawable/chip_inactive"
+            android:layout_marginStart="@dimen/space_4" />
+    </LinearLayout>
+
+    <!-- ViewPager2 — permite arrastar pra trocar de aba -->
+    <!-- [ALÉM DO TEI] FragmentStateAdapter carrega/destrói fragments conforme o swipe -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/contentViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

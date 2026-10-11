@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- halo neon atrás da barra: dá o "glow" que destaca no fundo floresta.
+         Usa o token jade (item 4) com a mesma transparência de antes via
+         android:alpha — assim não sobra um segundo tom de verde no app. -->
+    <item android:alpha="0.56">
+        <shape>
+            <corners android:radius="10dp" />
+            <stroke
+                android:width="4dp"
+                android:color="@color/cascavel_jade_bright" />
+        </shape>
+    </item>
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dp" />
+            <solid android:color="@color/cascavel_surface_container_highest" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="8dp" />
+                <solid android:color="@color/cascavel_jade_bright" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

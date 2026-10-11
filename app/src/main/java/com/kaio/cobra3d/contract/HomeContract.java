@@ -3,10 +3,21 @@ package com.kaio.cobra3d.contract;
 import com.kaio.cobra3d.model.entity.Tip;
 import com.kaio.cobra3d.model.entity.UserProgress;
 
-// [ALÉM DO TEI] MVP — contrato separa responsabilidades: View não conhece a implementação do Presenter
+/**
+ * Contrato MVP pra Tela Inicial.
+ *
+ * [ALÉM DO TEI] Padrão MVP (Model-View-Presenter):
+ * - View: o que a tela PODE fazer (mostrar dica, navegar, mostrar erro)
+ * - Presenter: o que a lógica PODE fazer (carregar dados, tratar cliques)
+ *
+ * O slide do prof. Alexandre usa Activity direta (tudo junto).
+ * O MVP separa: a View não sabe como os dados são carregados,
+ * e o Presenter não sabe como exibir na tela.
+ * Vantagem: facilita testes unitários (mocka a View).
+ */
 public interface HomeContract {
 
-    // [ALÉM DO TEI] Interface View — qualquer Fragment que implemente este contrato pode ser substituído por um mock em testes
+    // O que a tela precisa conseguir fazer
     interface View {
         void showTip(Tip tip);
         void showProgress(UserProgress progress);
@@ -18,7 +29,7 @@ public interface HomeContract {
         void showError(String message);
     }
 
-    // [ALÉM DO TEI] Interface Presenter — a View invoca apenas métodos do contrato, sem acoplamento à implementação concreta
+    // O que o presenter precisa conseguir fazer
     interface Presenter {
         void loadTip();
         void loadProgress();

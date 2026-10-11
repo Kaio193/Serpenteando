@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- LinkedIn — vetor monocromatico (24x24). A cor vem do app:tint,
+     igual aos outros icones do app. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M20.45,2H3.55C2.69,2 2,2.71 2,3.58v16.84C2,21.29 2.69,22 3.55,22h16.9c0.86,0 1.55,-0.71 1.55,-1.58V3.58C22,2.71 21.31,2 20.45,2zM8.34,18.34H5.67V9.75h2.67V18.34zM7,8.57c-0.86,0 -1.55,-0.7 -1.55,-1.55c0,-0.86 0.69,-1.55 1.55,-1.55s1.55,0.69 1.55,1.55C8.55,7.87 7.86,8.57 7,8.57zM18.34,18.34h-2.67v-4.18c0,-1 -0.02,-2.28 -1.39,-2.28c-1.39,0 -1.6,1.08 -1.6,2.2v4.25h-2.66V9.75h2.56v1.17h0.04c0.36,-0.68 1.23,-1.39 2.53,-1.39c2.7,0 3.2,1.78 3.2,4.09V18.34z" />
+</vector>

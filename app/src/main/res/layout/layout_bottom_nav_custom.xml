@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Barra de navegação flutuante (pill) — redesenhada.
+     - Flutua acima da barra nativa (a margem inferior é ajustada em código
+       pelo applyNavBarInsets do MainActivity).
+     - Cantos arredondados + borda sutil + sombra (elevation).
+     - Sempre mostra o NOME da aba (ícone + label), com espaçamento correto. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customBottomNav"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_gravity="bottom"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/bg_bottom_nav_pill"
+    android:elevation="8dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <!-- Início -->
+    <LinearLayout
+        android:id="@+id/nav_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nav_home_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_home"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/nav_home_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/nav_home"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/cascavel_jade_bright" />
+    </LinearLayout>
+
+    <!-- Quiz -->
+    <LinearLayout
+        android:id="@+id/nav_quiz"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nav_quiz_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_dice"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/nav_quiz_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/nav_quiz"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/cascavel_on_surface_variant" />
+    </LinearLayout>
+
+    <!-- 3D -->
+    <LinearLayout
+        android:id="@+id/nav_3d"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nav_3d_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_3d"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/nav_3d_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/nav_3d"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/cascavel_on_surface_variant" />
+    </LinearLayout>
+
+    <!-- Missões -->
+    <LinearLayout
+        android:id="@+id/nav_missions"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nav_missions_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_rocket"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/nav_missions_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/nav_missions"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/cascavel_on_surface_variant" />
+    </LinearLayout>
+
+    <!-- Config -->
+    <LinearLayout
+        android:id="@+id/nav_settings"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/nav_settings_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_settings"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/nav_settings_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/nav_settings"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:textColor="@color/cascavel_on_surface_variant" />
+    </LinearLayout>
+</LinearLayout>

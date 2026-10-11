@@ -31,6 +31,35 @@ public class TipRepository {
         return list;
     }
 
+    // Dica do dia: mesma dica o dia inteiro, muda automaticamente à meia-noite.
+    // Usa dias desde epoch para escolher um índice estável entre as dicas ativas.
+    public Tip getDailyTip() {
+        Cursor count = db.rawQuery(
+                "SELECT COUNT(*) FROM " + Contract.TipsTable.TABLE_NAME +
+                        " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1", null);
+        int total = 0;
+        if (count != null && count.moveToFirst()) {
+            total = count.getInt(0);
+            count.close();
+        }
+        if (total == 0) return null;
+
+        long dayIndex = System.currentTimeMillis() / (24L * 60L * 60L * 1000L);
+        int offset = (int) (dayIndex % total);
+
+        Cursor c = db.rawQuery(
+                "SELECT * FROM " + Contract.TipsTable.TABLE_NAME +
+                        " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1" +
+                        " ORDER BY " + Contract.TipsTable.COL_ID +
+                        " LIMIT 1 OFFSET ?", new String[]{String.valueOf(offset)});
+        if (c != null && c.moveToFirst()) {
+            Tip tip = cursorToTip(c);
+            c.close();
+            return tip;
+        }
+        return null;
+    }
+
     public Tip getRandom() {
         Cursor c = db.rawQuery(
                 "SELECT * FROM " + Contract.TipsTable.TABLE_NAME +

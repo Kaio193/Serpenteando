@@ -11,6 +11,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.kaio.cobra3d.R;
+import com.kaio.cobra3d.util.LocaleHelper;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,6 +21,9 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Aplica idioma salvo ANTES de setContentView
+        LocaleHelper.onAttach(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 

@@ -1,64 +1,84 @@
 package com.kaio.cobra3d.view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.filament.Engine;
 import com.google.android.filament.Renderer;
 import com.kaio.cobra3d.R;
-import com.kaio.cobra3d.contract.AnatomyContract;
-import com.kaio.cobra3d.model.db.DatabaseHelper;
-import com.kaio.cobra3d.model.entity.AnatomyHotspot;
-import com.kaio.cobra3d.model.entity.AnatomyLayer;
-import com.kaio.cobra3d.presenter.AnatomyPresenter;
-import com.kaio.cobra3d.view.adapter.HotspotAdapter;
 import com.kaio.cobra3d.view.renderer.Anatomy3DRenderer;
 import com.kaio.cobra3d.view.renderer.AnatomySurfaceView;
-import com.kaio.cobra3d.view.renderer.TourOverlayManager;
 
-import java.util.List;
+/**
+ * Tela 3D — o recurso INOVADOR do TCC.
+ *
+ * ⚠️ NÃO EXISTE NOS SLIDES DO PROF. ALEXANDRE — é inovação total.
+ * O professor vai perguntar como funciona, então está tudo comentado!
+ *
+ * Como está agora (pedido do Kaio em 27/09/2026): fundo BRANCO e SÓ o modelo,
+ * no estilo dos visualizadores 3D do Google — nada de botão, camada, hotspot
+ * ou tour. A interação é direto no modelo: arrastar gira, pinça dá zoom (quem
+ * faz isso é o AnatomySurfaceView.onTouchEvent).
+ *
+ * Tela de carregamento (30/09/2026): o arquivo tem 66 MB, então abrir o 3D
+ * passou a ter 3 tempos — toque na aba → tela "CARREGANDO MODELO 3D..." (que
+ * aparece no mesmo instante) → o modelo, quando estiver pronto. Quem faz o
+ * trabalho pesado fora da thread principal é o Anatomy3DRenderer
+ * (iniciarCarregamento), e aqui só se acompanha o estado dele pra saber a hora
+ * de tirar o carregamento da frente.
+ */
+public class Anatomy3DFragment extends Fragment {
 
-public class Anatomy3DFragment extends Fragment implements AnatomyContract.View {
+    // De quanto em quanto tempo olhar se o modelo já ficou pronto. 50 ms = o
+    // carregamento sai da frente quase no mesmo frame em que o modelo entra.
+    private static final long INTERVALO_ACOMPANHAMENTO_MS = 50L;
 
-    private AnatomyContract.Presenter presenter;
-
+    // Superfície 3D (Filament). É a única view da tela.
     private AnatomySurfaceView surfaceView;
-    private RecyclerView hotspotsRecyclerView;
-    private TextView hotspotInfoTitle;
-    private TextView hotspotInfoDescription;
-    private View hotspotInfoPanel;
-    private TextView modelPlaceholder;
-    private TextView layerNameText;
-    private TextView layerDescriptionText;
 
-    private View infoOverlayPanel;
-    private TextView structureNameText;
-    private TextView structureFunctionText;
-    private TextView structureHowItWorksText;
-    private TextView structureCuriosityText;
-
-    private TextView hintTouchExplore;
-
-    private TourOverlayManager overlayManager;
-
-    private HotspotAdapter hotspotAdapter;
+    // Camada de carregamento (fica na frente da superfície enquanto o modelo
+    // não está pronto). É a View de baixo que aparece através do GL transparente.
+    private View loadingOverlay;
+    private View loadingSpinner;
+    private TextView loadingText;
 
     private Engine filamentEngine;
     private Renderer filamentRenderer;
 
-    @Nullable
-    private List<AnatomyHotspot> currentHotspots;
+    private final Handler uiHandler = new Handler(Looper.getMainLooper());
+
+    /**
+     * Fica perguntando pro renderer em que pé está o carregamento. Simples de
+     * propósito: assim nada precisa atravessar thread pra avisar a UI.
+     */
+    private final Runnable acompanharCarga = new Runnable() {
+        @Override
+        public void run() {
+            Anatomy3DRenderer scene = (surfaceView == null) ? null : surfaceView.getScene3d();
+            if (scene == null) {
+                esconderCarregamento();
+                return;
+            }
+
+            int estado = scene.getEstadoModelo();
+            if (estado == Anatomy3DRenderer.MODELO_PRONTO) {
+                esconderCarregamento();
+            } else if (estado == Anatomy3DRenderer.MODELO_FALHOU) {
+                mostrarFalha();
+            } else {
+                uiHandler.postDelayed(this, INTERVALO_ACOMPANHAMENTO_MS);
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -71,264 +91,106 @@ public class Anatomy3DFragment extends Fragment implements AnatomyContract.View 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new AnatomyPresenter(this, DatabaseHelper.getInstance(requireContext()));
+        surfaceView = view.findViewById(R.id.anatomySurfaceView);
+        loadingOverlay = view.findViewById(R.id.loadingModelOverlay);
+        loadingSpinner = view.findViewById(R.id.loadingModelSpinner);
+        loadingText = view.findViewById(R.id.loadingModelText);
+        if (surfaceView == null) return;
 
-        bindViews(view);
-        setupSurface(view);
-        setupRecyclerView(view);
-        setupLayerButtons(view);
-        setupTourOverlay();
+        // A tela de carregamento já nasce visível: o usuário tocou na aba, então
+        // a resposta tem que ser imediata, antes de qualquer trabalho pesado.
+        mostrarCarregamento();
 
-        presenter.loadLayers();
-
-        surfaceView.postDelayed(() -> {
-            if (!isAdded() || surfaceView == null) return;
-            Anatomy3DRenderer scene = surfaceView.getScene3d();
-            if (scene != null) {
-                scene.startTour();
-            }
-        }, 500);
-
-        surfaceView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (hintTouchExplore != null) {
-                    hintTouchExplore.setVisibility(View.GONE);
-                }
-                Anatomy3DRenderer scene = surfaceView.getScene3d();
-                if (scene != null && scene.isTourRunning()) {
-                    scene.stopTour();
-                    if (overlayManager != null) overlayManager.hide();
-                }
-            }
-            return false;
-        });
-    }
-
-    private void bindViews(@NonNull View root) {
-        hotspotInfoPanel = root.findViewById(R.id.hotspotInfoPanel);
-        hotspotInfoTitle = root.findViewById(R.id.hotspotInfoTitle);
-        hotspotInfoDescription = root.findViewById(R.id.hotspotInfoDescription);
-        modelPlaceholder = root.findViewById(R.id.modelPlaceholder);
-        layerNameText = root.findViewById(R.id.layerNameText);
-        layerDescriptionText = root.findViewById(R.id.layerDescriptionText);
-        infoOverlayPanel = root.findViewById(R.id.infoOverlay);
-        structureNameText = root.findViewById(R.id.structureName);
-        structureFunctionText = root.findViewById(R.id.structureFunction);
-        structureHowItWorksText = root.findViewById(R.id.structureHowItWorks);
-        structureCuriosityText = root.findViewById(R.id.structureCuriosity);
-        hintTouchExplore = root.findViewById(R.id.hintTouchExplore);
-    }
-
-    private void setupSurface(@NonNull View root) {
-        surfaceView = root.findViewById(R.id.anatomySurfaceView);
-
+        // Cria a engine 3D do Filament
         filamentEngine = Engine.create();
         if (filamentEngine == null) {
-            if (modelPlaceholder != null) {
-                modelPlaceholder.setVisibility(View.VISIBLE);
-                modelPlaceholder.setText(R.string.error_3d_unsupported);
-            }
+            mostrarFalha();
             return;
         }
 
         filamentRenderer = filamentEngine.createRenderer();
         surfaceView.createFilament(filamentEngine, filamentRenderer);
 
-        surfaceView.setOnHotspotPickedListener(index -> {
-            if (presenter != null) {
-                presenter.selectHotspotByIndex(index);
-            }
-        });
-    }
-
-    private void setupRecyclerView(@NonNull View root) {
-        hotspotsRecyclerView = root.findViewById(R.id.hotspotsRecyclerView);
-        hotspotsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        hotspotAdapter = new HotspotAdapter(index -> {
-            if (presenter != null) {
-                presenter.selectHotspotByIndex(index);
-            }
-        });
-        hotspotsRecyclerView.setAdapter(hotspotAdapter);
-    }
-
-    private void setupLayerButtons(@NonNull View root) {
-        int[] buttonIds = {
-                R.id.btnLayerSkin,
-                R.id.btnLayerMuscle,
-                R.id.btnLayerCirculatory,
-                R.id.btnLayerOrgans
-        };
-        for (int i = 0; i < buttonIds.length; i++) {
-            final int position = i;
-            View btn = root.findViewById(buttonIds[i]);
-            if (btn != null) {
-                btn.setOnClickListener(v -> {
-                    if (presenter != null) presenter.onLayerChanged(position);
-                });
-            }
-        }
-    }
-
-    private void setupTourOverlay() {
-        if (infoOverlayPanel == null || structureNameText == null
-            || structureFunctionText == null
-            || structureHowItWorksText == null
-            || structureCuriosityText == null) return;
-
-        overlayManager = new TourOverlayManager(
-            infoOverlayPanel,
-            structureNameText,
-            structureFunctionText,
-            structureHowItWorksText,
-            structureCuriosityText
-        );
-
-        surfaceView.post(() -> {
-            if (!isAdded() || surfaceView == null) return;
-            Anatomy3DRenderer scene = surfaceView.getScene3d();
-            if (scene != null) {
-                scene.setOnTourStructureChangedListener(
-                    index -> {
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> {
-                                if (overlayManager != null) {
-                                    overlayManager.showStructure(index);
-                                }
-                            });
-                        }
-                    }
-                );
-            }
-        });
-    }
-
-    @Override
-    public void showLayer(@NonNull AnatomyLayer layer) {
-        Anatomy3DRenderer scene = surfaceView != null ? surfaceView.getScene3d() : null;
+        // Dispara a leitura dos 66 MB numa thread de fundo (não trava a UI) e
+        // começa a acompanhar: quando o modelo entrar na cena, o carregamento sai.
+        Anatomy3DRenderer scene = surfaceView.getScene3d();
         if (scene != null) {
-            scene.resetLayer(((int) layer.getId()));
-            scene.buildSnakeBody();
-            scene.buildHotspots(currentHotspots);
+            scene.iniciarCarregamento();
         }
-        if (layerNameText != null) {
-            layerNameText.setText(layer.getLayerName() != null ? layer.getLayerName() : "");
-        }
-        if (layerDescriptionText != null) {
-            layerDescriptionText.setText(
-                layer.getDescription() != null ? layer.getDescription() : "");
-        }
-        if (modelPlaceholder != null) {
-            modelPlaceholder.setVisibility(View.GONE);
-        }
+        iniciarAcompanhamento();
     }
 
     @Override
-    public void showHotspots(@NonNull List<AnatomyHotspot> hotspots) {
-        this.currentHotspots = hotspots;
-        if (hotspotAdapter == null) return;
-        hotspotAdapter.setHotspots(hotspots);
+    public void onResume() {
+        super.onResume();
+        // O render loop parou no onPause: volta a desenhar.
         if (surfaceView != null) {
-            surfaceView.setHotspots(hotspots);
-            Anatomy3DRenderer scene = surfaceView.getScene3d();
-            if (scene != null) {
-                scene.buildHotspots(hotspots);
-            }
+            surfaceView.onResumeFrame();
         }
+        iniciarAcompanhamento();
     }
 
     @Override
-    public void showHotspotInfo(@Nullable AnatomyHotspot hotspot) {
-        if (hotspotInfoPanel == null) return;
-        if (hotspot == null) {
-            hotspotInfoPanel.setVisibility(View.GONE);
-            return;
+    public void onPause() {
+        // Sem isso o render loop continuava rodando com o app em segundo plano
+        // (gastando GPU e bateria à toa).
+        uiHandler.removeCallbacks(acompanharCarga);
+        if (surfaceView != null) {
+            surfaceView.onPauseFrame();
         }
-        hotspotInfoPanel.setVisibility(View.VISIBLE);
-        hotspotInfoTitle.setText(
-            hotspot.getHotspotName() != null ? hotspot.getHotspotName() : "");
-        hotspotInfoDescription.setText(
-            hotspot.getDescription() != null ? hotspot.getDescription() : "");
-
-        if (overlayManager != null && hotspot.getHotspotName() != null) {
-            for (int i = 0; i < TourOverlayManager.STRUCTURES.length; i++) {
-                if (TourOverlayManager.STRUCTURES[i].name
-                        .equalsIgnoreCase(hotspot.getHotspotName())) {
-                    overlayManager.showStructure(i);
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void hideHotspotInfo() {
-        if (hotspotInfoPanel != null) {
-            hotspotInfoPanel.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showModel(@NonNull String modelFileName) {
-        if (modelPlaceholder != null) {
-            modelPlaceholder.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showLoading() {
-        if (modelPlaceholder != null) {
-            modelPlaceholder.setVisibility(View.VISIBLE);
-            modelPlaceholder.setText("Carregando...");
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (modelPlaceholder != null) {
-            modelPlaceholder.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showError(@NonNull String message) {
-        if (!isAdded() || getContext() == null) return;
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        super.onPause();
     }
 
     @Override
     public void onDestroyView() {
+        uiHandler.removeCallbacks(acompanharCarga);
+
+        // Libera a superfície 3D e a engine, senão vaza memória/GPU a cada vez
+        // que o usuário sai e volta pra aba 3D.
         if (surfaceView != null) {
             surfaceView.release();
             surfaceView = null;
         }
-        if (filamentRenderer != null) {
-            if (filamentEngine != null) {
-                filamentEngine.destroyRenderer(filamentRenderer);
-            }
-            filamentRenderer = null;
+        if (filamentRenderer != null && filamentEngine != null) {
+            filamentEngine.destroyRenderer(filamentRenderer);
         }
+        filamentRenderer = null;
         if (filamentEngine != null) {
             filamentEngine.destroy();
             filamentEngine = null;
         }
-        presenter = null;
-        hotspotAdapter = null;
-        hotspotsRecyclerView = null;
-        hotspotInfoPanel = null;
-        hotspotInfoTitle = null;
-        hotspotInfoDescription = null;
-        modelPlaceholder = null;
-        layerNameText = null;
-        layerDescriptionText = null;
-        overlayManager = null;
-        infoOverlayPanel = null;
-        structureNameText = null;
-        structureFunctionText = null;
-        structureHowItWorksText = null;
-        structureCuriosityText = null;
-        currentHotspots = null;
-        hintTouchExplore = null;
+        loadingOverlay = null;
+        loadingSpinner = null;
+        loadingText = null;
         super.onDestroyView();
+    }
+
+    // ------------------------------------------------------------------
+    // Tela de carregamento
+    // ------------------------------------------------------------------
+
+    private void iniciarAcompanhamento() {
+        uiHandler.removeCallbacks(acompanharCarga);
+        uiHandler.post(acompanharCarga);
+    }
+
+    private void mostrarCarregamento() {
+        if (loadingOverlay != null) loadingOverlay.setVisibility(View.VISIBLE);
+        if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
+        if (loadingText != null) loadingText.setText(R.string.loading_3d_model);
+    }
+
+    private void esconderCarregamento() {
+        if (loadingOverlay != null) loadingOverlay.setVisibility(View.GONE);
+    }
+
+    /**
+     * Se o modelo não puder ser carregado, a tela NÃO pode ficar em branco sem
+     * explicação: mantém a camada mas troca o texto e tira o indicador.
+     */
+    private void mostrarFalha() {
+        if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE);
+        if (loadingText != null) loadingText.setText(R.string.error_3d_load);
+        if (loadingText != null) loadingText.setVisibility(View.VISIBLE);
     }
 }

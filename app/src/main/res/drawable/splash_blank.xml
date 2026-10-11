@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash do SISTEMA (Android 12+) deixado vazio de propósito.
+     Sem isso o Android desenhava o ícone do launcher por cima e o app
+     mostrava DUAS telas de abertura: a do sistema e a SplashActivity
+     (favicon + "Serpenteando"). Agora a do sistema fica só com o fundo,
+     que é a mesma cor da SplashActivity — então o usuário vê uma só. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent" />
+</shape>

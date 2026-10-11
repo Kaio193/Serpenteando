@@ -1,45 +1,60 @@
 package com.kaio.cobra3d.view.renderer;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.android.filament.Box;
 import com.google.android.filament.Camera;
-import com.google.android.filament.Renderer;
+import com.google.android.filament.ColorGrading;
 import com.google.android.filament.Engine;
 import com.google.android.filament.EntityManager;
-import com.google.android.filament.IndexBuffer;
+import com.google.android.filament.IndirectLight;
 import com.google.android.filament.LightManager;
-import com.google.android.filament.Material;
-import com.google.android.filament.MaterialInstance;
-import com.google.android.filament.RenderableManager;
+import com.google.android.filament.Renderer;
 import com.google.android.filament.Scene;
-import com.google.android.filament.Skybox;
 import com.google.android.filament.SwapChain;
 import com.google.android.filament.Texture;
+import com.google.android.filament.ToneMapper;
 import com.google.android.filament.TransformManager;
-import com.google.android.filament.VertexBuffer;
 import com.google.android.filament.View;
 import com.google.android.filament.Viewport;
 import com.google.android.filament.gltfio.FilamentAsset;
-import com.kaio.cobra3d.model.entity.AnatomyHotspot;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Visualizador 3D do Serpenteando — versão limpa (27/09/2026).
+ *
+ * O que a tela faz: mostra o modelo Serpente_3D.glb com fundo BRANCO, igual
+ * aos visualizadores 3D do Google no celular. O usuário arrasta pra girar e
+ * usa dois dedos pra dar zoom (quem trata o toque é a AnatomySurfaceView).
+ *
+ * ⚠️ NÃO EXISTE NOS SLIDES DO PROF. ALEXANDRE — é inovação total do TCC.
+ *
+ * O que saiu daqui (tudo era da versão antiga, com fundo verde):
+ * - gradiente de fundo esmeralda/jade (o "fundo verde" que o Kaio reprovou);
+ * - "tour" automático com keyframes de câmera;
+ * - bolinhas de hotspot + ray-picking pra clicar nelas;
+ * - cobra procedural (malha gerada em código) + olhos, língua e partículas;
+ * - camadas de anatomia e o material de escamas gerado por shader.
+ *
+ * O que ficou: carregar o .glb (agora em thread de fundo, com tela de
+ * carregamento), enquadrar a câmera, luz e o render loop.
+ */
 public final class Anatomy3DRenderer {
 
     private static final String TAG = "Anatomy3DRenderer";
 
-    private static final String UNIFORM_BASE_COLOR = "baseColor";
-    private static final String UNIFORM_ROUGHNESS  = "roughness";
-    private static final String UNIFORM_METALLIC   = "metallic";
-    private static final String UNIFORM_EMISSIVE   = "emissive";
-    private static final String UNIFORM_USE_SCALE_NORMAL = "useScaleNormal";
+    // O modelo que o Kaio mandou. É a serpente COMPLETA (malha + material +
+    // texturas próprios), então nada é sobrescrito nele.
+    private static final String MODELO = "Serpente_3D.glb";
 
-    private static final float[] COLOR_BODY_GOLDEN  = { 0.545f, 0.451f, 0.333f };
-    private static final float[] COLOR_HEAD         = { 0.580f, 0.470f, 0.310f };
-    private static final float[] COLOR_HOTSPOT      = { 0.95f, 0.78f, 0.10f };
+    private static final float FOV_GRAUS = 50.0f;
 
     private final Engine engine;
     private final Scene scene;
@@ -47,92 +62,71 @@ public final class Anatomy3DRenderer {
     private final Camera camera;
     private final Renderer renderer;
     private final Context appContext;
-    private final MaterialProvider materialProvider;
 
-    private final List<Integer> hotspotEntities = new ArrayList<>();
-    private final List<float[]> hotspotWorldPositions = new ArrayList<>();
+    private SwapChain swapChain;
+    private Viewport viewport;
+
+    // Dono do carregamento atual: asset + loader + provider + texturas.
+    // Guardar isso é o que permite liberar tudo na saída da tela (era o vazamento).
+    private GlbLoader.Carga carga;
     private final List<Integer> modelEntities = new ArrayList<>();
+    private boolean modelBuilt;
 
-    private int bodyEntity;
-    private int headEntity;
-    private int leftEyeEntity;
-    private int rightEyeEntity;
-    private int tongueEntity;
+    // ------------------------------------------------------------------
+    // Estado do carregamento
+    // ------------------------------------------------------------------
+
+    // Quem mostra e esconde a tela de carregamento é o Fragment, que só olha
+    // este número a cada 100 ms.
+    public static final int MODELO_CARREGANDO = 0;
+    public static final int MODELO_PRONTO = 1;
+    public static final int MODELO_FALHOU = 2;
+
+    // Se as texturas travarem, mostra o modelo assim mesmo em vez de deixar o
+    // usuário olhando pra tela de carregamento pra sempre.
+    private static final long PRAZO_CARGA_MS = 15_000L;
+
+    private volatile int estadoModelo = MODELO_CARREGANDO;
+    private volatile boolean destruido;
+
+    // Trava entre a thread que lê o arquivo e o destroy(): garante que o engine
+    // não seja destruído no meio de um create() (seria crash nativo).
+    private final Object cadeadoCarga = new Object();
+
+    private Thread threadCarga;
+    private long prazoCarga;
+
+    // Ligada só quando o aoTerminarLeitura() rodou — ou seja, quando já existe
+    // carga E já se sabe se as texturas são assíncronas ou não. Sem ela, um frame
+    // que caísse entre o create() (thread de fundo) e o retorno na main daria o
+    // modelo por pronto antes da hora (foi assim que o app caiu no device em
+    // 30/09/2026: começou a carregar textura de um asset já descartado).
+    private boolean cargaAplicada;
+
+    private IndirectLight indirectLight;
+    private Texture environmentTexture;
+
+    // Color grading do frame. Não é pra "deixar bonito": é onde mora o tone
+    // mapping do Filament. Ver setupViewDefaults().
+    private ColorGrading colorGrading;
+
     private int lightEntity;
     private int fillLightEntity;
     private int rimLightEntity;
-    private SwapChain swapChain;
-    private Viewport viewport;
-    private Skybox skybox;
 
-    private ModelBuilder.RenderedMesh bodyMesh;
-    private ModelBuilder.RenderedMesh leftEyeMesh;
-    private ModelBuilder.RenderedMesh rightEyeMesh;
-    private ModelBuilder.RenderedMesh tongueMesh;
-    private UVSphereMesh.RenderedMesh sphereMesh;
-    private UVSphereMesh.RenderedMesh hotspotMesh;
-
-    private boolean bodyBuilt;
-    private boolean hotspotsBuilt;
-    private int currentLayerIndex;
-    private boolean useGlb;
-
-    private float modelScale = 1.0f;
-    private float orbitTheta = (float) Math.PI / 2.0f;
-    private float orbitPhi = 0.266f;
-    private float orbitDistance = 25.0f;
+    // Órbita: a câmera fica numa esfera ao redor do alvo (a origem).
+    private float orbitTheta = (float) (Math.PI / 2.0);
+    private float orbitPhi = 0.22f;
+    private float orbitDistance = 12.0f;
     private float orbitTargetX, orbitTargetY, orbitTargetZ;
 
-    private static final float[][] TOUR_KEYFRAMES = {
-        {  0.0f,  3.0f, 15.0f,  0.0f,  0.0f,  0.0f },
-        {  5.0f,  1.0f, 10.0f,  0.0f,  0.0f,  0.0f },
-        { -3.0f,  2.0f, 12.0f,  0.0f,  0.5f,  0.0f },
-        {  0.0f,  6.0f, 12.0f,  0.0f,  0.0f,  0.0f },
-        {  2.5f,  0.5f,  5.0f,  2.5f,  0.3f,  0.0f },
-        {  2.3f, -0.5f,  4.0f,  2.5f,  0.0f,  0.0f },
-        {  2.0f,  1.0f,  4.0f,  2.5f,  0.5f,  0.0f },
-        {  2.5f,  0.0f,  3.5f,  2.5f,  0.0f,  0.0f },
-        {  3.0f,  0.2f,  3.0f,  2.8f,  0.1f,  0.0f },
-        {  2.5f,  0.8f,  3.0f,  2.5f,  0.5f,  0.0f },
-        {  2.3f,  0.8f,  2.0f,  2.5f,  0.5f,  0.0f },
-        {  0.0f,  1.5f,  8.0f,  0.0f,  0.3f,  0.0f },
-        {  0.0f,  1.0f,  7.0f,  0.0f,  0.3f,  0.0f },
-        { -0.5f,  0.5f,  5.0f, -0.5f,  0.3f,  0.0f },
-        { -0.8f,  1.0f,  6.0f, -0.8f,  0.5f,  0.0f },
-        { -0.3f,  0.2f,  6.0f, -0.3f,  0.0f,  0.0f },
-        { -0.6f,  0.5f,  5.0f, -0.6f,  0.3f,  0.0f },
-        { -1.5f,  0.5f,  6.0f, -1.5f,  0.3f,  0.0f },
-        { -1.0f,  0.2f,  5.5f, -1.0f,  0.0f,  0.0f },
-        { -1.8f,  0.3f,  6.0f, -1.8f,  0.2f,  0.0f },
-        {  0.0f,  2.0f,  9.0f,  0.0f,  0.5f,  0.0f },
-        { -0.5f,  0.5f,  7.0f, -0.5f,  0.0f,  0.0f },
-        { -2.8f,  0.3f,  4.0f, -2.5f,  0.0f,  0.0f },
-    };
+    // Meia-largura do modelo em cada eixo, já normalizada (o maior lado vira 6
+    // unidades). É o que permite calcular a distância exata pra cobra caber na
+    // tela de QUALQUER celular, sem cortar as pontas.
+    private float halfX = 3.0f, halfY = 1.0f, halfZ = 1.0f;
 
-    private static final float[] KEYFRAME_DURATIONS = {
-        4.0f, 3.5f, 3.5f, 3.0f,
-        2.8f, 2.5f, 2.5f, 2.5f, 2.8f, 2.5f, 2.8f,
-        3.0f, 2.5f, 2.8f, 2.5f, 2.5f, 2.5f, 2.8f,
-        2.5f, 2.5f, 3.0f, 2.5f, 3.0f,
-    };
-
-    private boolean tourRunning = false;
-    private int     tourKeyframe = 0;
-    private float   tourProgress = 0.0f;
-    private long    lastFrameTimeNanos = 0L;
-    private long    animStartNanos = -1L;
-
-    private final float[] breathMatrix = new float[16];
-
-    public interface OnTourStructureChangedListener {
-        void onTourStructureChanged(int structureIndex);
-    }
-
-    private OnTourStructureChangedListener structureListener;
-
-    public void setOnTourStructureChangedListener(OnTourStructureChangedListener l) {
-        this.structureListener = l;
-    }
+    // Distância calculada pra enquadrar o modelo inteiro (base do zoom).
+    private float frameDistance = 12.0f;
 
     public Anatomy3DRenderer(Context context, Engine engine, Renderer renderer) {
         this.appContext = context.getApplicationContext();
@@ -142,17 +136,6 @@ public final class Anatomy3DRenderer {
         this.view = engine.createView();
         this.view.setScene(scene);
         this.camera = engine.createCamera(EntityManager.get().create());
-        this.materialProvider = new MaterialProvider(appContext, engine);
-
-        this.bodyEntity = 0;
-        this.headEntity = 0;
-        this.lightEntity = 0;
-        this.fillLightEntity = 0;
-        this.rimLightEntity = 0;
-        this.leftEyeEntity = 0;
-        this.rightEyeEntity = 0;
-        this.tongueEntity = 0;
-        this.useGlb = false;
 
         setupViewDefaults();
         setupLighting();
@@ -163,15 +146,12 @@ public final class Anatomy3DRenderer {
     public Camera getCamera() { return camera; }
     public Viewport getViewport() { return viewport; }
 
-    public void setModelScale(float scale) {
-        this.modelScale = scale;
-    }
-
     public void attachSwapChain(SwapChain sc, int width, int height) {
         this.swapChain = sc;
         this.viewport = new Viewport(0, 0, width, height);
         this.view.setViewport(viewport);
         updateCameraProjection(width, height);
+        frameCamera(false);
     }
 
     public void resize(int width, int height) {
@@ -179,264 +159,234 @@ public final class Anatomy3DRenderer {
         viewport = new Viewport(0, 0, width, height);
         view.setViewport(viewport);
         updateCameraProjection(width, height);
+        frameCamera(false);
     }
 
-    public void buildSnakeBody() {
-        if (bodyBuilt) return;
+    // ------------------------------------------------------------------
+    // Modelo
+    // ------------------------------------------------------------------
 
-        Material bodyMat = materialProvider.getBodyMaterial();
-        if (bodyMat == null) {
-            Log.e(TAG, "Material do corpo nao disponivel");
-            return;
-        }
-        MaterialInstance bodyInst = bodyMat.createInstance();
-        bodyInst.setParameter(UNIFORM_BASE_COLOR,
-            COLOR_BODY_GOLDEN[0], COLOR_BODY_GOLDEN[1], COLOR_BODY_GOLDEN[2]);
-        bodyInst.setParameter(UNIFORM_ROUGHNESS, 0.5f);
-        bodyInst.setParameter(UNIFORM_METALLIC, 0.0f);
-        bodyInst.setParameter(UNIFORM_USE_SCALE_NORMAL, 1.0f);
+    /**
+     * Começa o carregamento do modelo.
+     *
+     * Quem chama é o Anatomy3DFragment, assim que a tela aparece. A leitura dos
+     * 66 MB do arquivo roda numa thread de fundo — era isso que congelava a
+     * interface por ~1,8s ("Skipped 170 frames" no Choreographer).
+     */
+    public void iniciarCarregamento() {
+        if (modelBuilt || threadCarga != null) return;
+        estadoModelo = MODELO_CARREGANDO;
+        threadCarga = new Thread(this::carregarEmFundo, "serpenteando-glb");
+        threadCarga.start();
+    }
 
-        FilamentAsset glbAsset = null;
+    /** O Fragment usa isto pra saber quando tirar a tela de carregamento. */
+    public int getEstadoModelo() {
+        return estadoModelo;
+    }
+
+    /**
+     * Lê e interpreta o arquivo FORA da thread principal.
+     *
+     * O create() também roda aqui: o Filament aceita criar objetos em outra
+     * thread (a engine sobe com "threading is enabled"), e é justamente isso que
+     * evita a interface travada. O que NÃO pode sair da main thread é tudo que
+     * mexe na cena, no swap chain e no render — isso continua lá em baixo.
+     */
+    private void carregarEmFundo() {
         try {
-            glbAsset = GlbLoader.load(engine, appContext.getAssets(), "models/cascavel.glb");
-        } catch (Exception e) {
-            Log.w(TAG, "GLB load failed, using procedural", e);
-        }
-
-        if (glbAsset != null) {
-            useGlb = true;
-            int[] entities = glbAsset.getEntities();
-            for (int e : entities) {
-                if (e == 0) continue;
-                scene.addEntity(e);
-                modelEntities.add(e);
-                if (bodyEntity == 0) bodyEntity = e;
+            ByteBuffer dados = GlbLoader.readAsset(appContext.getAssets(), MODELO);
+            if (dados == null) {
+                new Handler(Looper.getMainLooper()).post(this::aoTerminarLeitura);
+                return;
             }
-
-            int root = glbAsset.getRoot();
-            if (root != 0) {
-                TransformManager tm = engine.getTransformManager();
-                int t = tm.getInstance(root);
-                if (t != 0) {
-                    float[] s = new float[16];
-                    tm.getTransform(t, s);
-                    if (s != null) {
-                        float[] scaled = new float[]{
-                            s[0] * modelScale, s[1], s[2], s[3],
-                            s[4], s[5] * modelScale, s[6], s[7],
-                            s[8], s[9], s[10] * modelScale, s[11],
-                            s[12], s[13], s[14], s[15]
-                        };
-                        tm.setTransform(t, scaled);
-                    }
+            synchronized (cadeadoCarga) {
+                // Se a tela já foi fechada, não cria nada: o engine pode estar
+                // sendo destruído neste instante.
+                if (!destruido) {
+                    carga = GlbLoader.create(engine, dados, MODELO);
                 }
             }
-
-            Log.d(TAG, "GLB loaded with " + entities.length + " entities");
-            bodyBuilt = true;
-            return;
+            // O gltfio copia o blob pra dentro do asset, então o nosso buffer de
+            // 66 MB morre aqui (antes ele ficava vivo junto com o modelo).
+        } catch (Throwable t) {
+            Log.e(TAG, "Nao foi possivel carregar " + MODELO, t);
         }
-
-        useGlb = false;
-        MaterialInstance headInst = bodyMat.createInstance();
-        headInst.setParameter(UNIFORM_BASE_COLOR,
-            COLOR_HEAD[0], COLOR_HEAD[1], COLOR_HEAD[2]);
-        headInst.setParameter(UNIFORM_ROUGHNESS, 0.4f);
-        headInst.setParameter(UNIFORM_METALLIC, 0.0f);
-        headInst.setParameter(UNIFORM_USE_SCALE_NORMAL, 1.0f);
-
-        bodyMesh = ModelBuilder.buildRattlesnake(engine);
-        if (bodyMesh == null) {
-            Log.w(TAG, "ModelBuilder.buildRattlesnake() returned null, fallback to old mesh");
-            SnakeBodyMesh.RenderedMesh oldMesh = SnakeBodyMesh.build(engine);
-            if (oldMesh != null) {
-                bodyEntity = makeRenderable(
-                    oldMesh.getVertexBuffer(), oldMesh.getIndexBuffer(),
-                    oldMesh.getIndexCount(), bodyInst, true, true, true);
-                if (bodyEntity != 0) scene.addEntity(bodyEntity);
-
-                sphereMesh = UVSphereMesh.build(engine);
-                if (sphereMesh != null) {
-                    headEntity = makeRenderable(
-                        sphereMesh.getVertexBuffer(), sphereMesh.getIndexBuffer(),
-                        sphereMesh.getIndexCount(), headInst, true, true, true);
-                    if (headEntity != 0) {
-                        TransformManager tm = engine.getTransformManager();
-                        int t = tm.create(headEntity);
-                        tm.setTransform(t, matrixTranslation(2.4f * modelScale, 0.35f * modelScale, 0.0f));
-                        scene.addEntity(headEntity);
-                    }
-                }
-            }
-            bodyBuilt = true;
-            return;
-        }
-
-        bodyEntity = makeRenderable(
-            bodyMesh.getVertexBuffer(), bodyMesh.getIndexBuffer(),
-            bodyMesh.getIndexCount(), bodyInst, true, true, true);
-        if (bodyEntity != 0) {
-            TransformManager tm = engine.getTransformManager();
-            int t = tm.create(bodyEntity);
-            tm.setTransform(t, scaleMatrix(modelScale));
-            scene.addEntity(bodyEntity);
-        }
-
-        Material eyeMat = materialProvider.getEyeMaterial();
-        if (eyeMat != null) {
-            MaterialInstance eyeInst = eyeMat.createInstance();
-            leftEyeMesh = ModelBuilder.buildEye(engine);
-            if (leftEyeMesh != null) {
-                leftEyeEntity = makeRenderable(
-                    leftEyeMesh.getVertexBuffer(), leftEyeMesh.getIndexBuffer(),
-                    leftEyeMesh.getIndexCount(), eyeInst, false, true, false);
-                if (leftEyeEntity != 0) {
-                    TransformManager tm = engine.getTransformManager();
-                    int t = tm.create(leftEyeEntity);
-                    tm.setTransform(t, matrixTranslation(
-                        2.6f * modelScale, 0.25f * modelScale, -0.18f * modelScale));
-                    scene.addEntity(leftEyeEntity);
-                }
-            }
-            rightEyeMesh = ModelBuilder.buildEye(engine);
-            if (rightEyeMesh != null) {
-                rightEyeEntity = makeRenderable(
-                    rightEyeMesh.getVertexBuffer(), rightEyeMesh.getIndexBuffer(),
-                    rightEyeMesh.getIndexCount(), eyeInst, false, true, false);
-                if (rightEyeEntity != 0) {
-                    TransformManager tm = engine.getTransformManager();
-                    int t = tm.create(rightEyeEntity);
-                    tm.setTransform(t, matrixTranslation(
-                        2.6f * modelScale, 0.25f * modelScale, 0.18f * modelScale));
-                    scene.addEntity(rightEyeEntity);
-                }
-            }
-        }
-
-        Material tongueMat = materialProvider.getTongueMaterial();
-        if (tongueMat != null) {
-            MaterialInstance tongueInst = tongueMat.createInstance();
-            tongueMesh = ModelBuilder.buildTongue(engine);
-            if (tongueMesh != null) {
-                tongueEntity = makeRenderable(
-                    tongueMesh.getVertexBuffer(), tongueMesh.getIndexBuffer(),
-                    tongueMesh.getIndexCount(), tongueInst, false, false, true);
-                if (tongueEntity != 0) {
-                    TransformManager tm = engine.getTransformManager();
-                    int t = tm.create(tongueEntity);
-                    tm.setTransform(t, matrixTranslation(
-                        2.8f * modelScale, 0.30f * modelScale, 0.0f));
-                    scene.addEntity(tongueEntity);
-                }
-            }
-        }
-
-        bodyBuilt = true;
+        // Volta pra thread principal: daqui pra frente é cena, e cena é da UI.
+        new Handler(Looper.getMainLooper()).post(this::aoTerminarLeitura);
     }
 
-    public void resetLayer(int layerIndex) {
-        if (layerIndex == currentLayerIndex) return;
-        currentLayerIndex = layerIndex;
-        bodyBuilt = false;
-        hotspotsBuilt = false;
-        if (useGlb) {
-            for (int e : modelEntities) {
-                if (e != 0) scene.removeEntity(e);
-            }
-            modelEntities.clear();
-            useGlb = false;
+    /** Na thread principal: registra a carga e começa a decodificar as texturas. */
+    private void aoTerminarLeitura() {
+        if (destruido) return; // destroy() já liberou tudo
+        if (carga == null) {
+            Log.e(TAG, MODELO + " nao pode ser carregado");
+            estadoModelo = MODELO_FALHOU;
+            return;
         }
-        if (bodyEntity != 0) { scene.removeEntity(bodyEntity); bodyEntity = 0; }
-        if (headEntity != 0) { scene.removeEntity(headEntity); headEntity = 0; }
-        if (leftEyeEntity != 0) { scene.removeEntity(leftEyeEntity); leftEyeEntity = 0; }
-        if (rightEyeEntity != 0) { scene.removeEntity(rightEyeEntity); rightEyeEntity = 0; }
-        if (tongueEntity != 0) { scene.removeEntity(tongueEntity); tongueEntity = 0; }
-        for (int e : hotspotEntities) {
-            if (e != 0) scene.removeEntity(e);
-        }
-        hotspotEntities.clear();
-        hotspotWorldPositions.clear();
+
+        prazoCarga = System.currentTimeMillis() + PRAZO_CARGA_MS;
+        cargaAplicada = true;
+
+        // As texturas entram em pedaços, um pouco por frame. O modelo só entra na
+        // cena quando estiver pronto — senão apareceria sem cor por cima da tela
+        // de carregamento.
+        if (GlbLoader.beginAsyncLoad(engine, carga)) return;
+
+        // Sem texturas pendentes: já está pronto — e a cópia interna do arquivo
+        // (dezenas de MB) já pode ser liberada.
+        mostrarModelo();
+        GlbLoader.liberarFonte(carga);
     }
 
-    public void buildHotspots(List<AnatomyHotspot> hotspots) {
-        if (hotspotsBuilt) return;
-        if (hotspots == null || hotspots.isEmpty()) {
-            hotspotsBuilt = true;
+    /** Chamado a cada frame enquanto as texturas carregam. */
+    private void atualizarCarga() {
+        if (estadoModelo != MODELO_CARREGANDO || !cargaAplicada || carga == null || modelBuilt) return;
+        boolean terminou = GlbLoader.atualizarTexturas(carga);
+        if (terminou) {
+            mostrarModelo();
+            // As texturas já subiram pra GPU: a cópia do .glb no asset não serve
+            // pra mais nada e é devolvida agora.
+            GlbLoader.liberarFonte(carga);
+        } else if (System.currentTimeMillis() > prazoCarga) {
+            // Prazo estourado: mostra o modelo mesmo assim (melhor do que deixar
+            // o usuário olhando pra tela de carregamento pra sempre). A cópia do
+            // .glb fica, porque a carga ainda pode estar usando.
+            Log.w(TAG, "Texturas demoraram demais, mostrando o modelo assim mesmo");
+            mostrarModelo();
+        }
+    }
+
+    /**
+     * Passa o modelo pra cena, normaliza escala/posição pelo bounding box do
+     * próprio arquivo e enquadra a câmera.
+     *
+     * Como o modelo vem em escala desconhecida (pode vir em metros,
+     * centímetros...), a gente escala pra o maior lado virar 6 unidades e centra
+     * na origem: assim a câmera e o zoom têm uma referência fixa e a cobra
+     * aparece grande e centralizada.
+     */
+    private void mostrarModelo() {
+        if (carga == null || carga.asset == null) {
+            estadoModelo = MODELO_FALHOU;
             return;
         }
 
-        Material hotMat = materialProvider.getHotspotMaterial();
-        if (hotMat == null) {
-            Log.e(TAG, "Material de hotspot nao disponivel");
-            return;
-        }
-        MaterialInstance hotInst = hotMat.createInstance();
-        hotInst.setParameter(UNIFORM_BASE_COLOR,
-            COLOR_HOTSPOT[0], COLOR_HOTSPOT[1], COLOR_HOTSPOT[2]);
-        hotInst.setParameter(UNIFORM_EMISSIVE, 1.0f);
-
-        hotspotMesh = UVSphereMesh.build(engine);
-        if (hotspotMesh == null) {
-            Log.w(TAG, "UVSphereMesh.build() retornou null para hotspots");
-            hotspotsBuilt = true;
+        FilamentAsset asset = carga.asset;
+        int[] entities = asset.getEntities();
+        if (entities == null || entities.length == 0) {
+            Log.e(TAG, MODELO + " nao tem entidades");
+            estadoModelo = MODELO_FALHOU;
             return;
         }
 
-        RenderableManager rm = engine.getRenderableManager();
-        TransformManager tm = engine.getTransformManager();
-        hotspotEntities.clear();
-        hotspotWorldPositions.clear();
-
-        for (int i = 0; i < hotspots.size(); i++) {
-            AnatomyHotspot h = hotspots.get(i);
-            int e = makeRenderable(
-                hotspotMesh.getVertexBuffer(), hotspotMesh.getIndexBuffer(),
-                hotspotMesh.getIndexCount(), hotInst, false, false, false);
+        for (int e : entities) {
             if (e == 0) continue;
-            float x = h.getPositionX() * modelScale;
-            float y = h.getPositionY() * modelScale;
-            float z = h.getPositionZ() * modelScale;
-            int t = tm.create(e);
-            tm.setTransform(t, matrixTranslation(x, y, z));
             scene.addEntity(e);
-            hotspotEntities.add(e);
-            hotspotWorldPositions.add(new float[]{ x, y, z });
+            modelEntities.add(e);
         }
-        hotspotsBuilt = true;
-    }
 
-    public boolean isHotspotEntity(int entity) {
-        for (int e : hotspotEntities) if (e == entity) return true;
-        return false;
-    }
+        Box bb = asset.getBoundingBox();
+        if (bb != null) {
+            float[] c = bb.getCenter();
+            float[] h = bb.getHalfExtent();
+            float maior = Math.max(Math.abs(h[0]), Math.max(Math.abs(h[1]), Math.abs(h[2])));
+            Log.d(TAG, MODELO + " bbox center=(" + c[0] + "," + c[1] + "," + c[2]
+                + ") half=(" + h[0] + "," + h[1] + "," + h[2] + ")");
 
-    public void startTour() {
-        tourKeyframe  = 0;
-        tourProgress  = 0.0f;
-        lastFrameTimeNanos = 0L;
-        animStartNanos = -1L;
-        tourRunning   = true;
-        if (structureListener != null) {
-            structureListener.onTourStructureChanged(0);
+            if (maior > 0.0001f) {
+                float k = 6.0f / (2.0f * maior);
+                halfX = Math.abs(h[0]) * k;
+                halfY = Math.abs(h[1]) * k;
+                halfZ = Math.abs(h[2]) * k;
+
+                TransformManager tm = engine.getTransformManager();
+                int root = asset.getRoot();
+                if (root != 0) {
+                    int t = tm.getInstance(root);
+                    if (t != 0) {
+                        // Matriz coluna-dominante (padrão Filament): escala na
+                        // diagonal e translação nas posições 12/13/14.
+                        tm.setTransform(t, new float[]{
+                            k, 0, 0, 0,
+                            0, k, 0, 0,
+                            0, 0, k, 0,
+                            -c[0] * k, -c[1] * k, -c[2] * k, 1
+                        });
+                    }
+                }
+            }
+        } else {
+            Log.w(TAG, MODELO + " sem bounding box");
         }
+
+        modelBuilt = true;
+        frameCamera(true);
+        estadoModelo = MODELO_PRONTO;
+        Log.d(TAG, MODELO + " na cena com " + entities.length + " entidades");
     }
 
-    public void stopTour() {
-        tourRunning = false;
-    }
+    // ------------------------------------------------------------------
+    // Câmera
+    // ------------------------------------------------------------------
 
-    public boolean isTourRunning() {
-        return tourRunning;
-    }
-
+    /** Arrasta com um dedo: gira a cobra em volta do próprio eixo. */
     public void orbit(float deltaX, float deltaY) {
         orbitTheta -= deltaX * 0.008f;
         orbitPhi = Math.max(-1.3f, Math.min(1.3f, orbitPhi - deltaY * 0.008f));
         updateOrbitCamera();
     }
 
+    /** Pinça com dois dedos: aproxima/afasta. */
     public void zoom(float factor) {
-        orbitDistance = Math.max(3.0f, Math.min(50.0f, orbitDistance * factor));
+        // Limites do zoom (pedido do Kaio, 07/10). A faixa antiga (0,55x a
+        // 2,2x) ainda deixava exagerar demais: perto o modelo estourava a tela e
+        // longe virava um pontinho. Esta faixa continua dando zoom de verdade
+        // (dá pra chegar bem perto das escamas) sem nunca perder o modelo.
+        // Só os dois números mudaram — nada foi acrescentado.
+        float min = frameDistance * 0.7f;
+        float max = frameDistance * 1.7f;
+        orbitDistance = Math.max(min, Math.min(max, orbitDistance * factor));
+        updateOrbitCamera();
+    }
+
+    /** Volta pro enquadramento inicial (vista 3/4 lateral, modelo inteiro). */
+    public void resetCamera() {
+        frameCamera(true);
+    }
+
+    /**
+     * Calcula a distância da câmera pra o modelo caber inteiro na tela.
+     *
+     * O truque: a tela do celular é retrato, então o campo de visão HORIZONTAL
+     * é bem menor que o vertical. Em vez de usar uma distância fixa (que cortava
+     * a cobra em tela estreita), a gente converte o FOV vertical em horizontal
+     * usando o aspect da tela e calcula a distância pelo pior caso — assim o
+     * modelo cabe em pé ou deitado, em qualquer aparelho.
+     */
+    private void frameCamera(boolean resetOrbit) {
+        if (viewport != null && viewport.height > 0) {
+            double aspect = (double) viewport.width / viewport.height;
+            double vHalf = Math.toRadians(FOV_GRAUS / 2.0);
+            double hHalf = Math.atan(Math.tan(vHalf) * aspect);
+
+            // Gira o modelo: o pior caso horizontal é o maior lado da "planta".
+            double raioH = Math.max(halfX, halfZ);
+            double distH = raioH / Math.tan(hHalf);
+            double distV = halfY / Math.tan(vHalf);
+
+            // 1.18 = ~18% de respiro pra ponta da cobra não encostar na borda.
+            frameDistance = (float) (Math.max(distH, distV) * 1.18);
+        }
+
+        orbitTargetX = 0.0f;
+        orbitTargetY = 0.0f;
+        orbitTargetZ = 0.0f;
+        if (resetOrbit) {
+            orbitTheta = (float) (Math.PI / 2.0);
+            orbitPhi = 0.22f;
+        }
+        orbitDistance = frameDistance;
         updateOrbitCamera();
     }
 
@@ -453,305 +403,68 @@ public final class Anatomy3DRenderer {
             0.0, 1.0, 0.0);
     }
 
-    private void updateTour(long frameTimeNanos) {
-        if (!tourRunning) return;
-
-        float deltaSec = 0.0f;
-        if (lastFrameTimeNanos != 0L) {
-            long deltaNs = frameTimeNanos - lastFrameTimeNanos;
-            if (deltaNs > 0 && deltaNs < 500_000_000L) {
-                deltaSec = deltaNs / 1_000_000_000.0f;
-            }
-        }
-        lastFrameTimeNanos = frameTimeNanos;
-
-        float currentDuration = KEYFRAME_DURATIONS[tourKeyframe];
-        int lastKnownKeyframe = tourKeyframe;
-        tourProgress += deltaSec / currentDuration;
-
-        if (tourProgress >= 1.0f) {
-            tourProgress = 0.0f;
-            tourKeyframe++;
-            if (tourKeyframe >= TOUR_KEYFRAMES.length - 1) {
-                float[] last = TOUR_KEYFRAMES[TOUR_KEYFRAMES.length - 1];
-                camera.lookAt(last[0], last[1], last[2], last[3], last[4], last[5], 0.0, 1.0, 0.0);
-                tourRunning = false;
-                if (structureListener != null) {
-                    structureListener.onTourStructureChanged(TOUR_KEYFRAMES.length - 1);
-                }
-                return;
-            }
-            if (structureListener != null) {
-                structureListener.onTourStructureChanged(tourKeyframe);
-            }
-        }
-
-        int nextKeyframe = Math.min(tourKeyframe + 1, TOUR_KEYFRAMES.length - 1);
-        float[] from = TOUR_KEYFRAMES[tourKeyframe];
-        float[] to   = TOUR_KEYFRAMES[nextKeyframe];
-        float   s    = smoothstep(tourProgress);
-
-        double eyeX    = lerp(from[0], to[0], s);
-        double eyeY    = lerp(from[1], to[1], s);
-        double eyeZ    = lerp(from[2], to[2], s);
-        double targetX = lerp(from[3], to[3], s);
-        double targetY = lerp(from[4], to[4], s);
-        double targetZ = lerp(from[5], to[5], s);
-
-        camera.lookAt(eyeX, eyeY, eyeZ, targetX, targetY, targetZ, 0.0, 1.0, 0.0);
+    private void updateCameraProjection(int w, int h) {
+        double aspect = (double) w / Math.max(1, h);
+        camera.setProjection(FOV_GRAUS, aspect, 0.1, 400.0, Camera.Fov.VERTICAL);
     }
 
-    private static float lerp(float a, float b, float t) {
-        return a + (b - a) * t;
-    }
+    // ------------------------------------------------------------------
+    // Render
+    // ------------------------------------------------------------------
 
-    private static float smoothstep(float t) {
-        return t * t * (3f - 2f * t);
-    }
-
+    /** Chamado a cada VSync pela AnatomySurfaceView. */
     public void render(long frameTimeNanos) {
+        // A carga das texturas anda mesmo antes da surface existir.
+        atualizarCarga();
         if (swapChain == null) return;
-        if (tourRunning) updateTour(frameTimeNanos);
-        animateBreathing(frameTimeNanos);
-        animateTongue(frameTimeNanos);
         if (renderer.beginFrame(swapChain, frameTimeNanos)) {
             renderer.render(view);
             renderer.endFrame();
         }
     }
 
-    private void animateBreathing(long frameTimeNanos) {
-        if (useGlb) return;
-        if (animStartNanos < 0) animStartNanos = frameTimeNanos;
-        float elapsed = (frameTimeNanos - animStartNanos) / 1_000_000_000.0f;
-
-        if (bodyEntity != 0) {
-            TransformManager tm = engine.getTransformManager();
-            int t = tm.getInstance(bodyEntity);
-            if (t != 0) {
-                float breath = 1.0f + 0.003f * (float) Math.sin(elapsed * 2.094f);
-                float s = modelScale;
-                breathMatrix[0] = s;
-                breathMatrix[1] = 0;
-                breathMatrix[2] = 0;
-                breathMatrix[3] = 0;
-                breathMatrix[4] = 0;
-                breathMatrix[5] = s * breath;
-                breathMatrix[6] = 0;
-                breathMatrix[7] = 0;
-                breathMatrix[8] = 0;
-                breathMatrix[9] = 0;
-                breathMatrix[10] = s;
-                breathMatrix[11] = 0;
-                breathMatrix[12] = 0;
-                breathMatrix[13] = 0;
-                breathMatrix[14] = 0;
-                breathMatrix[15] = 1;
-                tm.setTransform(t, breathMatrix);
-            }
-        }
+    /**
+     * Chamado quando a surface foi destruída — o SwapChain já foi liberado por
+     * lá. Só zera a referência pra o destroy() não tentar liberar duas vezes
+     * (era o crash "Calling method on destroyed SwapChain").
+     */
+    public void invalidateSwapChain() {
+        this.swapChain = null;
     }
 
-    private void animateTongue(long frameTimeNanos) {
-        if (tongueEntity == 0) return;
-        if (animStartNanos < 0) animStartNanos = frameTimeNanos;
-        float elapsed = (frameTimeNanos - animStartNanos) / 1_000_000_000.0f;
-
-        TransformManager tm = engine.getTransformManager();
-        int t = tm.getInstance(tongueEntity);
-        if (t != 0) {
-            float oscX = 0.5f * (float) Math.sin(elapsed * 5.0f);
-            tm.setTransform(t, matrixTranslation(
-                (2.8f + oscX) * modelScale, 0.30f * modelScale, 0.0f));
-        }
-    }
-
-    public void destroy() {
-        RenderableManager rm = engine.getRenderableManager();
-        TransformManager tm = engine.getTransformManager();
-
-        for (int e : hotspotEntities) {
-            if (e == 0) continue;
-            scene.removeEntity(e);
-            if (rm.hasComponent(e)) rm.destroy(e);
-            tm.destroy(e);
-            EntityManager.get().destroy(e);
-        }
-        hotspotEntities.clear();
-        hotspotWorldPositions.clear();
-
-        if (bodyEntity != 0) {
-            scene.removeEntity(bodyEntity);
-            if (rm.hasComponent(bodyEntity)) rm.destroy(bodyEntity);
-            tm.destroy(bodyEntity);
-            EntityManager.get().destroy(bodyEntity);
-            bodyEntity = 0;
-        }
-        if (headEntity != 0) {
-            scene.removeEntity(headEntity);
-            if (rm.hasComponent(headEntity)) rm.destroy(headEntity);
-            tm.destroy(headEntity);
-            EntityManager.get().destroy(headEntity);
-            headEntity = 0;
-        }
-        if (leftEyeEntity != 0) {
-            scene.removeEntity(leftEyeEntity);
-            if (rm.hasComponent(leftEyeEntity)) rm.destroy(leftEyeEntity);
-            tm.destroy(leftEyeEntity);
-            EntityManager.get().destroy(leftEyeEntity);
-            leftEyeEntity = 0;
-        }
-        if (rightEyeEntity != 0) {
-            scene.removeEntity(rightEyeEntity);
-            if (rm.hasComponent(rightEyeEntity)) rm.destroy(rightEyeEntity);
-            tm.destroy(rightEyeEntity);
-            EntityManager.get().destroy(rightEyeEntity);
-            rightEyeEntity = 0;
-        }
-        if (tongueEntity != 0) {
-            scene.removeEntity(tongueEntity);
-            if (rm.hasComponent(tongueEntity)) rm.destroy(tongueEntity);
-            tm.destroy(tongueEntity);
-            EntityManager.get().destroy(tongueEntity);
-            tongueEntity = 0;
-        }
-
-        for (int e : modelEntities) {
-            if (e == 0) continue;
-            scene.removeEntity(e);
-            if (rm.hasComponent(e)) rm.destroy(e);
-            EntityManager.get().destroy(e);
-        }
-        modelEntities.clear();
-
-        if (lightEntity != 0) {
-            scene.removeEntity(lightEntity);
-            if (engine.getLightManager().hasComponent(lightEntity)) {
-                engine.getLightManager().destroy(lightEntity);
-            }
-            EntityManager.get().destroy(lightEntity);
-            lightEntity = 0;
-        }
-        if (fillLightEntity != 0) {
-            scene.removeEntity(fillLightEntity);
-            if (engine.getLightManager().hasComponent(fillLightEntity)) {
-                engine.getLightManager().destroy(fillLightEntity);
-            }
-            EntityManager.get().destroy(fillLightEntity);
-            fillLightEntity = 0;
-        }
-        if (rimLightEntity != 0) {
-            scene.removeEntity(rimLightEntity);
-            if (engine.getLightManager().hasComponent(rimLightEntity)) {
-                engine.getLightManager().destroy(rimLightEntity);
-            }
-            EntityManager.get().destroy(rimLightEntity);
-            rimLightEntity = 0;
-        }
-        if (swapChain != null) {
-            engine.destroySwapChain(swapChain);
-            swapChain = null;
-        }
-        if (skybox != null) { engine.destroySkybox(skybox); skybox = null; }
-        if (bodyMesh != null) { bodyMesh.destroy(engine); bodyMesh = null; }
-        if (leftEyeMesh != null) { leftEyeMesh.destroy(engine); leftEyeMesh = null; }
-        if (rightEyeMesh != null) { rightEyeMesh.destroy(engine); rightEyeMesh = null; }
-        if (tongueMesh != null) { tongueMesh.destroy(engine); tongueMesh = null; }
-        if (sphereMesh != null) { sphereMesh.destroy(engine); sphereMesh = null; }
-        if (hotspotMesh != null) { hotspotMesh.destroy(engine); hotspotMesh = null; }
-
-        engine.destroyView(view);
-        engine.destroyScene(scene);
-        engine.destroyCameraComponent(camera.getEntity());
-        EntityManager.get().destroy(camera.getEntity());
-        materialProvider.destroy();
-    }
-
-    public int pickHotspotIndex(int screenX, int screenY, int viewWidth, int viewHeight,
-                                List<AnatomyHotspot> hotspots) {
-        if (hotspots == null || hotspots.isEmpty() || hotspotWorldPositions.isEmpty()) {
-            return -1;
-        }
-        if (viewWidth <= 0 || viewHeight <= 0) return -1;
-
-        float ndcX = (2.0f * screenX) / viewWidth - 1.0f;
-        float ndcY = 1.0f - (2.0f * screenY) / viewHeight;
-
-        float[] eyeF = new float[3];
-        camera.getPosition(eyeF);
-        float[] dirFF = new float[3];
-        camera.getForwardVector(dirFF);
-
-        double[] eye = new double[]{ eyeF[0], eyeF[1], eyeF[2] };
-        double[] dirF = new double[]{ dirFF[0], dirFF[1], dirFF[2] };
-
-        double[] up = { 0.0, 1.0, 0.0 };
-        double[] dirR = cross(dirF, up);
-        normalize(dirR);
-        double[] dirU = cross(dirR, dirF);
-        normalize(dirU);
-
-        double aspect = (double) viewWidth / viewHeight;
-        double fovRad = Math.toRadians(50.0);
-        double halfH = Math.tan(fovRad / 2.0);
-        double halfW = halfH * aspect;
-
-        double[] rayDir = new double[3];
-        rayDir[0] = dirF[0] + dirR[0] * ndcX * halfW + dirU[0] * ndcY * halfH;
-        rayDir[1] = dirF[1] + dirR[1] * ndcX * halfW + dirU[1] * ndcY * halfH;
-        rayDir[2] = dirF[2] + dirR[2] * ndcX * halfW + dirU[2] * ndcY * halfH;
-        normalize(rayDir);
-
-        double bestT = Double.MAX_VALUE;
-        int bestIdx = -1;
-        for (int i = 0; i < hotspotWorldPositions.size(); i++) {
-            float[] p = hotspotWorldPositions.get(i);
-            double vx = p[0] - eye[0];
-            double vy = p[1] - eye[1];
-            double vz = p[2] - eye[2];
-            double t = vx * rayDir[0] + vy * rayDir[1] + vz * rayDir[2];
-            if (t < 0) continue;
-            double px = rayDir[0] * t;
-            double py = rayDir[1] * t;
-            double pz = rayDir[2] * t;
-            double dx = vx - px;
-            double dy = vy - py;
-            double dz = vz - pz;
-            double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            if (d < 0.6 && t < bestT) {
-                bestT = t;
-                bestIdx = i;
-            }
-        }
-        return bestIdx;
-    }
-
-    private static double[] cross(double[] a, double[] b) {
-        return new double[]{
-            a[1] * b[2] - a[2] * b[1],
-            a[2] * b[0] - a[0] * b[2],
-            a[0] * b[1] - a[1] * b[0]
-        };
-    }
-
-    private static void normalize(double[] v) {
-        double len = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-        if (len < 1e-9) return;
-        v[0] /= len; v[1] /= len; v[2] /= len;
-    }
+    // ------------------------------------------------------------------
+    // Setup da cena
+    // ------------------------------------------------------------------
 
     private void setupViewDefaults() {
         view.setCamera(camera);
 
-        skybox = new Skybox.Builder()
-            .color(new float[]{ 0.015f, 0.025f, 0.02f, 1.0f })
-            .build(engine);
-        scene.setSkybox(skybox);
-
+        // Fundo do 3D: transparente (alfa 0). Quem pinta o branco na tela é a View
+        // do Android atrás do SurfaceView — porque o LUT do color grading não
+        // consegue devolver branco 255 (satura em 247) e o fundo ficava mais
+        // escuro que o branco do resto do app. Ver o comentário em
+        // AnatomySurfaceView.init(). Sem skydome nenhum — nada de gradiente.
+        scene.setSkybox(null);
         Renderer.ClearOptions clearOpts = new Renderer.ClearOptions();
-        clearOpts.clearColor = new double[]{ 0.015, 0.025, 0.02, 1.0 };
+        clearOpts.clearColor = new double[]{ 0.0, 0.0, 0.0, 0.0 };
         clearOpts.clear = true;
         renderer.setClearOptions(clearOpts);
+
+        // O tone mapping do Filament roda no frame INTEIRO, inclusive no fundo,
+        // e o ACES_LEGACY (padrão) transforma branco 1,0 em ~(230,225,219) — era
+        // por isso que o fundo do 3D "não era branco" mesmo com clear color 1,1,1.
+        // Aqui a gente troca pelo LINEAR, que devolve a cor de entrada: 1,0 = 255.
+        //
+        // ⚠️ No Filament 1.72 o antigo View.setToneMapping() está @Deprecated e o
+        // corpo dele é literalmente VAZIO (é um no-op) — quem manda no tone mapping
+        // agora é o ColorGrading. Por isso a solução é montar um ColorGrading, não
+        // chamar aquele setter.
+        colorGrading = new ColorGrading.Builder()
+            .toneMapper(new ToneMapper.Linear())
+            .quality(ColorGrading.QualityLevel.HIGH)
+            .build(engine);
+        view.setColorGrading(colorGrading);
+
         view.setShadowingEnabled(true);
         view.setAntiAliasing(View.AntiAliasing.FXAA);
         view.setDithering(View.Dithering.TEMPORAL);
@@ -760,19 +473,88 @@ public final class Anatomy3DRenderer {
         vsm.mipmapping = true;
         vsm.msaaSamples = 2;
         vsm.highPrecision = true;
-        vsm.minVarianceScale = 0.5f;
-        vsm.lightBleedReduction = 0.15f;
+        vsm.minVarianceScale = 0.75f;
+        vsm.lightBleedReduction = 0.08f;
         view.setVsmShadowOptions(vsm);
 
-        View.BloomOptions bloom = new View.BloomOptions();
-        bloom.enabled = true;
-        bloom.dirt = null;
-        view.setBloomOptions(bloom);
+        setupEnvironmentLight();
     }
 
+    /**
+     * Luz de ambiente neutra (IBL).
+     *
+     * Um modelo PBR precisa de luz ambiente pra as partes escuras não virarem
+     * preto chapado e pra o brilho das escamas refletir alguma coisa. Sem um
+     * HDRI de verdade, geramos um cubemap CINZA CLARO liso em memória (16x16,
+     * 6 faces) e usamos ele como reflexo e como luz difusa.
+     *
+     * A versão antiga usava aqui um gradiente esmeralda (o "fundo verde") —
+     * como o Kaio reprovou aquele visual, agora é um cinza neutro de estúdio,
+     * que é o que dá o look de "visualizador 3D do Google".
+     */
+    private void setupEnvironmentLight() {
+        try {
+            environmentTexture = buildNeutralCubemap();
+            IndirectLight ibl = new IndirectLight.Builder()
+                .reflections(environmentTexture)
+                .irradiance(environmentTexture)
+                .intensity(25_000.0f)
+                .build(engine);
+            scene.setIndirectLight(ibl);
+            indirectLight = ibl;
+        } catch (Throwable t) {
+            // Se o IBL falhar, o modelo continua iluminado pelas 3 luzes
+            // direcionais — só perde um pouco do brilho de ambiente.
+            Log.w(TAG, "Luz de ambiente indisponivel, seguindo so com as direcionais", t);
+        }
+    }
+
+    private Texture buildNeutralCubemap() {
+        int faceSize = 16;
+        int pixelsPorFace = faceSize * faceSize;
+        byte[] face = new byte[pixelsPorFace * 4];
+        // Cinza claro (215) em todos os pixels — luz de estúdio, sem cor.
+        for (int i = 0; i < pixelsPorFace; i++) {
+            face[i * 4]     = (byte) 215;
+            face[i * 4 + 1] = (byte) 215;
+            face[i * 4 + 2] = (byte) 215;
+            face[i * 4 + 3] = (byte) 255;
+        }
+        // Cubemap = 6 faces (+X, -X, +Y, -Y, +Z, -Z): o mesmo cinza nas seis.
+        ByteBuffer allFaces = ByteBuffer
+            .allocateDirect(pixelsPorFace * 4 * 6)
+            .order(ByteOrder.nativeOrder());
+        for (int f = 0; f < 6; f++) {
+            allFaces.put(face);
+        }
+        allFaces.flip();
+
+        Texture texture = new Texture.Builder()
+            .width(faceSize)
+            .height(faceSize)
+            .levels(1)
+            .format(Texture.InternalFormat.RGBA8)
+            .sampler(Texture.Sampler.SAMPLER_CUBEMAP)
+            .usage(Texture.Usage.UPLOADABLE | Texture.Usage.SAMPLEABLE)
+            .build(engine);
+
+        texture.setImage(engine, 0, 0, 0, 0, faceSize, faceSize, 6,
+            new Texture.PixelBufferDescriptor(
+                allFaces,
+                Texture.Format.RGBA,
+                Texture.Type.UBYTE,
+                1));
+
+        return texture;
+    }
+
+    /**
+     * Três luzes direcionais: uma principal quente (faz a sombra) + um
+     * preenchimento azulado + um contraluz. É o esquema clássico de estúdio —
+     * dá volume no corpo da cobra e separa ela do fundo branco.
+     */
     private void setupLighting() {
         lightEntity = EntityManager.get().create();
-        LightManager lm = engine.getLightManager();
         LightManager.ShadowOptions shadowOpts = new LightManager.ShadowOptions();
         shadowOpts.mapSize = 2048;
         shadowOpts.shadowCascades = 4;
@@ -781,9 +563,9 @@ public final class Anatomy3DRenderer {
         shadowOpts.normalBias = 0.002f;
 
         LightManager.Builder sun = new LightManager.Builder(LightManager.Type.DIRECTIONAL)
-            .color(1.0f, 0.92f, 0.75f)
-            .intensity(120_000.0f)
-            .direction(-0.4f, -1.0f, -0.2f)
+            .color(1.05f, 0.96f, 0.88f)
+            .intensity(28_000.0f)
+            .direction(-0.35f, -0.85f, -0.25f)
             .castShadows(true)
             .shadowOptions(shadowOpts);
         sun.build(engine, lightEntity);
@@ -791,66 +573,74 @@ public final class Anatomy3DRenderer {
 
         fillLightEntity = EntityManager.get().create();
         LightManager.Builder fill = new LightManager.Builder(LightManager.Type.DIRECTIONAL)
-            .color(0.45f, 0.55f, 0.85f)
-            .intensity(35_000.0f)
-            .direction(0.7f, 0.3f, 0.6f)
+            .color(0.40f, 0.50f, 0.60f)
+            .intensity(12_000.0f)
+            .direction(0.75f, 0.25f, 0.65f)
             .castShadows(false);
         fill.build(engine, fillLightEntity);
         scene.addEntity(fillLightEntity);
 
         rimLightEntity = EntityManager.get().create();
         LightManager.Builder rim = new LightManager.Builder(LightManager.Type.DIRECTIONAL)
-            .color(0.8f, 0.85f, 1.0f)
-            .intensity(25_000.0f)
-            .direction(0.0f, 0.8f, -1.0f)
+            .color(0.55f, 0.85f, 0.75f)
+            .intensity(18_000.0f)
+            .direction(0.0f, 0.55f, -1.0f)
             .castShadows(false);
         rim.build(engine, rimLightEntity);
         scene.addEntity(rimLightEntity);
     }
 
-    private void updateCameraProjection(int w, int h) {
-        double aspect = (double) w / Math.max(1, h);
-        camera.setProjection(50.0, aspect, 0.1, 200.0, Camera.Fov.VERTICAL);
-        orbitTargetX = 0.0f;
-        orbitTargetY = 0.0f;
-        orbitTargetZ = 0.0f;
-        orbitDistance = 25.0f;
-        orbitTheta = (float) Math.PI / 2.0f;
-        orbitPhi = 0.266f;
-        updateOrbitCamera();
+    // ------------------------------------------------------------------
+    // Limpeza
+    // ------------------------------------------------------------------
+
+    public void destroy() {
+        // Marca antes de tudo: se a thread de fundo ainda estiver lendo o arquivo
+        // ela para aí e não cria nada num engine prestes a morrer.
+        synchronized (cadeadoCarga) {
+            destruido = true;
+        }
+        cargaAplicada = false;
+
+        // O antigo vazamento morava aqui: asset, AssetLoader, UbershaderProvider e
+        // ResourceLoader nunca eram liberados (~12 MB de memória nativa por
+        // entrada na tela). TEM que ser antes do engine.destroy(), porque os
+        // materiais e as texturas vivem dentro do engine.
+        if (carga != null) {
+            GlbLoader.destroy(carga);
+            carga = null;
+        }
+        modelEntities.clear();
+
+        destroyLight(lightEntity);
+        lightEntity = 0;
+        destroyLight(fillLightEntity);
+        fillLightEntity = 0;
+        destroyLight(rimLightEntity);
+        rimLightEntity = 0;
+
+        scene.setIndirectLight(null);
+        if (indirectLight != null) { engine.destroyIndirectLight(indirectLight); indirectLight = null; }
+        if (environmentTexture != null) { engine.destroyTexture(environmentTexture); environmentTexture = null; }
+        if (colorGrading != null) { engine.destroyColorGrading(colorGrading); colorGrading = null; }
+
+        if (swapChain != null) {
+            engine.destroySwapChain(swapChain);
+            swapChain = null;
+        }
+
+        engine.destroyView(view);
+        engine.destroyScene(scene);
+        engine.destroyCameraComponent(camera.getEntity());
+        EntityManager.get().destroy(camera.getEntity());
     }
 
-    private int makeRenderable(VertexBuffer vb, IndexBuffer ib, int indexCount,
-                               MaterialInstance mat, boolean culling,
-                               boolean castShadows, boolean receiveShadows) {
-        int entity = EntityManager.get().create();
-        RenderableManager.Builder b = new RenderableManager.Builder(1)
-            .boundingBox(new Box(-3.0f, -0.8f, -0.8f, 3.0f, 0.8f, 0.8f))
-            .geometry(0, RenderableManager.PrimitiveType.TRIANGLES, vb, ib)
-            .material(0, mat)
-            .culling(culling)
-            .castShadows(castShadows)
-            .receiveShadows(receiveShadows);
-        b.build(engine, entity);
-        engine.getRenderableManager().setMaterialInstanceAt(entity, 0, mat);
-        return entity;
-    }
-
-    private static float[] matrixTranslation(float x, float y, float z) {
-        return new float[]{
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            x, y, z, 1
-        };
-    }
-
-    private static float[] scaleMatrix(float s) {
-        return new float[]{
-            s, 0, 0, 0,
-            0, s, 0, 0,
-            0, 0, s, 0,
-            0, 0, 0, 1
-        };
+    private void destroyLight(int entity) {
+        if (entity == 0) return;
+        scene.removeEntity(entity);
+        if (engine.getLightManager().hasComponent(entity)) {
+            engine.getLightManager().destroy(entity);
+        }
+        EntityManager.get().destroy(entity);
     }
 }

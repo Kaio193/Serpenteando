@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Racha de 7 días",
+    "description": "Responde quizzes por 7 días seguidos y evoluciona",
+    "totalDays": 7,
+    "points": 500,
+    "items": [
+      {"id": 1, "text": "Responde 3 quizzes fáciles", "trigger": "QUIZ_FACIL", "target": 3},
+      {"id": 2, "text": "Responde 2 quizzes medios", "trigger": "QUIZ_MEDIO", "target": 2},
+      {"id": 3, "text": "Responde 1 quiz difícil", "trigger": "QUIZ_DIFICIL", "target": 1}
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Explorador de la Fauna",
+    "description": "Conoce serpientes y prueba tus conocimientos",
+    "totalDays": 0,
+    "points": 300,
+    "items": [
+      {"id": 1, "text": "Abre 5 fichas en la enciclopedia", "trigger": "CONTENT_DETAIL", "target": 5},
+      {"id": 2, "text": "Responde 1 quiz medio", "trigger": "QUIZ_MEDIO", "target": 1},
+      {"id": 3, "text": "Responde 2 quizzes fáciles", "trigger": "QUIZ_FACIL", "target": 2}
+    ]
+  }
+]

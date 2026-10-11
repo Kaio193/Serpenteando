@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/transparent">
+    android:background="@drawable/mode_light_screen">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="@dimen/space_16"
+            android:paddingTop="@dimen/space_32"
             android:paddingBottom="@dimen/space_32">
 
             <!-- Header: título + pontuação -->
@@ -27,12 +27,15 @@
                 android:paddingHorizontal="@dimen/space_20"
                 android:paddingBottom="@dimen/space_16">
 
+                <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09):
+                     o logo fica SO na Home. -->
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/SerpenteandoLargeTitle"
-                    android:text="Missões"
+                    android:text="@string/nav_missions"
                     android:textStyle="bold" />
 
                 <TextView
@@ -41,119 +44,148 @@
                     android:layout_height="wrap_content"
                     style="@style/SerpenteandoTitle3"
                     android:textColor="@color/cascavel_jade"
-                    android:text="2.450 pts" />
+                    android:text="@string/mission_default_score" />
             </LinearLayout>
 
-            <!-- Card da missão ativa -->
+            <!-- Card destaque: anel à esquerda + infos à direita (mockup) -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/AppleCard"
+                style="@style/SerpenteandoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/space_20"
-                android:layout_marginBottom="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_24"
                 app:cardCornerRadius="20dp"
                 app:cardBackgroundColor="@color/cascavel_surface_container"
                 app:strokeWidth="1dp"
-                app:strokeColor="@color/cascavel_jade"
-                app:contentPadding="@dimen/space_16">
+                app:strokeColor="@color/cascavel_gold"
+                app:contentPadding="@dimen/space_20">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <!-- Linha: anel de progresso + texto -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                    <!-- Anel de progresso circular com % dentro -->
+                    <FrameLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp">
 
-                        <FrameLayout
-                            android:layout_width="56dp"
-                            android:layout_height="56dp">
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/missionProgressRing"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:layout_gravity="center"
+                            app:indicatorColor="@color/cascavel_jade"
+                            app:trackColor="@color/cascavel_outline"
+                            app:indicatorSize="96dp"
+                            app:trackThickness="7dp"
+                            app:trackCornerRadius="4dp"
+                            android:max="100"
+                            android:progress="0" />
 
-                            <ProgressBar
-                                android:id="@+id/missionProgressRing"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:max="100"
-                                android:progress="75"
-                                android:progressTint="@color/cascavel_jade"
-                                android:progressBackgroundTint="@color/cascavel_outline"
-                                android:indeterminate="false" />
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/missionPercentText"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="@dimen/space_16">
+                            android:layout_gravity="center"
+                            android:text="0%"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/inter_semibold"
+                            android:textColor="@color/cascavel_on_bg" />
+                    </FrameLayout>
 
-                            <TextView
-                                android:id="@+id/missionTitleText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/SerpenteandoTitle2"
-                                android:text="Ofensiva de 7 dias"
-                                android:textColor="@color/cascavel_on_bg" />
-
-                            <TextView
-                                android:id="@+id/missionDescText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/space_4"
-                                style="@style/SerpenteandoFootnote"
-                                android:text="Responda quizzes por 7 dias seguidos"
-                                android:textColor="@color/cascavel_on_surface_variant" />
-
-                            <TextView
-                                android:id="@+id/missionProgressText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/space_4"
-                                style="@style/SerpenteandoHeadline"
-                                android:textColor="@color/cascavel_gold"
-                                android:text="Dia 5 de 7" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Checklist de itens -->
+                    <!-- Textos da missão -->
                     <LinearLayout
-                        android:id="@+id/missionChecklist"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical"
-                        android:layout_marginTop="@dimen/space_16" />
+                        android:layout_marginStart="@dimen/space_16">
 
-                    <!-- Botão outline gold -->
-                    <TextView
-                        android:id="@+id/verifyProgressButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/min_touch_target"
-                        android:layout_marginTop="@dimen/space_16"
-                        android:gravity="center"
-                        android:text="Verificar Progresso"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/cascavel_gold"
-                        android:background="@drawable/button_gold"
-                        android:clickable="true"
-                        android:focusable="true" />
+                        <TextView
+                            android:id="@+id/missionTitleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="19sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="@string/mission_default_title"
+                            android:textColor="@color/cascavel_on_bg" />
 
-                    <TextView
-                        android:id="@+id/missionItemCountText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_8"
-                        android:gravity="center"
-                        style="@style/SerpenteandoFootnote"
-                        android:text="3/4 itens concluídos" />
+                        <TextView
+                            android:id="@+id/missionDescText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_6"
+                            android:textSize="13sp"
+                            android:lineSpacingMultiplier="1.3"
+                            android:fontFamily="@font/inter"
+                            android:text="@string/mission_default_desc"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+
+                        <!-- Dia X de Y em verde (como no mockup) -->
+                        <TextView
+                            android:id="@+id/missionProgressText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_10"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/inter_semibold"
+                            android:textColor="@color/cascavel_jade"
+                            android:text="@string/mission_day_counter" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Checklist de itens.
+                 Margem 20dp (era 24dp): agora o checklist alinha com o card de
+                 destaque, com o título e com o botão — todos na mesma coluna
+                 (item 19 do doc, 07/10). -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/missionChecklist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Botão verificar progresso — pill outline dourado -->
+            <TextView
+                android:id="@+id/verifyProgressButton"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_20"
+                android:gravity="center"
+                android:text="@string/mission_verify_progress"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/cascavel_jade"
+                android:background="@drawable/btn_outline_gold"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Badge dourado preenchido: "3/4 itens concluídos" -->
+            <TextView
+                android:id="@+id/missionItemCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_14"
+                android:paddingHorizontal="@dimen/space_18"
+                android:paddingVertical="@dimen/space_8"
+                android:background="@drawable/chip_gold_filled"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/black"
+                android:text="@string/mission_items_done" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

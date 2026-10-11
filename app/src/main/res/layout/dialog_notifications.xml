@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog: configurações de notificação — compacto e largo -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_glass_bg"
+    android:layout_marginHorizontal="28dp"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="20dp">
+
+    <!-- Ícone -->
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_notification"
+        android:importantForAccessibility="no"
+        app:tint="@color/cascavel_jade_bright" />
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/settings_notifications"
+        android:textSize="@dimen/serp_title2"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/cascavel_on_bg" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:gravity="center"
+        android:text="@string/dialog_notif_subtitle"
+        android:textSize="@dimen/serp_body"
+        android:textColor="@color/cascavel_on_surface_variant" />
+
+    <!-- Opções de notificação -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_20"
+        android:orientation="vertical"
+        android:background="@drawable/settings_group_bg"
+        android:padding="@dimen/space_12">
+
+        <!-- Lembretes diários -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_8">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notif_daily"
+                    android:textSize="@dimen/serp_callout"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/cascavel_on_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/dialog_notif_daily_desc"
+                    android:textSize="@dimen/serp_footnote"
+                    android:textColor="@color/cascavel_on_surface_variant" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchDailyReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="@color/cascavel_jade_bright"
+                android:trackTint="@color/cascavel_outline"
+                android:checked="true" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cascavel_outline" />
+
+        <!-- Novas missões -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_8">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notif_missions"
+                    android:textSize="@dimen/serp_callout"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/cascavel_on_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/dialog_notif_missions_desc"
+                    android:textSize="@dimen/serp_footnote"
+                    android:textColor="@color/cascavel_on_surface_variant" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchNewMissions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="@color/cascavel_jade_bright"
+                android:trackTint="@color/cascavel_outline"
+                android:checked="true" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cascavel_outline" />
+
+        <!-- Conquistas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_8">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_notif_achievements"
+                    android:textSize="@dimen/serp_callout"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textColor="@color/cascavel_on_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/dialog_notif_achievements_desc"
+                    android:textSize="@dimen/serp_footnote"
+                    android:textColor="@color/cascavel_on_surface_variant" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchAchievements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:thumbTint="@color/cascavel_jade_bright"
+                android:trackTint="@color/cascavel_outline"
+                android:checked="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botão salvar -->
+    <TextView
+        android:id="@+id/dialogSaveButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dialog_btn_primary"
+        android:gravity="center"
+        android:text="@string/settings_close"
+        android:textColor="@color/cascavel_on_button"
+        android:textSize="@dimen/serp_callout"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>

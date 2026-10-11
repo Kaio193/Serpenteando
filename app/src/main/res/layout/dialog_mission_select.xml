@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog: seleção de missão — compacto e largo -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_glass_bg"
+    android:layout_marginHorizontal="28dp"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="20dp">
+
+    <!-- Ícone -->
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_missao"
+        android:importantForAccessibility="no"
+        app:tint="@color/cascavel_jade_bright" />
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/missions_select"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/cascavel_on_bg" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/mission_select_subtitle"
+        android:textSize="14sp"
+        android:textColor="@color/cascavel_on_surface_variant"
+        android:fontFamily="@font/inter" />
+
+    <!-- Lista de missões -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:maxHeight="360dp"
+        android:fadeScrollbars="true"
+        android:scrollbarStyle="outsideOverlay">
+
+        <LinearLayout
+            android:id="@+id/missionListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <!-- Botão voltar -->
+    <TextView
+        android:id="@+id/dialogBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/dialog_btn_secondary"
+        android:gravity="center"
+        android:text="@string/missions_back"
+        android:textColor="@color/cascavel_jade"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>

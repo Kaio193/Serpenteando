@@ -15,3 +15,7 @@ local.properties
 *.jks
 *.keystore
 *.hprof
+
+# Credenciais locais - NUNCA versionar (achado em 11/10/2026)
+scripts/.gemini_key
+*.gemini_key

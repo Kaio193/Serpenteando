@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.kaio.cobra3d.R;
 import com.kaio.cobra3d.adapter.OnboardingPagerAdapter;
+import com.kaio.cobra3d.util.LocaleHelper;
 
 public class OnboardingActivity extends AppCompatActivity {
 
@@ -36,20 +37,12 @@ public class OnboardingActivity extends AppCompatActivity {
             R.drawable.ic_missao
     };
 
-    private final String[] titles = {
-            "Conheça as Serpentes",
-            "Teste seu Conhecimento",
-            "Complete Missões"
-    };
-
-    private final String[] descriptions = {
-            "Explore informações detalhadas sobre cobras brasileiras, aprenda a identificar espécies e entenda seus habitats.",
-            "Desafie-se com quizzes interativos sobre os mais diversos temas do mundo das serpentes.",
-            "Ganhe pontos e desbloqueie conquistas completando missões e atividades educativas."
-    };
+    private String[] titles;
+    private String[] descriptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LocaleHelper.onAttach(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
 
@@ -64,8 +57,21 @@ public class OnboardingActivity extends AppCompatActivity {
         skipButton = findViewById(R.id.skipButton);
         nextButton = findViewById(R.id.nextButton);
 
+        // Carrega strings traduzidas
+        titles = new String[]{
+                getString(R.string.onboard_title_1),
+                getString(R.string.onboard_title_2),
+                getString(R.string.onboard_title_3)
+        };
+        descriptions = new String[]{
+                getString(R.string.onboard_desc_1),
+                getString(R.string.onboard_desc_2),
+                getString(R.string.onboard_desc_3)
+        };
+
         adapter = new OnboardingPagerAdapter(this, images, titles, descriptions);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(images.length);
         viewPager.addOnPageChangeListener(pageChangeListener);
 
         setupDots(0);
@@ -95,7 +101,7 @@ public class OnboardingActivity extends AppCompatActivity {
             if (i == current) {
                 shape.setColor(ContextCompat.getColor(this, R.color.cascavel_jade));
             } else {
-                shape.setColor(ContextCompat.getColor(this, R.color.cascavel_on_surface_variant));
+                shape.setColor(ContextCompat.getColor(this, R.color.onboarding_text_muted));
             }
             dot.setBackground(shape);
             dotsLayout.addView(dot);
@@ -111,10 +117,10 @@ public class OnboardingActivity extends AppCompatActivity {
             setupDots(position);
             if (position == images.length - 1) {
                 skipButton.setVisibility(View.GONE);
-                nextButton.setText("Começar");
+                nextButton.setText(R.string.onboarding_start);
             } else {
                 skipButton.setVisibility(View.VISIBLE);
-                nextButton.setText("Próximo");
+                nextButton.setText(R.string.onboarding_next);
             }
         }
 

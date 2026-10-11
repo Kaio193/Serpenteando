@@ -36,10 +36,10 @@ public class MythTruthAdapter extends RecyclerView.Adapter<MythTruthAdapter.View
         holder.explanationText.setText(item.getExplanation());
 
         if (item.isMyth()) {
-            holder.badgeText.setText("MITO");
+            holder.badgeText.setText(R.string.label_mito);
             holder.badgeText.setBackgroundResource(R.drawable.badge_myth);
         } else {
-            holder.badgeText.setText("VERDADE");
+            holder.badgeText.setText(R.string.label_verdade);
             holder.badgeText.setBackgroundResource(R.drawable.badge_truth);
         }
     }

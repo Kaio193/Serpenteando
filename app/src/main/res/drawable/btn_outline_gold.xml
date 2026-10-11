@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Botao transparente pílula (so o "Verificar progresso" da missao).
+     Segue sendo transparente, mas o contorno agora usa o verde padrao dos
+     botoes (Kaio, 30/09) — antes era dourado. O nome do arquivo ficou, pra
+     nao mexer na estrutura do projeto. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/cascavel_jade" />
+    <corners android:radius="999dp" />
+</shape>

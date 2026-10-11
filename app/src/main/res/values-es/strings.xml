@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Serpenteando</string>
+
+    <!-- ========== BOTTOM NAV / NAV GRAPH ========== -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_missions">Misiones</string>
+    <string name="nav_3d">3D</string>
+    <string name="nav_settings">Config</string>
+    <string name="nav_content">Contenido</string>
+    <!-- ========== HOME ========== -->
+    <string name="hero_title_home">Domina el mundo de las serpientes</string>
+    <string name="home_greeting">Bienvenido, Explorador</string>
+
+    <string name="home_score_label">Puntuación</string>
+    <string name="home_missions_label">Misiones</string>
+    <string name="home_missions_active">completadas</string>
+    <string name="home_streak_label">Racha</string>
+    <string name="home_streak_days">Días</string>
+    <string name="home_explore_title">Explorar</string>
+    <string name="home_tip_title">Consejo del día</string>
+    <string name="home_grid_quiz">Quiz</string>
+    <string name="home_grid_myths">Mitos</string>
+    <string name="home_score_pts">pts</string>
+    <string name="home_tip_text">¿Sabías que la cascabel agita su cascabel para avisar que está allí y evitar confrontaciones?</string>
+    <string name="home_tip_example">¿Sabías que la cascabel agita su cascabel para avisar que está allí y evitar confrontaciones?</string>
+
+    <!-- ========== QUIZ ========== -->
+    <string name="quiz_difficulty_title">Seleccionar Dificultad</string>
+    <string name="quiz_difficulty_subtitle">Elige el nivel del desafío</string>
+    <string name="quiz_title">Quiz</string>
+    <string name="quiz_label_correct">CORRECTO</string>
+    <string name="quiz_correct_example">¡Correcto!</string>
+    <string name="quiz_easy">Fácil</string>
+    <string name="quiz_medium">Medio</string>
+    <string name="quiz_hard">Difícil</string>
+    <string name="quiz_points_badge_format" formatted="false">+%d puntos</string>
+    <string name="quiz_question_example">¿Cuál de estas serpientes se considera la más venenosa de Brasil?</string>
+    <string name="quiz_next">Siguiente</string>
+    <string name="quiz_check_icon">✓</string>
+    <string name="quiz_difficulty_label_1">Fácil</string>
+    <string name="quiz_difficulty_label_2">Medio</string>
+    <string name="quiz_difficulty_label_3">Difícil</string>
+    <string name="quiz_confirm_title">Confirmar respuesta</string>
+    <string name="quiz_confirm_message">¿Realmente quieres elegir \\\"%1$s\\\"?</string>
+    <string name="quiz_confirm_yes">Sí, confirmar</string>
+    <string name="quiz_confirm_no">No, cambiar</string>
+    <string name="question_option_a">Opción A</string>
+    <string name="question_option_b">Opción B</string>
+    <string name="question_option_c">Opción C</string>
+    <string name="question_option_d">Opción D</string>
+
+    <!-- ========== MISSIONS ========== -->
+    <string name="missions_empty">Ninguna misión disponible</string>
+    <string name="missions_select">Selecciona una misión</string>
+    <string name="missions_back">Volver</string>
+    <string name="missions_complete_title">¡Misión Completa!</string>
+    <string name="missions_retry_title">Intentar de Nuevo</string>
+    <string name="missions_ok">OK</string>
+
+    <!-- ========== MYTHS & TRUTHS ========== -->
+    <string name="myths_title">Mitos y Verdades</string>
+    <string name="myths_subtitle">Descubre qué es real sobre las serpientes</string>
+    <string name="myths_filter_all">Todos</string>
+    <string name="myths_filter_myths">Mitos</string>
+    <string name="myths_filter_truths">Verdades</string>
+    <string name="badge_peconhenta">VENENOSA</string>
+    <string name="badge_inofensiva">INOFENSIVA</string>
+    <!-- ========== 3D ANATOMY ========== -->
+    <string name="anatomy_desc_skin">Capa de Piel</string>
+    <string name="anatomy_desc_muscle">Capa Muscular</string>
+    <string name="anatomy_desc_circulatory">Capa Circulatoria</string>
+    <string name="anatomy_desc_organs">Capa de Órganos</string>
+    <string name="anatomy_open_layers">Abrir capas</string>
+    <string name="anatomy_zoom_out">Alejar zoom</string>
+    <string name="anatomy_reset_camera">Restablecer cámara</string>
+    <string name="anatomy_zoom_in">Acercar zoom</string>
+    <string name="error_3d_unsupported">El dispositivo no soporta gráficos 3D.</string>
+    <string name="loading_3d_model">CARGANDO MODELO 3D...</string>
+    <string name="error_3d_load">No se pudo cargar el modelo 3D.</string>
+
+    <!-- ========== CONTENT ========== -->
+    <!-- ========== SETTINGS ========== -->
+    <string name="settings_about">Acerca de</string>
+    <!-- ========== SETTINGS FIELDS ========== -->
+    <string name="settings_language">Idioma</string>
+    <string name="settings_notifications">Notificaciones</string>
+    <string name="settings_notifications_on">Activadas</string>
+    <string name="settings_dark_mode">Modo Oscuro</string>
+    <string name="settings_version">Versión</string>
+    <string name="settings_version_name">0.1.0</string>
+    <string name="settings_contact">Contáctanos</string>
+    <string name="settings_report_bug">Reportar Bug</string>
+    <string name="settings_no_email">No se encontró app de correo</string>
+    <string name="contact_email_subject">Contacto — Serpenteando</string>
+    <string name="contact_email_body">¡Hola! Me gustaría ponerme en contacto con el equipo de Serpenteando para resolver una duda o enviar una sugerencia.</string>
+    <string name="bug_email_subject">Error — Serpenteando</string>
+    <string name="bug_email_body">¡Hola! Encontré un problema en la aplicación Serpenteando. Ocurrió en: [describe la pantalla o función]. Qué pasó: [describe el problema].</string>
+    <string name="settings_error_dialog">Error al abrir diálogo</string>
+    <string name="settings_notif_daily">Recordatorios diarios</string>
+    <string name="settings_notif_missions">Nuevas misiones</string>
+    <string name="settings_notif_achievements">Logros</string>
+    <string name="settings_lang_portuguese">Português</string>
+    <string name="settings_lang_english">English</string>
+    <string name="settings_lang_spanish">Español</string>
+    <string name="settings_close">Cerrar</string>
+
+    <!-- ========== NOTIFICACIONES (canales + contenido) ========== -->
+    <string name="notif_channel_daily">Recordatorio Diario</string>
+    <string name="notif_channel_daily_desc">Consejo diario sobre serpientes</string>
+    <string name="notif_channel_missions">Misiones</string>
+    <string name="notif_channel_missions_desc">Nuevas misiones disponibles</string>
+    <string name="notif_channel_achievements">Logros</string>
+    <string name="notif_channel_achievements_desc">Logros y completados</string>
+    <string name="notif_daily_title">¡Hora de aprender!</string>
+    <string name="notif_daily_text">Abre Serpenteando y revisa el consejo de hoy</string>
+    <string name="notif_mission_title">¡Nueva mision disponible!</string>
+    <string name="notif_mission_text">Completa la misión de hoy para ganar puntos</string>
+    <string name="notif_achievement_title">¡Logro desbloqueado!</string>
+    <string name="notif_achievement_text">%1$s</string>
+
+    <!-- ========== SECTION HEADERS ========== -->
+    <string name="section_general">GENERAL</string>
+    <string name="section_about">ACERCA DE</string>
+    <string name="section_support">SOPORTE</string>
+    <string name="section_developers">DESARROLLADORES</string>
+    <string name="section_advisor">ASESOR</string>
+    <string name="section_evaluator">EVALUADOR</string>
+    <string name="section_client">CLIENTE/EVALUADOR</string>
+    <string name="role_developer">Desarrollador</string>
+    <string name="role_advisor">Asesor</string>
+    <string name="role_evaluator">Evaluador</string>
+    <string name="role_client">Cliente/Evaluador</string>
+
+    <!-- ========== LAYOUT HARDCODED (from XML) ========== -->
+    <string name="onboarding_skip_btn">Omitir</string>
+    <string name="onboarding_next_btn">Siguiente</string>
+    <string name="settings_title_bar">Ajustes</string>
+    <string name="layers_sheet_title">Capas</string>
+    <string name="mission_select_subtitle">Elige tu próxima aventura</string>
+    <string name="content_detail_habitat">Hábitat</string>
+    <string name="content_detail_distribution">Distribución</string>
+    <string name="content_detail_diet">Alimentación</string>
+    <string name="content_detail_reproduction">Reproducción</string>
+    <string name="content_detail_curiosity">Curiosidades</string>
+    <string name="content_list_title">Contenido Educativo</string>
+    <string name="content_tab_all">Todas</string>
+    <string name="content_tab_venomous">Venenosas</string>
+    <string name="content_tab_non_venomous">No Venenosas</string>
+    <string name="content_empty">No se encontró contenido</string>
+    <string name="home_card_quiz_subtitle">Pon a prueba tus conocimientos</string>
+    <string name="home_card_myths_subtitle">¿Mito o verdad?</string>
+    <string name="home_card_3d_subtitle">Anatomía interactiva</string>
+    <string name="home_card_content_subtitle">Artículos e información</string>
+    <string name="anatomy_init">Iniciando Filament…</string>
+    <string name="anatomy_scientific_name">Crotalus durissus</string>
+    <string name="anatomy_explore_hint">Toca la serpiente para explorar</string>
+    <string name="anatomy_layer_skin">Pi</string>
+    <string name="anatomy_layer_muscle">Mu</string>
+    <string name="anatomy_layer_circulatory">Ci</string>
+    <string name="anatomy_layer_organs">Or</string>
+    <string name="option_label_a">Opción A</string>
+    <string name="option_label_b">Opción B</string>
+    <string name="option_label_c">Opción C</string>
+    <string name="option_label_d">Opción D</string>
+
+    <!-- ========== JAVA HARDCODED ========== -->
+    <string name="error_prefix">Error: </string>
+    <string name="error_no_layer">Ninguna capa encontrada</string>
+    <string name="error_no_content">Contenido no encontrado</string>
+    <string name="error_mission_not_found">Misión no encontrada</string>
+    <string name="error_no_mission_loaded">Ninguna misión cargada. Selecciona una misión primero.</string>
+    <string name="error_verify_progress">Error al verificar el progreso</string>
+    <string name="error_no_question">Ninguna pregunta encontrada</string>
+    <string name="error_no_tip">Ningún consejo disponible</string>
+    <string name="mission_complete_congrats">¡Felicidades! ¡Completaste la misión!</string>
+    <string-array name="mission_default_descriptions">
+        <item>Completa esta tarea para ganhar puntos</item>
+        <item>Responde correctamente para progresar</item>
+        <item>Explora el contenido para desbloquear</item>
+        <item>Practica tus conocimientos</item>
+        <item>Mantén tu racha diaria</item>
+    </string-array>
+
+    <!-- ========== -->
+    <string name="desc_snake_image">Foto de serpiente</string>
+    <string name="desc_menu">Menú</string>
+    <string name="desc_icon_quiz">Quiz</string>
+    <string name="desc_icon_myths">Mitos y Verdades</string>
+    <!-- ========== ONBOARDING ========== -->
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_start">Comenzar</string>
+
+    <!-- ========== SPLASH ========== -->
+    <!-- ========== BOTTOM SHEET LAYERS ========== -->
+    <!-- ========== DIALOGS ========== -->
+    <string name="dialog_mission_complete_title">¡MISIÓN COMPLETA!</string>
+    <string name="dialog_mission_complete_points">+250 pts</string>
+    <string name="dialog_mission_complete_msg">¡Felicitaciones! ¡Completaste la misión!</string>
+    <string name="dialog_mission_complete_close">Cerrar</string>
+
+    <string name="dialog_notif_subtitle">Gestiona tus alertas</string>
+    <string name="dialog_notif_daily_desc">Recibe un consejo por día</string>
+    <string name="dialog_notif_missions_desc">Avisar cuando estén disponibles</string>
+    <string name="dialog_notif_achievements_desc">Completar misiones y quizzes</string>
+    <string name="dialog_lang_subtitle">Elige el idioma de la app</string>
+    <!-- ========== ABOUT ========== -->
+    <string name="credits_title">Créditos</string>
+    <string name="credits_project_caption">SOBRE EL PROYECTO</string>
+    <string name="credits_description">Serpenteando es una app educativa sobre serpientes brasileñas, desarrollada como trabajo de fin de curso. La idea es aprender de una manera ligera y divertida: tiene quiz con tres niveles de dificultad, misiones, curiosidades y mitos, y una parte de anatomía para conocer más a fondo. La app fue hecha desde cero en Android con Java, con diseño propio, pensada para funcionar bien en el móvil.</string>
+    <string name="about_title">Acerca de</string>
+    <string name="about_version">v0.1.0 · IFPB TCC</string>
+    <!-- Iconos de contacto de los integrantes (Acerca de) -->
+    <string name="social_linkedin">LinkedIn</string>
+    <string name="social_email">Correo</string>
+    <string name="about_description">App educativo sobre serpientes brasileñas. Desarrollado como Trabajo de Fin de Curso del IFPB.</string>
+
+    <!-- ========== JAVA HARDCODED STRINGS ========== -->
+    <string name="loading">Cargando...</string>
+    <string name="error">Error</string>
+    <string name="error_content_not_found">No se encontró contenido.</string>
+    <string name="error_mission_load">Error al cargar la misión</string>
+    <string name="label_mito">MITO</string>
+    <string name="label_verdade">VERDAD</string>
+
+    <!-- ========== QUIZ HARDCODED ========== -->
+    <string name="quiz_correct">CORRECTO</string>
+    <string name="quiz_incorrect">INCORRECTO</string>
+    <string name="quiz_result_correct">¡Correcto!</string>
+    <string name="quiz_result_incorrect">Incorrecto</string>
+    <string name="quiz_result_passed_title">¡Felicitaciones!</string>
+    <string name="quiz_result_failed_title">¡Casi!</string>
+    <string name="quiz_result_passed_msg">¡Pasaste el 60%! ¡Sigue así!</string>
+    <string name="quiz_result_failed_msg">Inténtalo de nuevo para superar el 60%. ¡Tú puedes!</string>
+    <string name="quiz_counter_format2" formatted="false">Pregunta %1$d de %2$d</string>
+    <!-- ========== MISSION LAYOUT ========== -->
+    <string name="mission_default_score">2.450 pts</string>
+    <string name="mission_default_title">Racha de 7 días</string>
+    <string name="mission_default_desc">Responde quizzes y evoluciona cada día</string>
+    <string name="mission_day_counter" formatted="false">Día %1$d de %2$d</string>
+    <string name="mission_verify_progress">Verificar Progreso</string>
+    <string name="mission_items_done" formatted="false">%d/%d elementos completados</string>
+    <string name="mission_progress_title">Progreso de la Misión</string>
+    <string name="mission_progress_ok">Entendido</string>
+    <string name="mission_progress_message" formatted="false">%1$d de %2$d elementos completados.\n\nFalta:\n%3$s</string>
+    <string name="mission_select_desc_1">Responde quizzes por 7 días seguidos y gana puntos extra.</string>
+    <string name="mission_select_desc_2">Lee artículos y prueba tus conocimientos sobre serpientes.</string>
+    <string name="mission_select_desc_default">Completa esta misión para ganar puntos.</string>
+    <string name="mission_points_format">+%d puntos</string>
+    <string name="mission_pts_label">puntos</string>
+
+    <!-- Mission item trigger descriptions -->
+    <string name="mission_trigger_quiz_facil">Responde quizzes en nivel facil</string>
+    <string name="mission_trigger_quiz_medio">Responde quizzes en nivel medio</string>
+    <string name="mission_trigger_quiz_dificil">Responde quizzes en nivel dificil</string>
+    <string name="mission_trigger_anatomy_hotspot">Explora puntos de anatomia en 3D</string>
+    <string name="mission_trigger_anatomy_layer">Desbloquea capas anatomica</string>
+    <string name="mission_trigger_content_detail">Lee contenidos detallados</string>
+    <string name="mission_trigger_default">Completa esta tarea para ganhar puntos</string>
+
+
+    <!-- ========== ONBOARDING TITLES ========== -->
+    <string name="onboard_title_1">Conoce las Serpientes</string>
+    <string name="onboard_title_2">Pon a Prueba tus Conocimientos</string>
+    <string name="onboard_title_3">Completa Misiones</string>
+    <string name="onboard_desc_1">Explora información detallada sobre serpientes brasileñas, aprende a identificar especies y entiende sus hábitats.</string>
+    <string name="onboard_desc_2">Desafíate con quizzes interactivos sobre el diverso mundo de las serpientes.</string>
+    <string name="onboard_desc_3">Gana puntos y desbloquea logros completando misiones y actividades educativas.</string>
+    <!-- ========== TOUR 3D - ANATOMIA ========== -->
+    <string name="tour_0_name">Escamas y Piel</string>
+    <string name="tour_0_func">Protección, camuflaje y percepción sensorial</string>
+    <string name="tour_0_how">Placas de queratina que cubren todo el cuerpo.</string>
+    <string name="tour_0_curio">El cascabel está hecho de queratina.</string>
+    <string name="tour_1_name">Capa Muscular</string>
+    <string name="tour_1_func">Locomoción, constricción y ataque</string>
+    <string name="tour_1_how">~300 pares de músculos a lo largo de la columna.</string>
+    <string name="tour_1_curio">Velocidad de ataque hasta 2,5 m/s.</string>
+    <string name="tour_2_name">Tejido Interno y Conectivo</string>
+    <string name="tour_2_func">Soporte estructural y aislamiento</string>
+    <string name="tour_2_how">Tejido conjuntivo que protege los órganos.</string>
+    <string name="tour_2_curio">Puede sobrevivir 2 años sin comer.</string>
+    <string name="tour_3_name">Esqueleto Completo</string>
+    <string name="tour_3_func">Estructura axial y anclaje muscular</string>
+    <string name="tour_3_how">150-300 vértebras con costillas articuladas.</string>
+    <string name="tour_3_curio">La cascabel no tiene extremidades.</string>
+    <string name="tour_4_name">Cráneo</string>
+    <string name="tour_4_func">Protección cerebral y captura de presas</string>
+    <string name="tour_4_how">Huesos móviles conectados por ligamentos.</string>
+    <string name="tour_4_curio">Forma triangular característica.</string>
+    <string name="tour_5_name">Colmillos</string>
+    <string name="tour_5_func">Inyección de veneno por hipodermia</string>
+    <string name="tour_5_how">Dientes modificados huecos y retráctiles.</string>
+    <string name="tour_5_curio">Miden 1-3 cm, se reemplazan continuamente.</string>
+    <string name="tour_6_name">Glándulas de Veneno</string>
+    <string name="tour_6_func">Producción y almacenamiento de toxinas</string>
+    <string name="tour_6_how">Estructuras alargadas detrás de los ojos.</string>
+    <string name="tour_6_curio">Una dosis puede matar hasta 20 ratas.</string>
+    <string name="tour_7_name">Dientes</string>
+    <string name="tour_7_func">Agarre y retención de presas</string>
+    <string name="tour_7_how">Filas de dientes curvados en el pterigoideo.</string>
+    <string name="tour_7_curio">Puede tener hasta 200 dientes.</string>
+    <string name="tour_8_name">Lengua Bifurcada</string>
+    <string name="tour_8_func">Recolección de partículas químicas</string>
+    <string name="tour_8_how">Língua larga fina y bifurcada.</string>
+    <string name="tour_8_curio">Permite detección estereoscópica de olores.</string>
+    <string name="tour_9_name">Órgano de Jacobson</string>
+    <string name="tour_9_func">Análisis químico de feromonas</string>
+    <string name="tour_9_how">Cámaras sensoriales en el paladar.</string>
+    <string name="tour_9_curio">Puede detectar presas a 200 metros.</string>
+    <string name="tour_10_name">Cerebro</string>
+    <string name="tour_10_func">Procesamiento sensorial</string>
+    <string name="tour_10_how">Pequeño pero especializado.</string>
+    <string name="tour_10_curio">Activo con solo 15°C.</string>
+    <string name="tour_11_name">Sistema Nervioso</string>
+    <string name="tour_11_func">Control motor y reflejos</string>
+    <string name="tour_11_how">Cerebro, médula espinal y nervios.</string>
+    <string name="tour_11_curio">Decapitada puede atacar 60 minutos.</string>
+    <string name="tour_12_name">Sistema Circulatorio</string>
+    <string name="tour_12_func">Transporte de oxígeno y nutrientes</string>
+    <string name="tour_12_how">Corazón tricavitario.</string>
+    <string name="tour_12_curio">Puede redirigir flujo sanguíneo.</string>
+    <string name="tour_13_name">Corazón</string>
+    <string name="tour_13_func">Bombeo sanguíneo</string>
+    <string name="tour_13_how">2 aurículas, 1 ventrículo funcional.</string>
+    <string name="tour_13_curio">Puede desplazarse al tragar presas.</string>
+    <string name="tour_14_name">Sistema Respiratorio</string>
+    <string name="tour_14_func">Intercambio gaseoso</string>
+    <string name="tour_14_how">Pulmón único funcional.</string>
+    <string name="tour_14_curio">Puede contener respiración 30 minutos.</string>
+    <string name="tour_15_name">Sistema Digestivo</string>
+    <string name="tour_15_func">Digestión de presas enteras</string>
+    <string name="tour_15_how">Ácido clorhídrico y enzimas potentes.</string>
+    <string name="tour_15_curio">pH estomacal alcanza 1,0.</string>
+    <string name="tour_16_name">Hígado</string>
+    <string name="tour_16_func">Metabolismo y almacenamiento</string>
+    <string name="tour_16_how">Alargado y multillobulado.</string>
+    <string name="tour_16_curio">Almacena hasta 30% del peso corporal.</string>
+    <string name="tour_17_name">Riñones</string>
+    <string name="tour_17_func">Excreción y osmorregulación</string>
+    <string name="tour_17_how">Alargados y lobulados.</string>
+    <string name="tour_17_curio">Pierde menos de 1% de agua por día.</string>
+    <string name="tour_18_name">Intestinos</string>
+    <string name="tour_18_func">Absorción de nutrientes</string>
+    <string name="tour_18_how">Intestino delgado corto para carnívoro.</string>
+    <string name="tour_18_curio">Puede pasar semanas sin defecar.</string>
+    <string name="tour_19_name">Sistema Reproductor</string>
+    <string name="tour_19_func">Ovoviviparidad</string>
+    <string name="tour_19_how">Huevos se desarrollan dentro de la hembra.</string>
+    <string name="tour_19_curio">Cachorros nacen con veneno activo.</string>
+    <string name="tour_20_name">Columna Vertebral</string>
+    <string name="tour_20_func">Eje axial flexible</string>
+    <string name="tour_20_how">150-300 vértebras procélicas.</string>
+    <string name="tour_20_curio">Puede curvar 180 grados en 0,5s.</string>
+    <string name="tour_21_name">Costillas</string>
+    <string name="tour_21_func">Protección visceral</string>
+    <string name="tour_21_how">Par de costillas articuladas por vértebra.</string>
+    <string name="tour_21_curio">Expanden diámetro corporal 3 veces.</string>
+    <string name="tour_22_name">Cola y Cascabel</string>
+    <string name="tour_22_func">Señalización acústica de defensa</string>
+    <string name="tour_22_how">Segmentos de queratina hueca.</string>
+    <string name="tour_22_curio">Vibra 50-60 veces por segundo.</string>
+
+</resources>

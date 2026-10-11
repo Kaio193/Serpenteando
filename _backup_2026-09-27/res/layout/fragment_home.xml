@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mode_light_screen"
+    android:orientation="vertical"
+    tools:context=".view.HomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/space_48">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_32"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="@dimen/space_10"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@string/app_name"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_favicon"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Serpenteando.Favicon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/SerpenteandoLargeTitle"
+                    android:text="@string/app_name"
+                    android:textColor="@color/cascavel_jade_bright" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_hero_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_12"
+                style="@style/SerpenteandoTitle1"
+                android:text="@string/hero_title_home" />
+
+            <!-- Banner de boas-vindas + nível -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_hero_banner"
+                style="@style/SerpenteandoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_20"
+                app:contentPadding="0dp">
+
+                <!-- A área "Bem-vindo(a), Explorador(a)" usa a ARTE da bandinha
+                     (@drawable/mode_bar = barraEscuro no tema escuro /
+                     barraClaro no claro) como fundo, no lugar da cor antiga.
+                     A imagem entra como ImageView com centerCrop: preenche o card
+                     inteiro sem deformar e sem sobrar espaço — e o CardView
+                     recorta tudo no border-radius (20dp). -->
+                <!-- Altura FIXA (96dp): se ficasse wrap_content, o ImageView com
+                     match_parent inflava o card para 1117px e sobrava um vazio
+                     enorme. 96dp também chega perto da proporção da arte
+                     (1600x397), então o centerCrop corta muito pouco. -->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/space_96"
+                    android:clipToOutline="true">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/mode_bar"
+                        android:importantForAccessibility="no" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="@dimen/space_20"
+                        android:paddingVertical="@dimen/space_20">
+
+                        <TextView
+                            android:id="@+id/tv_hero_greeting"
+                            style="@style/SerpenteandoTitle2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_greeting"
+                            android:textColor="@color/cascavel_on_bg" />
+                    </LinearLayout>
+
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Progress cards -->
+            <LinearLayout
+                android:id="@+id/container_progress_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_32"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_pontuacao"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/space_96"
+                    android:layout_weight="1"
+                    android:padding="@dimen/space_16">
+
+<LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/SerpenteandoFootnote"
+                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/home_score_label"
+                                android:textColor="@color/cascavel_on_surface_variant" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_8"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_trophy"
+                                    app:tint="@color/cascavel_jade_bright" />
+
+                                <TextView
+                                    android:id="@+id/progressScoreText"
+                                    style="@style/SerpenteandoLargeTitle"
+                                    android:layout_marginStart="@dimen/space_4"
+                                    android:textColor="@color/cascavel_jade"
+                                    tools:text="0" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/SerpenteandoFootnote"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_4"
+                                android:singleLine="true"
+                                android:text="@string/home_score_pts"
+                                android:textColor="@color/cascavel_on_surface_variant" />
+                        </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Space android:layout_width="@dimen/space_12" android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_missoes"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/space_96"
+                    android:layout_weight="1"
+                    android:padding="@dimen/space_16">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:textColor="@color/cascavel_on_surface_variant"
+                            android:text="@string/home_missions_label" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_target"
+                                    app:tint="@color/cascavel_jade_bright" />
+
+                                <TextView
+                                    android:id="@+id/progressMissionsText"
+                                    style="@style/SerpenteandoLargeTitle"
+                                    android:layout_marginStart="@dimen/space_4"
+                                    android:textColor="@color/cascavel_jade"
+                                    tools:text="0" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/SerpenteandoFootnote"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_4"
+                                android:gravity="center"
+                                android:singleLine="true"
+                                android:text="@string/home_missions_active"
+                                android:textColor="@color/cascavel_on_surface_variant" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Space android:layout_width="@dimen/space_12" android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_streak"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/space_96"
+                    android:layout_weight="1"
+                    android:padding="@dimen/space_16">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:text="@string/home_streak_label"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+
+<LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_8"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/progressStreakText"
+                                    style="@style/SerpenteandoLargeTitle"
+                                    android:textColor="@color/cascavel_jade"
+                                    tools:text="0" />
+
+                                <ImageView
+                                    android:layout_width="@dimen/home_icon_size"
+                                    android:layout_height="@dimen/home_icon_size"
+                                    android:layout_marginStart="@dimen/space_6"
+                                    android:importantForAccessibility="no"
+                                    android:src="@drawable/ic_fire"
+                                    app:tint="@color/cascavel_jade_bright" />
+                            </LinearLayout>
+
+<TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_4"
+                                android:singleLine="true"
+                                style="@style/SerpenteandoFootnote"
+                                android:text="@string/home_streak_days"
+                                android:textColor="@color/cascavel_on_surface_variant" />
+                        </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- 3 main action cards (Regra dos 3) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_32"
+                style="@style/SerpenteandoTitle2"
+                android:text="@string/home_explore_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_12"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/exploreQuizCard"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/space_12"
+                    app:cardBackgroundColor="@color/cascavel_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_tile">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/desc_icon_quiz"
+                                android:src="@drawable/ic_quiz"
+                                app:tint="@color/home_icon_tint" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/SerpenteandoHeadline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12"
+                            android:text="@string/home_grid_quiz" />
+
+                        <!-- autoSize + maxLines=2: os cards têm altura FIXA (150dp).
+                             Sem isso o texto quebra em 3 linhas e a última fica
+                             cortada (ex: "conhecimentos" pela metade). -->
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:maxLines="2"
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="9sp"
+                            app:autoSizeMaxTextSize="13sp"
+                            android:gravity="center"
+                            android:text="@string/home_card_quiz_subtitle"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:layout_width="@dimen/space_12"
+                    android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/exploreMythsCard"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/space_12"
+                    app:cardBackgroundColor="@color/cascavel_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_tile">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/desc_icon_myths"
+                                android:src="@drawable/ic_mitos"
+                                app:tint="@color/home_icon_tint" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/SerpenteandoHeadline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12"
+                            android:text="@string/home_grid_myths" />
+
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:maxLines="2"
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="9sp"
+                            app:autoSizeMaxTextSize="13sp"
+                            android:gravity="center"
+                            android:text="@string/home_card_myths_subtitle"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_12"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/exploreAnatomyCard"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/space_12"
+                    app:cardBackgroundColor="@color/cascavel_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_tile">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/nav_3d"
+                                android:src="@drawable/ic_3d"
+                                app:tint="@color/home_icon_tint" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/SerpenteandoHeadline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12"
+                            android:text="3D" />
+
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:maxLines="2"
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="9sp"
+                            app:autoSizeMaxTextSize="13sp"
+                            android:gravity="center"
+                            android:text="@string/home_card_3d_subtitle"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <Space
+                    android:layout_width="@dimen/space_12"
+                    android:layout_height="wrap_content" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/exploreContentCard"
+                    style="@style/SerpenteandoCard"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/space_12"
+                    app:cardBackgroundColor="@color/cascavel_card_bg">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_icon_tile">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/nav_content"
+                                android:src="@drawable/ic_content"
+                                app:tint="@color/home_icon_tint" />
+                        </FrameLayout>
+
+                        <TextView
+                            style="@style/SerpenteandoHeadline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12"
+                            android:text="@string/nav_content" />
+
+                        <TextView
+                            style="@style/SerpenteandoFootnote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_4"
+                            android:maxLines="2"
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="9sp"
+                            app:autoSizeMaxTextSize="13sp"
+                            android:gravity="center"
+                            android:text="@string/home_card_content_subtitle"
+                            android:textColor="@color/cascavel_on_surface_variant" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Tip of the day -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_tip_day"
+                style="@style/SerpenteandoCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_24"
+                android:padding="@dimen/space_16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SerpenteandoHeadline"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:text="@string/home_tip_title"
+                        android:textColor="@color/cascavel_jade_bright" />
+
+                    <TextView
+                        android:id="@+id/tipText"
+                        style="@style/SerpenteandoBody"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:text="@string/home_tip_text"
+                        tools:text="@string/home_tip_example" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

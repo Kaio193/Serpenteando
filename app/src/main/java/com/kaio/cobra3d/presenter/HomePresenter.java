@@ -7,12 +7,23 @@ import com.kaio.cobra3d.model.entity.UserProgress;
 import com.kaio.cobra3d.model.repository.ProgressRepository;
 import com.kaio.cobra3d.model.repository.TipRepository;
 
-// [ALÉM DO TEI] MVP (Presenter) — isola a lógica de negócio da UI, facilita testes unitários
+/**
+ * Presenter da Tela Inicial — cuida da lógica de negócio.
+ *
+ * [ALÉM DO TEI] Padrão MVP:
+ * - Carrega dica do dia do banco
+ * - Carrega progresso do usuário (pontos, missões, streak)
+ * - Redireciona pra outras telas quando o usuário clica nos cards
+ *
+ * [ALÉM DO TEI] Repository Pattern:
+ * - TipRepository: busca dicas no SQLite
+ * - ProgressRepository: busca/salva progresso no SQLite
+ * - Isola acesso a dados — se mudar o banco, só muda o Repository
+ */
 public class HomePresenter implements HomeContract.Presenter {
 
     private final HomeContract.View view;
     private final TipRepository tipRepository;
-    // [ALÉM DO TEI] Repository Pattern — acesso a dados isolado; trocar fonte sem mudar o presenter
     private final ProgressRepository progressRepository;
 
     public HomePresenter(HomeContract.View view, DatabaseHelper dbHelper) {
@@ -23,12 +34,12 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadTip() {
-        Tip tip = tipRepository.getRandom();
+        Tip tip = tipRepository.getDailyTip();
         if (tip != null) {
             view.showTip(tip);
-        } else {
-            view.showError("Nenhuma dica disponível");
         }
+        // Não mostra Toast quando não há dicas — o texto fica em branco
+        // sem poluir a tela com mensagem de erro
     }
 
     @Override

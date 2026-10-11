@@ -1,6 +1,7 @@
 package com.kaio.cobra3d.view.renderer;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Choreographer;
@@ -11,27 +12,24 @@ import android.view.SurfaceView;
 import com.google.android.filament.Engine;
 import com.google.android.filament.Renderer;
 import com.google.android.filament.SwapChain;
-
-import com.kaio.cobra3d.model.entity.AnatomyHotspot;
-
-import java.util.List;
+import com.google.android.filament.SwapChainFlags;
 
 /**
- * SurfaceView que hospeda o ciclo de render Filament e despacha toques para o
- * Anatomy3DRenderer. Usa Utils como ponte (carrega a native lib filament-jni).
+ * SurfaceView que hospeda o render 3D do Filament e trata o toque.
  *
- * Importante: instanciar Engine/Utils é caro — fazemos em init() e liberamos em
- * release(). O Choreographer só é registrado após o surface estar ready.
+ * Duas responsabilidades:
+ * 1. Ciclo de vida — cria o SwapChain quando a surface existe e garante que o
+ *    render loop comece/termine junto com a tela (senão vaza GPU).
+ * 2. Toque — um dedo orbita o modelo, dois dedos dão zoom.
+ *
+ * A versão antiga também fazia ray-picking das bolinhas de hotspot e iniciava
+ * um "tour" automático; tudo isso saiu junto com a versão antiga da tela.
  */
 // [ALÉM DO TEI] Choreographer — sincroniza o render loop com o VSync do dispositivo para animação fluida
 public class AnatomySurfaceView extends SurfaceView
         implements SurfaceHolder.Callback, Choreographer.FrameCallback {
 
     private static final String TAG = "AnatomySurfaceView";
-
-    public interface OnHotspotPickedListener {
-        void onHotspotPicked(int hotspotIndex);
-    }
 
     private Engine engine;
     private SwapChain swapChain;
@@ -40,12 +38,11 @@ public class AnatomySurfaceView extends SurfaceView
     private Choreographer choreographer;
     private boolean ready;
     private boolean running;
-    private float lastTouchX, lastTouchY;
+
+    // Controle do gesto: guarda a posição anterior pra calcular o delta do
+    // arrasto (órbita) e a distância anterior entre os dedos (pinça/zoom).
     private float prevX, prevY;
     private float prevDist = -1f;
-    private boolean touchMoved = false;
-    private OnHotspotPickedListener pickListener;
-    private List<AnatomyHotspot> hotspots;
 
     public AnatomySurfaceView(Context context) {
         super(context);
@@ -58,11 +55,27 @@ public class AnatomySurfaceView extends SurfaceView
     }
 
     private void init() {
+        // O fundo BRANCO do 3D não é pintado pelo GL: ele vem da própria View do
+        // Android que fica atrás (o FrameLayout do fragment_anatomy_3d.xml, que é
+        // @android:color/white).
+        //
+        // Por que não pintar no GL? Porque o Filament aplica color grading (que é
+        // obrigatório, é ele quem faz a codificação de gamma) através de um LUT de
+        // 32 níveis — e o LUT nunca devolve 1,0: o branco puro satura em 247
+        // (#F7F7F7), então o "branco" do 3D ficava 8 tons mais escuro que o branco
+        // do resto do app. Deixando o GL transparente, o branco vem do Android e é
+        // 255 exato, igual ao resto do app.
+        //
+        // ZOrderOnTop: por padrão o SurfaceView é uma camada ATRÁS da janela (a
+        // janela abre um buraco pra ele aparecer). Só com ele por cima é que o
+        // transparente do GL deixa vazar a View branca de baixo.
+        setZOrderOnTop(true);
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);
         getHolder().addCallback(this);
         setFocusable(true);
     }
 
-    /** Deve ser chamado antes de attach do surface (já em ordem pelo Fragment). */
+    /** Deve ser chamado antes do attach da surface (o Fragment já garante a ordem). */
     public void createFilament(Engine engine, Renderer renderer) {
         this.engine = engine;
         this.renderer = renderer;
@@ -73,25 +86,18 @@ public class AnatomySurfaceView extends SurfaceView
         return scene3d;
     }
 
-    public void setHotspots(List<AnatomyHotspot> hotspots) {
-        this.hotspots = hotspots;
-    }
-
-    public void setOnHotspotPickedListener(OnHotspotPickedListener l) {
-        this.pickListener = l;
-    }
-
     // ----- SurfaceHolder.Callback -----
 
-    // [ALÉM DO TEI] SurfaceHolder.Callback — ciclo de vida da superfície nativa; SwapChain só é criado quando a surface existe
+    // [ALÉM DO TEI] SurfaceHolder.Callback — ciclo de vida da superfície nativa; o SwapChain só pode ser criado quando a surface já existe
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (engine == null) {
-            // Caso a engine ainda não tenha sido inicializada pelo fragment, falha silenciosa
             Log.w(TAG, "surfaceCreated antes de createFilament()");
             return;
         }
-        swapChain = engine.createSwapChain(holder.getSurface());
+        // CONFIG_TRANSPARENT = SwapChain com canal alfa (o que permite o fundo
+        // vazar pra View branca de trás).
+        swapChain = engine.createSwapChain(holder.getSurface(), SwapChainFlags.CONFIG_TRANSPARENT);
         ready = true;
     }
 
@@ -108,6 +114,11 @@ public class AnatomySurfaceView extends SurfaceView
         if (engine != null && swapChain != null) {
             engine.destroySwapChain(swapChain);
             swapChain = null;
+            // Sincroniza a referência interna do renderer, senão destroy()
+            // tentaria liberar o mesmo SwapChain de novo (crash).
+            if (scene3d != null) {
+                scene3d.invalidateSwapChain();
+            }
         }
     }
 
@@ -151,24 +162,21 @@ public class AnatomySurfaceView extends SurfaceView
         }
     }
 
-    // ----- Toque: orbitar, zoom e ray-picking -----
+    // ----- Toque: orbitar e zoom -----
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
 
         if (action == MotionEvent.ACTION_DOWN) {
-            prevX = lastTouchX = event.getX();
-            prevY = lastTouchY = event.getY();
+            prevX = event.getX();
+            prevY = event.getY();
             prevDist = -1f;
-            touchMoved = false;
-            if (scene3d != null && scene3d.isTourRunning()) {
-                scene3d.stopTour();
-            }
             return true;
         }
 
         if (action == MotionEvent.ACTION_POINTER_DOWN) {
+            // Entrou o segundo dedo: guarda a distância entre eles pra começar a pinça
             if (event.getPointerCount() >= 2) {
                 float dx = event.getX(0) - event.getX(1);
                 float dy = event.getY(0) - event.getY(1);
@@ -178,14 +186,14 @@ public class AnatomySurfaceView extends SurfaceView
         }
 
         if (action == MotionEvent.ACTION_MOVE) {
-            touchMoved = true;
             if (event.getPointerCount() >= 2 && prevDist > 0) {
                 float dx = event.getX(0) - event.getX(1);
                 float dy = event.getY(0) - event.getY(1);
                 float dist = (float) Math.sqrt(dx * dx + dy * dy);
-                float factor = prevDist / dist;
-                if (scene3d != null) scene3d.zoom(factor);
-                prevDist = dist;
+                if (dist > 0) {
+                    if (scene3d != null) scene3d.zoom(prevDist / dist);
+                    prevDist = dist;
+                }
             } else if (event.getPointerCount() == 1) {
                 float deltaX = event.getX() - prevX;
                 float deltaY = event.getY() - prevY;
@@ -196,16 +204,7 @@ public class AnatomySurfaceView extends SurfaceView
             return true;
         }
 
-        if (action == MotionEvent.ACTION_UP) {
-            if (!touchMoved && scene3d != null && hotspots != null) {
-                int idx = scene3d.pickHotspotIndex(
-                    (int) event.getX(), (int) event.getY(), getWidth(), getHeight(), hotspots);
-                if (idx >= 0 && pickListener != null) {
-                    pickListener.onHotspotPicked(idx);
-                } else if (!scene3d.isTourRunning()) {
-                    scene3d.startTour();
-                }
-            }
+        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
             prevDist = -1f;
             return true;
         }

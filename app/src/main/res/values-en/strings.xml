@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Serpenteando</string>
+
+    <!-- ========== BOTTOM NAV / NAV GRAPH ========== -->
+    <string name="nav_home">Home</string>
+    <string name="nav_quiz">Quiz</string>
+    <string name="nav_missions">Missions</string>
+    <string name="nav_3d">3D</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_content">Content</string>
+    <!-- ========== HOME ========== -->
+    <string name="hero_title_home">Master the world of snakes</string>
+    <string name="home_greeting">Welcome, Explorer</string>
+
+    <string name="home_score_label">Score</string>
+    <string name="home_missions_label">Missions</string>
+    <string name="home_missions_active">completed</string>
+    <string name="home_streak_label">Streak</string>
+    <string name="home_streak_days">Days</string>
+    <string name="home_explore_title">Explore</string>
+    <string name="home_tip_title">Tip of the day</string>
+    <string name="home_grid_quiz">Quiz</string>
+    <string name="home_grid_myths">Myths</string>
+    <string name="home_score_pts">pts</string>
+    <string name="home_tip_text">Did you know that rattlesnakes shake their rattle to warn they are there and avoid confrontations?</string>
+    <string name="home_tip_example">Did you know that rattlesnakes shake their rattle to warn they are there and avoid confrontations?</string>
+
+    <!-- ========== QUIZ ========== -->
+    <string name="quiz_difficulty_title">Select Difficulty</string>
+    <string name="quiz_difficulty_subtitle">Choose the challenge level</string>
+    <string name="quiz_title">Quiz</string>
+    <string name="quiz_label_correct">CORRECT</string>
+    <string name="quiz_correct_example">Correct!</string>
+    <string name="quiz_easy">Easy</string>
+    <string name="quiz_medium">Medium</string>
+    <string name="quiz_hard">Hard</string>
+    <string name="quiz_points_badge_format" formatted="false">+%d pts</string>
+    <string name="quiz_question_example">Which of these snakes is considered the most venomous in Brazil?</string>
+    <string name="quiz_next">Next</string>
+    <string name="quiz_check_icon">✓</string>
+    <string name="quiz_difficulty_label_1">Easy</string>
+    <string name="quiz_difficulty_label_2">Medium</string>
+    <string name="quiz_difficulty_label_3">Hard</string>
+    <string name="quiz_confirm_title">Confirm answer</string>
+    <string name="quiz_confirm_message">Do you really want to choose \\\"%1$s\\\"?</string>
+    <string name="quiz_confirm_yes">Yes, confirm</string>
+    <string name="quiz_confirm_no">No, change</string>
+    <string name="question_option_a">Option A</string>
+    <string name="question_option_b">Option B</string>
+    <string name="question_option_c">Option C</string>
+    <string name="question_option_d">Option D</string>
+
+    <!-- ========== MISSIONS ========== -->
+    <string name="missions_empty">No missions available</string>
+    <string name="missions_select">Select a mission</string>
+    <string name="missions_back">Back</string>
+    <string name="missions_complete_title">Mission Complete!</string>
+    <string name="missions_retry_title">Try Again</string>
+    <string name="missions_ok">OK</string>
+
+    <!-- ========== MYTHS & TRUTHS ========== -->
+    <string name="myths_title">Myths &amp; Truths</string>
+    <string name="myths_subtitle">Discover what\'s real about snakes</string>
+    <string name="myths_filter_all">All</string>
+    <string name="myths_filter_myths">Myths</string>
+    <string name="myths_filter_truths">Truths</string>
+    <string name="badge_peconhenta">VENOMOUS</string>
+    <string name="badge_inofensiva">HARMLESS</string>
+    <!-- ========== 3D ANATOMY ========== -->
+    <string name="anatomy_desc_skin">Skin Layer</string>
+    <string name="anatomy_desc_muscle">Muscle Layer</string>
+    <string name="anatomy_desc_circulatory">Circulatory Layer</string>
+    <string name="anatomy_desc_organs">Organs Layer</string>
+    <string name="anatomy_open_layers">Open layers</string>
+    <string name="anatomy_zoom_out">Zoom out</string>
+    <string name="anatomy_reset_camera">Reset camera</string>
+    <string name="anatomy_zoom_in">Zoom in</string>
+    <string name="error_3d_unsupported">Device does not support 3D graphics.</string>
+    <string name="loading_3d_model">LOADING 3D MODEL...</string>
+    <string name="error_3d_load">Could not load the 3D model.</string>
+
+    <!-- ========== CONTENT ========== -->
+    <!-- ========== SETTINGS ========== -->
+    <string name="settings_about">About</string>
+    <!-- ========== SETTINGS FIELDS ========== -->
+    <string name="settings_language">Language</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_on">Enabled</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_version_name">0.1.0</string>
+    <string name="settings_contact">Contact Us</string>
+    <string name="settings_report_bug">Report Bug</string>
+    <string name="settings_no_email">No email app found</string>
+    <string name="contact_email_subject">Contact — Serpenteando</string>
+    <string name="contact_email_body">Hi! I would like to contact the Serpenteando team to ask a question or send a suggestion.</string>
+    <string name="bug_email_subject">Bug — Serpenteando</string>
+    <string name="bug_email_body">Hi! I found a problem in the Serpenteando app. It happened in: [describe the screen or feature]. What happened: [describe the problem].</string>
+    <string name="settings_error_dialog">Error opening dialog</string>
+    <string name="settings_notif_daily">Daily reminders</string>
+    <string name="settings_notif_missions">New missions</string>
+    <string name="settings_notif_achievements">Achievements</string>
+    <string name="settings_lang_portuguese">Português</string>
+    <string name="settings_lang_english">English</string>
+    <string name="settings_lang_spanish">Español</string>
+    <string name="settings_close">Close</string>
+
+    <!-- ========== NOTIFICATIONS (channels + content) ========== -->
+    <string name="notif_channel_missions">Missions</string>
+    <string name="notif_channel_missions_desc">New missions available</string>
+
+    <!-- ========== SECTION HEADERS ========== -->
+    <string name="section_general">GENERAL</string>
+    <string name="section_about">ABOUT</string>
+    <string name="section_support">SUPPORT</string>
+    <string name="section_developers">DEVELOPERS</string>
+    <string name="section_advisor">ADVISOR</string>
+    <string name="section_evaluator">EVALUATOR</string>
+    <string name="section_client">CLIENT/EVALUATOR</string>
+    <string name="role_developer">Developer</string>
+    <string name="role_advisor">Advisor</string>
+    <string name="role_evaluator">Evaluator</string>
+    <string name="role_client">Client/Evaluator</string>
+
+    <!-- ========== LAYOUT HARDCODED (from XML) ========== -->
+    <string name="onboarding_skip_btn">Skip</string>
+    <string name="onboarding_next_btn">Next</string>
+    <string name="settings_title_bar">Settings</string>
+    <string name="layers_sheet_title">Layers</string>
+    <string name="mission_select_subtitle">Choose your next adventure</string>
+    <string name="content_detail_habitat">Habitat</string>
+    <string name="content_detail_distribution">Distribution</string>
+    <string name="content_detail_diet">Diet</string>
+    <string name="content_detail_reproduction">Reproduction</string>
+    <string name="content_detail_curiosity">Fun Facts</string>
+    <string name="content_list_title">Educational Content</string>
+    <string name="content_tab_all">All</string>
+    <string name="content_tab_venomous">Venomous</string>
+    <string name="content_tab_non_venomous">Non-venomous</string>
+    <string name="content_empty">No content found</string>
+    <string name="home_card_quiz_subtitle">Test your knowledge</string>
+    <string name="home_card_myths_subtitle">Myth or truth?</string>
+    <string name="home_card_3d_subtitle">Interactive anatomy</string>
+    <string name="home_card_content_subtitle">Articles and information</string>
+    <string name="anatomy_init">Initializing Filament…</string>
+    <string name="anatomy_scientific_name">Crotalus durissus</string>
+    <string name="anatomy_explore_hint">Tap the snake to explore</string>
+    <string name="anatomy_layer_skin">Sk</string>
+    <string name="anatomy_layer_muscle">Mu</string>
+    <string name="anatomy_layer_circulatory">Ci</string>
+    <string name="anatomy_layer_organs">Or</string>
+    <string name="option_label_a">Option A</string>
+    <string name="option_label_b">Option B</string>
+    <string name="option_label_c">Option C</string>
+    <string name="option_label_d">Option D</string>
+
+    <!-- ========== JAVA HARDCODED ========== -->
+    <string name="error_prefix">Error: </string>
+    <string name="error_no_layer">No layer found</string>
+    <string name="error_no_content">Content not found</string>
+    <string name="error_mission_not_found">Mission not found</string>
+    <string name="error_no_mission_loaded">No mission loaded. Select a mission first.</string>
+    <string name="error_verify_progress">Error verifying progress</string>
+    <string name="error_no_question">No questions found</string>
+    <string name="error_no_tip">No tips available</string>
+    <string name="mission_complete_congrats">Congratulations! You completed the mission!</string>
+    <string-array name="mission_default_descriptions">
+        <item>Complete this task to earn points</item>
+        <item>Answer correctly to progress</item>
+        <item>Explore content to unlock</item>
+        <item>Practice your knowledge</item>
+        <item>Maintain your daily streak</item>
+    </string-array>
+
+    <!-- ========== -->
+    <string name="desc_snake_image">Snake photo</string>
+    <string name="desc_menu">Menu</string>
+    <string name="desc_icon_quiz">Quiz</string>
+    <string name="desc_icon_myths">Myths &amp; Truths</string>
+    <!-- ========== ONBOARDING ========== -->
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Start</string>
+
+    <!-- ========== SPLASH ========== -->
+    <!-- ========== BOTTOM SHEET LAYERS ========== -->
+    <!-- ========== DIALOGS ========== -->
+    <string name="dialog_mission_complete_title">MISSION COMPLETE!</string>
+    <string name="dialog_mission_complete_points">+250 pts</string>
+    <string name="dialog_mission_complete_msg">Congratulations! You completed the mission!</string>
+    <string name="dialog_mission_complete_close">Close</string>
+
+    <string name="dialog_notif_subtitle">Manage your alerts</string>
+    <string name="dialog_notif_daily_desc">Receive a tip per day</string>
+    <string name="dialog_notif_missions_desc">Notify when available</string>
+    <string name="dialog_notif_achievements_desc">Complete missions and quizzes</string>
+    <string name="dialog_lang_subtitle">Choose the app language</string>
+    <!-- ========== ABOUT ========== -->
+    <string name="credits_title">Credits</string>
+    <string name="credits_project_caption">ABOUT THE PROJECT</string>
+    <string name="credits_description">Serpenteando is an educational app about Brazilian snakes, developed as a final college project. The idea is to learn in a light and fun way: there is a quiz with three difficulty levels, missions, curiosities and myths, and an anatomy section to learn more deeply. The app was built from scratch in Android with Java, with its own visual style, designed to work well on phones.</string>
+    <string name="about_title">About</string>
+    <string name="about_version">v0.1.0 . IFPB TCC</string>
+    <!-- Contact icons for team members (About) -->
+    <string name="social_linkedin">LinkedIn</string>
+    <string name="social_email">Email</string>
+    <string name="about_description">Educational app about Brazilian snakes. Developed as a Final Project at IFPB.</string>
+
+    <!-- ========== JAVA HARDCODED STRINGS ========== -->
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="error_content_not_found">No content found.</string>
+    <string name="error_mission_load">Error loading mission</string>
+    <string name="label_mito">MYTH</string>
+    <string name="label_verdade">TRUTH</string>
+
+    <!-- ========== QUIZ HARDCODED ========== -->
+    <string name="quiz_correct">CORRECT</string>
+    <string name="quiz_incorrect">INCORRECT</string>
+    <string name="quiz_result_correct">Correct!</string>
+    <string name="quiz_result_incorrect">Incorrect</string>
+    <string name="quiz_result_passed_title">Congratulations!</string>
+    <string name="quiz_result_failed_title">Almost there!</string>
+    <string name="quiz_result_passed_msg">You scored over 60%! Keep it up!</string>
+    <string name="quiz_result_failed_msg">Try again to beat the 60% mark. You can do it!</string>
+    <string name="quiz_counter_format2" formatted="false">Question %1$d of %2$d</string>
+    <!-- ========== MISSION LAYOUT ========== -->
+    <string name="mission_default_score">2,450 pts</string>
+    <string name="mission_default_title">7-Day Streak</string>
+    <string name="mission_default_desc">Answer quizzes and evolve every day</string>
+    <string name="mission_day_counter" formatted="false">Day %1$d of %2$d</string>
+    <string name="mission_verify_progress">Verify Progress</string>
+    <string name="mission_items_done" formatted="false">%d/%d items completed</string>
+    <string name="mission_progress_title">Mission Progress</string>
+    <string name="mission_progress_ok">Got it</string>
+    <string name="mission_progress_message" formatted="false">%1$d of %2$d items completed.\n\nMissing:\n%3$s</string>
+    <string name="mission_select_desc_1">Answer quizzes for 7 days straight and earn extra points.</string>
+    <string name="mission_select_desc_2">Read articles and test your knowledge about snakes.</string>
+    <string name="mission_select_desc_default">Complete this mission to earn points.</string>
+    <string name="mission_points_format">+%d pts</string>
+    <string name="mission_pts_label">pts</string>
+
+    <!-- Mission item trigger descriptions -->
+    <string name="mission_trigger_quiz_facil">Answer quizzes on easy level</string>
+    <string name="mission_trigger_quiz_medio">Answer quizzes on medium level</string>
+    <string name="mission_trigger_quiz_dificil">Answer quizzes on hard level</string>
+    <string name="mission_trigger_anatomy_hotspot">Explore anatomy points in 3D</string>
+    <string name="mission_trigger_anatomy_layer">Unlock anatomical layers</string>
+    <string name="mission_trigger_content_detail">Read detailed content</string>
+    <string name="mission_trigger_default">Complete this task to earn points</string>
+
+
+    <!-- ========== ONBOARDING TITLES ========== -->
+    <string name="onboard_title_1">Discover Snakes</string>
+    <string name="onboard_title_2">Test Your Knowledge</string>
+    <string name="onboard_title_3">Complete Missions</string>
+    <string name="onboard_desc_1">Explore detailed information about Brazilian snakes, learn to identify species and understand their habitats.</string>
+    <string name="onboard_desc_2">Challenge yourself with interactive quizzes on the diverse world of snakes.</string>
+    <string name="onboard_desc_3">Earn points and unlock achievements by completing missions and educational activities.</string>
+    <!-- ========== TOUR 3D - ANATOMIA ========== -->
+    <string name="tour_0_name">Scales and Skin</string>
+    <string name="tour_0_func">Protection, camouflage and sensory perception</string>
+    <string name="tour_0_how">Keratin plates covering the entire body.</string>
+    <string name="tour_0_curio">Rattle made of keratin like the scales.</string>
+    <string name="tour_1_name">Muscle Layer</string>
+    <string name="tour_1_func">Locomotion, constriction and attack</string>
+    <string name="tour_1_how">~300 pairs of muscles along the vertebral column.</string>
+    <string name="tour_1_curio">Attack speed can reach 2.5 m/s.</string>
+    <string name="tour_2_name">Internal and Connective Tissue</string>
+    <string name="tour_2_func">Structural support and insulation</string>
+    <string name="tour_2_how">Connective tissue surrounds internal organs.</string>
+    <string name="tour_2_curio">Can survive up to 2 years without eating.</string>
+    <string name="tour_3_name">Complete Skeleton</string>
+    <string name="tour_3_func">Axial structure and muscle anchoring</string>
+    <string name="tour_3_how">150-300 vertebrae with articulated ribs.</string>
+    <string name="tour_3_curio">Rattlesnakes have no limbs.</string>
+    <string name="tour_4_name">Skull</string>
+    <string name="tour_4_func">Brain protection and prey capture</string>
+    <string name="tour_4_how">Mobile bones connected by elastic ligaments.</string>
+    <string name="tour_4_curio">Characteristic triangular shape.</string>
+    <string name="tour_5_name">Fangs</string>
+    <string name="tour_5_func">Venom injection via hypodermic</string>
+    <string name="tour_5_how">Modified hollow retractable teeth in the maxilla.</string>
+    <string name="tour_5_curio">Measure 1-3 cm, continuously replaced.</string>
+    <string name="tour_6_name">Venom Glands</string>
+    <string name="tour_6_func">Toxin production and storage</string>
+    <string name="tour_6_how">Elongated structures behind the eyes.</string>
+    <string name="tour_6_curio">One dose can kill up to 20 adult rats.</string>
+    <string name="tour_7_name">Teeth</string>
+    <string name="tour_7_func">Prey grip and retention</string>
+    <string name="tour_7_how">Rows of recurved teeth on pterygoid bones.</string>
+    <string name="tour_7_curio">Can have up to 200 teeth.</string>
+    <string name="tour_8_name">Forked Tongue</string>
+    <string name="tour_8_func">Chemical particle collection</string>
+    <string name="tour_8_how">Long, thin and forked tongue.</string>
+    <string name="tour_8_curio">Allows stereoscopic smell detection.</string>
+    <string name="tour_9_name">Jacobson Organ</string>
+    <string name="tour_9_func">Chemical analysis of pheromones</string>
+    <string name="tour_9_how">Sensory chambers in the roof of the mouth.</string>
+    <string name="tour_9_curio">Can detect prey up to 200 meters away.</string>
+    <string name="tour_10_name">Brain</string>
+    <string name="tour_10_func">Sensory processing</string>
+    <string name="tour_10_how">Small but specialized.</string>
+    <string name="tour_10_curio">Active at just 15°C.</string>
+    <string name="tour_11_name">Nervous System</string>
+    <string name="tour_11_func">Motor control and reflexes</string>
+    <string name="tour_11_how">Brain, spinal cord and peripheral nerves.</string>
+    <string name="tour_11_curio">Decapitated can still strike for 60 minutes.</string>
+    <string name="tour_12_name">Circulatory System</string>
+    <string name="tour_12_func">Oxygen and nutrient transport</string>
+    <string name="tour_12_how">Tricardiac heart.</string>
+    <string name="tour_12_curio">Can redirect blood flow when swallowing.</string>
+    <string name="tour_13_name">Heart</string>
+    <string name="tour_13_func">Blood pumping</string>
+    <string name="tour_13_how">2 atria, 1 functional ventricle.</string>
+    <string name="tour_13_curio">Can shift position when swallowing large prey.</string>
+    <string name="tour_14_name">Respiratory System</string>
+    <string name="tour_14_func">Gas exchange</string>
+    <string name="tour_14_how">Single functional lung.</string>
+    <string name="tour_14_curio">Can hold breath for 30 minutes.</string>
+    <string name="tour_15_name">Digestive System</string>
+    <string name="tour_15_func">Digestion of whole prey</string>
+    <string name="tour_15_how">Hydrochloric acid and potent enzymes.</string>
+    <string name="tour_15_curio">Stomach pH reaches 1.0.</string>
+    <string name="tour_16_name">Liver</string>
+    <string name="tour_16_func">Metabolism and storage</string>
+    <string name="tour_16_how">Elongated and multilobed.</string>
+    <string name="tour_16_curio">Stores up to 30% of body weight.</string>
+    <string name="tour_17_name">Kidneys</string>
+    <string name="tour_17_func">Excretion and osmoregulation</string>
+    <string name="tour_17_how">Elongated and lobulated.</string>
+    <string name="tour_17_curio">Loses less than 1% water per day.</string>
+    <string name="tour_18_name">Intestines</string>
+    <string name="tour_18_func">Nutrient absorption</string>
+    <string name="tour_18_how">Short small intestine for a carnivore.</string>
+    <string name="tour_18_curio">Can go weeks without defecating.</string>
+    <string name="tour_19_name">Reproductive System</string>
+    <string name="tour_19_func">Ovoviviparity</string>
+    <string name="tour_19_how">Eggs develop inside the female.</string>
+    <string name="tour_19_curio">Born with active venom.</string>
+    <string name="tour_20_name">Vertebral Column</string>
+    <string name="tour_20_func">Flexible axial axis</string>
+    <string name="tour_20_how">150-300 procoelous vertebrae.</string>
+    <string name="tour_20_curio">Can bend 180 degrees in 0.5s.</string>
+    <string name="tour_21_name">Ribs</string>
+    <string name="tour_21_func">Visceral protection</string>
+    <string name="tour_21_how">Articulated rib pairs per vertebra-expand body diameter 3 times.</string>
+    <string name="tour_21_curio">undefined</string>
+    <string name="tour_22_name">Tail and Rattle</string>
+    <string name="tour_22_func">Acoustic defense signaling</string>
+    <string name="tour_22_how">Hollow keratin segments.</string>
+    <string name="tour_22_curio">Vibrates 50-60 times per second.</string>
+
+    <!-- ========== NOTIFICATIONS ========== -->
+    <!-- ========== NOTIFICATIONS (missing) ========== -->
+    <string name="notif_channel_daily">Daily Reminder</string>
+    <string name="notif_channel_daily_desc">Daily snake tip</string>
+    <string name="notif_channel_achievements">Achievements</string>
+    <string name="notif_channel_achievements_desc">Achievements and completions</string>
+    <string name="notif_daily_title">Time to learn!</string>
+    <string name="notif_daily_text">Open Serpenteando and check todays tip</string>
+    <string name="notif_mission_title">New mission available!</string>
+    <string name="notif_mission_text">Complete today mission to earn points</string>
+    <string name="notif_achievement_title">Achievement unlocked!</string>
+    <string name="notif_achievement_text">%1$s</string>
+
+</resources>

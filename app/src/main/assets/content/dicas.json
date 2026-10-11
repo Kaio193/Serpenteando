@@ -1,32 +1,342 @@
 [
-  {"id":1,"text":"A cascavel só usa o chocalho como aviso — nunca como provocação. Ela prefere evitar o confronto."},
-  {"id":2,"text":"O veneno da jararaca foi fundamental para criar o Captopril, remédio que controla a pressão alta."},
-  {"id":3,"text":"A língua bifurcada da serpente 'cheira' o ar — cada ponta capta partículas de direções diferentes."},
-  {"id":4,"text":"Das 400 espécies de serpentes no Brasil, apenas 70 são peçonhentas. A maioria é inofensiva!"},
-  {"id":5,"text":"A muçurana é chamada de 'cobra do bem' porque se alimenta de serpentes peçonhentas como jararacas."},
-  {"id":6,"text":"Serpentes não têm pálpebras — seus olhos são cobertos por uma escama transparente que troca junto com a pele."},
-  {"id":7,"text":"A sucuri pode passar horas submersa com apenas os olhos e narinas fora d'água, esperando a presa."},
-  {"id":8,"text":"O chocalho da cascavel ganha um novo anel a cada troca de pele — não indica a idade exata da serpente."},
-  {"id":9,"text":"Serpentes não são viscosas! A pele delas é seca, lisa e coberta por escamas de queratina."},
-  {"id":10,"text":"Se encontrar uma serpente na natureza, mantenha distância. Ela vai fugir — é exatamente o que ela quer."},
-  {"id":11,"text":"A coral verdadeira tem veneno neurotóxico — um dos mais potentes do mundo. Mas ela é dócil e foge de humanos."},
-  {"id":12,"text":"Jiboias não têm veneno. Elas matam por constrição: envolvem a presa e apertam até impedir a respiração."},
-  {"id":13,"text":"Cada serpente tem um padrão único de escamas na cabeça — como uma impressão digital!"},
-  {"id":14,"text":"Matar serpentes é crime ambiental (Lei 9.605/98). Elas são protegidas por lei em todo o Brasil."},
-  {"id":15,"text":"A surucucu é a única víbora das Américas que põe ovos. Todas as outras (jararaca, cascavel) são vivíparas."},
-  {"id":16,"text":"Serpentes controlam populações de ratos — sem elas, teríamos muito mais doenças como leptospirose."},
-  {"id":17,"text":"As fossetas loreais (entre olhos e narinas) permitem que jararacas 'vejam' o calor das presas no escuro."},
-  {"id":18,"text":"O nome 'urutu' vem do tupi-guarani e significa 'cobra que morde'."},
-  {"id":19,"text":"A caninana pode subir em árvores verticais com facilidade para caçar ninhos de aves."},
-  {"id":20,"text":"Serpentes não bebem leite! Esse mito surgiu porque elas entram em currais atrás de roedores."},
-  {"id":21,"text":"A cobra-cipó é tão fina que se camufla perfeitamente entre galhos — quase impossível de ver."},
-  {"id":22,"text":"Em caso de picada: mantenha a vítima imóvel, lave com água e sabão e vá ao hospital. NUNCA faça torniquete."},
-  {"id":23,"text":"O soro antiofídico é produzido a partir de anticorpos de cavalos imunizados com veneno de serpente."},
-  {"id":24,"text":"Falsas corais imitam as cores das corais verdadeiras para enganar predadores — é o mimetismo batesiano."},
-  {"id":25,"text":"Serpentes trocam de pele várias vezes por ano. As jovens trocam mais que as adultas porque crescem mais rápido."},
-  {"id":26,"text":"A jiboia pode viver mais de 30 anos em cativeiro bem cuidado."},
-  {"id":27,"text":"O veneno da cascavel pode causar visão dupla — um dos sintomas neurológicos do envenenamento crotálico."},
-  {"id":28,"text":"A maior serpente peçonhenta das Américas é a surucucu, podendo atingir 3 metros de comprimento."},
-  {"id":29,"text":"Serpentes são essenciais para o equilíbrio ecológico: controlam pragas e servem de alimento para aves de rapina."},
-  {"id":30,"text":"Respeite as serpentes. Elas estão no planeta há mais de 100 milhões de anos e são fundamentais para a natureza."}
+  {
+    "id": 22,
+    "text": "Em caso de picada: mantenha a vítima imóvel, lave com água e sabão e vá ao hospital. NUNCA faça torniquete."
+  },
+  {
+    "id": 1,
+    "text": "A cascavel só usa o chocalho como aviso — nunca como provocação. Ela prefere evitar o confronto."
+  },
+  {
+    "id": 2,
+    "text": "O veneno da jararaca foi fundamental para criar o Captopril, remédio que controla a pressão alta."
+  },
+  {
+    "id": 23,
+    "text": "O soro antiofídico é produzido a partir de anticorpos de cavalos imunizados com veneno de serpente."
+  },
+  {
+    "id": 3,
+    "text": "A língua bifurcada da serpente 'cheira' o ar — cada ponta capta partículas de direções diferentes."
+  },
+  {
+    "id": 4,
+    "text": "Das 400 espécies de serpentes no Brasil, apenas 70 são peçonhentas. A maioria é inofensiva!"
+  },
+  {
+    "id": 27,
+    "text": "O veneno da cascavel pode causar visão dupla — um dos sintomas neurológicos do envenenamento crotálico."
+  },
+  {
+    "id": 5,
+    "text": "A muçurana é chamada de 'cobra do bem' porque se alimenta de serpentes peçonhentas como jararacas."
+  },
+  {
+    "id": 6,
+    "text": "Serpentes não têm pálpebras — seus olhos são cobertos por uma escama transparente que troca junto com a pele."
+  },
+  {
+    "id": 31,
+    "text": "PREVENÇÃO: Ao caminhar em áreas de mata, use calças longas e botas fechadas. Pisar em uma serpente é a principal causa de acidentes."
+  },
+  {
+    "id": 7,
+    "text": "A sucuri pode passar horas submersa com apenas os olhos e narinas fora d'água, esperando a presa."
+  },
+  {
+    "id": 8,
+    "text": "O chocalho da cascavel ganha um novo anel a cada troca de pele — não indica a idade exata da serpente."
+  },
+  {
+    "id": 32,
+    "text": "PRIMEIROS SOCORROS: Em caso de picada, mantenha a vítima calma e imóvel. Remova anéis e colírios apertados antes do inchaço."
+  },
+  {
+    "id": 9,
+    "text": "Serpentes não são viscosas! A pele delas é seca, lisa e coberta por escamas de queratina."
+  },
+  {
+    "id": 10,
+    "text": "Se encontrar uma serpente na natureza, mantenha distância. Ela vai fugir — é exatamente o que ela quer."
+  },
+  {
+    "id": 33,
+    "text": "NÃO faça torniquete, não corte o local da picada e não suga o veneno — isso piora o quadro e pode causar infecção."
+  },
+  {
+    "id": 11,
+    "text": "A coral verdadeira tem veneno neurotóxico — um dos mais potentes do mundo. Mas ela é dócil e foge de humanos."
+  },
+  {
+    "id": 12,
+    "text": "Jiboias não têm veneno. Elas matam por constrição: envolvem a presa e apertam até impedir a respiração."
+  },
+  {
+    "id": 34,
+    "text": "PRIMEIROS SOCORROS: Lave o local da picada com água e sabão e cubra com pano limpo. Procure um hospital imediatamente."
+  },
+  {
+    "id": 13,
+    "text": "Cada serpente tem um padrão único de escamas na cabeça — como uma impressão digital!"
+  },
+  {
+    "id": 14,
+    "text": "Matar serpentes é crime ambiental (Lei 9.605/98). Elas são protegidas por lei em todo o Brasil."
+  },
+  {
+    "id": 35,
+    "text": "PREVENÇÃO: Nunca coloque as mãos em buracos, frestas ou debaixo de pedras sem verificar. Muitas serpentes se escondem aí."
+  },
+  {
+    "id": 15,
+    "text": "A surucucu é a única víbora das Américas que põe ovos. Todas as outras (jararaca, cascavel) são vivíparas."
+  },
+  {
+    "id": 16,
+    "text": "Serpentes controlam populações de ratos — sem elas, teríamos muito mais doenças como leptospirose."
+  },
+  {
+    "id": 36,
+    "text": "PREVENÇÃO: Em casa, mantenha jardins aparados e sem entulho. Serpentes procuram abrigo em locais com esconderijos."
+  },
+  {
+    "id": 17,
+    "text": "As fossetas loreais (entre olhos e narinas) permitem que jararacas 'vejam' o calor das presas no escuro."
+  },
+  {
+    "id": 18,
+    "text": "O nome 'urutu' vem do tupi-guarani e significa 'cobra que morde'."
+  },
+  {
+    "id": 37,
+    "text": "PRIMEIROS SOCORROS: Anote a hora da picada e, se possível, tire foto da cobra. Isso ajuda o médico a escolher o soro correto."
+  },
+  {
+    "id": 19,
+    "text": "A caninana pode subir em árvores verticais com facilidade para caçar ninhos de aves."
+  },
+  {
+    "id": 20,
+    "text": "Serpentes não bebem leite! Esse mito surgiu porque elas entram em currais atrás de roedores."
+  },
+  {
+    "id": 38,
+    "text": "PREVENÇÃO: À noite, use lanterna ao andar em áreas sem iluminação. Serpentes são mais ativas ao entardecer e à noite."
+  },
+  {
+    "id": 21,
+    "text": "A cobra-cipó é tão fina que se camufla perfeitamente entre galhos — quase impossível de ver."
+  },
+  {
+    "id": 24,
+    "text": "Falsas corais imitam as cores das corais verdadeiras para enganar predadores — é o mimetismo batesiano."
+  },
+  {
+    "id": 39,
+    "text": "PRIMEIROS SOCORROS: Não tome remédios caseiros como mertiolate ou vodka no local da picada. Só o hospital pode tratar."
+  },
+  {
+    "id": 25,
+    "text": "Serpentes trocam de pele várias vezes por ano. As jovens trocam mais que as adultas porque crescem mais rápido."
+  },
+  {
+    "id": 26,
+    "text": "A jiboia pode viver mais de 30 anos em cativeiro bem cuidado."
+  },
+  {
+    "id": 40,
+    "text": "PREVENÇÃO: Se encontrar uma serpente em casa, não tente pegá-la com as mãos. Ligue os bombeiros (193) para remoção segura."
+  },
+  {
+    "id": 28,
+    "text": "A maior serpente peçonhenta das Américas é a surucucu, podendo atingir 3 metros de comprimento."
+  },
+  {
+    "id": 29,
+    "text": "Serpentes são essenciais para o equilíbrio ecológico: controlam pragas e servem de alimento para aves de rapina."
+  },
+  {
+    "id": 41,
+    "text": "PICADA DE JARARACA (Bothrops): dor forte, inchaço e sangramento no local. Deite a vítima, mantenha o membro em repouso e leve ao hospital. O soro é o antibotrópico."
+  },
+  {
+    "id": 30,
+    "text": "Respeite as serpentes. Elas estão no planeta há mais de 100 milhões de anos e são fundamentais para a natureza."
+  },
+  {
+    "id": 56,
+    "text": "O coracao da serpente tem tres cavidades e pode se deslocar dentro do corpo quando ela engole uma presa grande."
+  },
+  {
+    "id": 42,
+    "text": "PICADA DE CASCAVEL (Crotalus): o local quase não dói, mas aparecem visão dupla, pálpebras caídas e urina escura. É grave — vá ao hospital mesmo sem dor. Soro anticrotálico."
+  },
+  {
+    "id": 57,
+    "text": "Depois de uma refeicao grande, uma serpente pode ficar meses sem comer: o metabolismo dela desacelera muito."
+  },
+  {
+    "id": 59,
+    "text": "Serpentes nao tem ouvido externo: elas sentem as vibracoes do chao pelos ossos da mandibula."
+  },
+  {
+    "id": 43,
+    "text": "PICADA DE CORAL VERDADEIRA (Micrurus): a marca pode ser quase invisível e não doer. Mesmo assim é emergência — o veneno paralisa aos poucos. Soro antielapídico."
+  },
+  {
+    "id": 60,
+    "text": "O orgao de Jacobson, no ceu da boca, analisa as particulas que a lingua traz. E o olfato delas."
+  },
+  {
+    "id": 61,
+    "text": "A sucuri e a maior serpente do Brasil e pode passar de 6 metros de comprimento."
+  },
+  {
+    "id": 44,
+    "text": "PICADA DE SURUCUCU (Lachesis): junta dor e inchaço com sintomas neurológicos. É o acidente mais grave do Brasil. Vá imediatamente ao hospital."
+  },
+  {
+    "id": 62,
+    "text": "A serpente troca a pele inteira de uma vez, inclusive a cobertura transparente dos olhos."
+  },
+  {
+    "id": 63,
+    "text": "O chocalho e feito de queratina, o mesmo material das nossas unhas e do nosso cabelo."
+  },
+  {
+    "id": 45,
+    "text": "PICADA DE COBRA NÃO PEÇONHENTA (jiboia, sucuri, caninana, muçurana): não tem veneno, mas a mordida pode infeccionar. Lave bem e confira se a vacina antitetânica está em dia."
+  },
+  {
+    "id": 64,
+    "text": "A coral verdadeira e docil: ela so morde se for apertada ou pisada."
+  },
+  {
+    "id": 65,
+    "text": "A jiboia tem fossetas labiais que detectam o calor do corpo das presas mesmo no escuro."
+  },
+  {
+    "id": 46,
+    "text": "O QUE NUNCA FAZER numa picada: torniquete, cortar, furar, chupar o veneno, passar gelo, querosene, álcool ou fumo. Tudo isso só piora."
+  },
+  {
+    "id": 66,
+    "text": "Serpentes engolem a presa inteira, sem mastigar: toda a digestao e quimica."
+  },
+  {
+    "id": 67,
+    "text": "O acido do estomago de uma serpente e forte o bastante para dissolver osso."
+  },
+  {
+    "id": 47,
+    "text": "Se for picado, beba água, fique calmo e não corra. O esforço espalha o veneno mais rápido pelo corpo."
+  },
+  {
+    "id": 68,
+    "text": "O bote da jararaca e mais rapido do que o olho humano consegue acompanhar."
+  },
+  {
+    "id": 69,
+    "text": "A mucurana e imune ao veneno de outras serpentes e se alimenta delas."
+  },
+  {
+    "id": 48,
+    "text": "O soro antiofídico é gratuito pelo SUS e distribuído nos hospitais de referência. Quanto mais cedo o atendimento, melhor o resultado."
+  },
+  {
+    "id": 70,
+    "text": "A cobra-cipo e tao fina que parece um galho: muita gente passa perto sem perceber."
+  },
+  {
+    "id": 71,
+    "text": "Serpentes sao animais de sangue frio: dependem do ambiente para regular a temperatura do corpo."
+  },
+  {
+    "id": 49,
+    "text": "Em caso de acidente com serpente ligue para o Disque-Intoxicação: 0800 722 6001. Orienta 24h sobre o que fazer."
+  },
+  {
+    "id": 72,
+    "text": "A caninana infla o pescoco quando se sente ameacada, para parecer maior."
+  },
+  {
+    "id": 73,
+    "text": "Filhotes de cascavel ja nascem com veneno e chocalho funcionando."
+  },
+  {
+    "id": 50,
+    "text": "PREVENÇÃO: quem trabalha em roça ou mata deve usar perneira de couro ou botina alta. É o equipamento que mais evita picada."
+  },
+  {
+    "id": 74,
+    "text": "A surucucu e a maior vibora peconhenta das Americas, chegando a 3 metros."
+  },
+  {
+    "id": 75,
+    "text": "Serpentes controlam roedores e, com isso, ajudam a reduzir doencas como a leptospirose."
+  },
+  {
+    "id": 51,
+    "text": "PREVENÇÃO: examine o local antes de calçar sapatos, arrumar lenha ou mexer em pilhas de entulho. Serpente gosta de lugar escuro e quente."
+  },
+  {
+    "id": 76,
+    "text": "O esqueleto de uma serpente pode ter mais de 300 vertebras, cada uma com um par de costelas."
+  },
+  {
+    "id": 77,
+    "text": "A lingua bifurcada da uma nocao de direcao: cada ponta capta o cheiro de um lado."
+  },
+  {
+    "id": 52,
+    "text": "PREVENÇÃO: rato e lixo atraem serpentes. Mantenha comida guardada e o lixo bem fechado — sem roedor, elas não têm motivo para entrar em casa."
+  },
+  {
+    "id": 78,
+    "text": "Algumas serpentes conseguem planar entre galhos achatando o corpo em forma de fita."
+  },
+  {
+    "id": 79,
+    "text": "O nome cientifico da cascavel, Crotalus durissus, foi dado por Lineu em 1758."
+  },
+  {
+    "id": 53,
+    "text": "PREVENÇÃO: ande sempre pela trilha aberta, nunca no mato fechado ou em cima de folhas secas. Assim você vê onde pisa."
+  },
+  {
+    "id": 80,
+    "text": "Serpentes marinhas passam a vida no oceano e precisam subir a superficie para respirar."
+  },
+  {
+    "id": 81,
+    "text": "A muda de pele e sinal de crescimento: filhotes trocam de pele varias vezes por ano."
+  },
+  {
+    "id": 54,
+    "text": "PREVENÇÃO: ao acampar, afaste a barraca de troncos caídos e pedras. Sacuda sapatos e saco de dormir antes de usar."
+  },
+  {
+    "id": 82,
+    "text": "A pele da serpente e seca e lisa. A sensacao de viscoso e mito."
+  },
+  {
+    "id": 83,
+    "text": "Serpentes enxergam mal paradas, mas percebem muito bem qualquer movimento."
+  },
+  {
+    "id": 55,
+    "text": "PREVENÇÃO: se a cobra aparecer, pare e recue devagar. Ela só ataca quando se sente encurralada ou é pisada. Correr ou tentar matar é o maior risco."
+  },
+  {
+    "id": 84,
+    "text": "Algumas especies imitam o padrao da coral verdadeira: sao as falsas corais."
+  },
+  {
+    "id": 85,
+    "text": "Serpentes noturnas costumam ter pupila vertical; as diurnas, pupila redonda."
+  },
+  {
+    "id": 58,
+    "text": "A jararaca e a serpente que mais causa acidentes no Brasil justamente porque vive perto de gente."
+  }
 ]

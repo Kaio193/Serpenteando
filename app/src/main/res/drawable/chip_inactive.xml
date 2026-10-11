@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/cascavel_surface" />
-    <stroke android:width="0.5dp" android:color="@color/cascavel_outline" />
-    <corners android:radius="16dp" />
+    <!-- Chip de filtro nao selecionado: base neutra nos dois temas.
+         Era @color/cascavel_surface (branco no tema claro) e o chip sumia
+         sobre o dialog branco — por isso ficou escuro. Agora usa o token
+         cascavel_chip_idle pra nao herdar o verde dos botoes (30/09). -->
+    <solid android:color="@color/cascavel_chip_idle" />
+    <stroke android:width="1dp" android:color="@color/cascavel_outline" />
+    <corners android:radius="@dimen/radius_circular" />
 </shape>

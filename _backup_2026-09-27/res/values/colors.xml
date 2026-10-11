@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- =============================================
+         SERPENTEANDO — LIGHT MODE (compacto)
+         15 cores base. Todo o resto é referência.
+         ============================================= -->
+
+    <!-- Background -->
+    <color name="cascavel_bg">#F5F5F0</color>
+
+    <!-- Superfícies (card = branco,容器 = cinza quente) -->
+    <color name="cascavel_surface">#FFFFFF</color>
+    <color name="cascavel_surface_container">#EDE9E3</color>
+
+    <!-- Textos -->
+    <color name="cascavel_on_bg">#1C1C1E</color>
+    <color name="cascavel_on_surface_variant">#6B7B6E</color>
+    <color name="cascavel_tertiary_label">#9E9E96</color>
+
+    <!-- Acentos -->
+    <color name="cascavel_jade">#4CAF50</color>
+    <color name="cascavel_jade_bright">#66BB6A</color>
+    <color name="cascavel_jade_dim">#2E7D32</color>
+    <color name="cascavel_gold">#C4A84D</color>
+
+    <!-- Bordas / Outline -->
+    <color name="cascavel_outline">#D1CEC8</color>
+
+    <!-- Functional -->
+    <color name="cascavel_wrong">#C62828</color>
+
+    <!-- =============================================
+         REFERÊNCIAS (tudo aponta pras cores acima)
+         ============================================= -->
+    <color name="cascavel_bg_light">@color/cascavel_bg</color>
+    <color name="cascavel_surface_light">@color/cascavel_surface</color>
+    <color name="cascavel_surface_container_light">@color/cascavel_surface_container</color>
+    <color name="cascavel_surface_container_high">@color/cascavel_surface</color>
+    <color name="cascavel_surface_container_high_light">@color/cascavel_surface</color>
+    <color name="cascavel_surface_container_highest">@color/cascavel_surface_container</color>
+    <color name="cascavel_on_bg_light">@color/cascavel_on_bg</color>
+    <color name="cascavel_on_surface">@color/cascavel_on_bg</color>
+    <color name="cascavel_on_surface_light">@color/cascavel_on_bg</color>
+    <color name="cascavel_on_surface_variant_light">@color/cascavel_on_surface_variant</color>
+    <color name="cascavel_outline_light">@color/cascavel_outline</color>
+    <color name="cascavel_outline_variant">@color/cascavel_outline</color>
+    <color name="cascavel_outline_variant_light">@color/cascavel_outline</color>
+    <color name="cascavel_glass_stroke">#33D1CEC8</color>
+    <color name="cascavel_glass_clear">#E8E8E44D</color>
+    <color name="cascavel_gold_bright">#D4B85A</color>
+    <color name="cascavel_gold_dim">#8D6E1F</color>
+    <color name="cascavel_back_button">#B3FFFFFF</color>
+    <color name="label_primary">@color/cascavel_on_bg</color>
+    <color name="label_secondary">@color/cascavel_on_surface_variant</color>
+    <color name="label_tertiary">@color/cascavel_tertiary_label</color>
+    <color name="myth_bg_vibrant">#26C62828</color>
+    <color name="myth_border_vibrant">#4DC62828</color>
+    <color name="truth_bg_vibrant">#264CAF50</color>
+    <color name="quiz_letter_bg">@color/cascavel_surface_container</color>
+    <color name="system_gray_4">#D1D1D6</color>
+    <color name="label">@color/cascavel_on_bg</color>
+    <color name="secondary_label">@color/cascavel_on_surface_variant</color>
+    <color name="glass_clear">@color/cascavel_glass_clear</color>
+    <color name="dark_card">@color/cascavel_surface</color>
+    <color name="gold">@color/cascavel_gold</color>
+    <color name="text_secondary">@color/cascavel_on_surface_variant</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">@color/cascavel_on_bg</color>
+    <color name="cascavel_card_bg">#40FFFFFF</color>
+    <color name="cascavel_card_stroke">@color/cascavel_glass_stroke</color>
+    <color name="home_icon_tint">@color/cascavel_jade_dim</color>
+
+    <!-- Botoes: cinza claro no tema claro / cinza meio escuro no tema escuro -->
+    <color name="cascavel_button">#D9D9D4</color>
+    <color name="cascavel_on_button">#1C1C1E</color>
+    <color name="snake_overlay_text">#F2F5F2</color>
+
+    <!-- Tela de introducao: o fundo e sempre claro (radial branco),
+         entao os textos usam cor fixa pra ficarem legiveis nos dois temas. -->
+    <color name="onboarding_text">#1C1C1E</color>
+    <color name="onboarding_text_muted">#6B7B6E</color>
+</resources>

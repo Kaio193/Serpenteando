@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog: créditos do app — explicação básica do projeto.
+     Os nomes das pessoas ficam na tela "Sobre" (fragment_about). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_glass_bg"
+    android:layout_marginHorizontal="28dp"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="20dp">
+
+    <!-- Ícone removido (item 12, 11/10/2026): o Kaio pediu pra tirar a
+         "cobrinha" que aparecia acima do título dos créditos. Nenhum ícone
+         entrou no lugar. -->
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/credits_title"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/cascavel_on_bg" />
+
+    <!-- Conteúdo rolável -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:maxHeight="380dp"
+        android:fadeScrollbars="true"
+        android:scrollbarStyle="outsideOverlay">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Aqui ficava a legenda "SOBRE O PROJETO" (a que o Kaio pediu
+                 pra tirar em 30/09). O título "Créditos" continua no topo e a
+                 descrição do projeto continua logo abaixo. -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/credits_description"
+                android:textColor="@color/cascavel_on_bg"
+                android:textSize="15sp"
+                android:fontFamily="@font/inter"
+                android:lineSpacingMultiplier="1.4" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botão fechar -->
+    <TextView
+        android:id="@+id/dialogCloseButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/dialog_btn_primary"
+        android:gravity="center"
+        android:text="@string/dialog_mission_complete_close"
+        android:textColor="@color/cascavel_on_button"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>
