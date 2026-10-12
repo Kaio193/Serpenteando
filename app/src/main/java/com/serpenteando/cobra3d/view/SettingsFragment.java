@@ -151,7 +151,6 @@ public class SettingsFragment extends Fragment {
                 // A mensagem já vai preenchida (item 25 do doc, 30/09) e o
                 // usuário pode editar tudo antes de enviar.
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.contact_email_body));
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
@@ -170,7 +169,6 @@ public class SettingsFragment extends Fragment {
                 // Modelo de mensagem (item 26 do doc, 30/09): já vem com o
                 // roteiro do que descrever, editável pelo usuário.
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.bug_email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.bug_email_body));
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();

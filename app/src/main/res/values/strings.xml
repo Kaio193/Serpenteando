@@ -96,10 +96,14 @@
     <string name="settings_no_email">Nenhum app de e-mail encontrado</string>
     <!-- Mensagens que já vêm preenchidas no e-mail (Kaio, 30/09) — o usuário
          pode editar tudo antes de enviar. -->
-    <string name="contact_email_subject">Contato — Serpenteando</string>
-    <string name="contact_email_body">Olá! Gostaria de entrar em contato com a equipe para tirar uma dúvida ou obter ajuda. Meu assunto é: </string>
-    <string name="bug_email_subject">Bug — Serpenteando</string>
-    <string name="bug_email_body">Olá! Gostaria de reportar um bug no aplicativo.\n\n*Descrição do problema:*\n\n*Em qual tela aconteceu:*\n\n*O que aconteceu:*\n\nSe possível, enviarei uma captura de tela para ajudar a identificar o erro.</string>
+    <string name="contact_email_subject">Olá! Gostaria de entrar em contato com a equipe para tirar uma dúvida ou obter ajuda. Meu assunto é:</string>
+    <string name="contact_email_body"></string>
+    <string name="bug_email_subject">Olá! Gostaria de reportar um bug no aplicativo.
+Descrição do problema:
+Em qual tela aconteceu:
+O que aconteceu:*
+Se possível, enviarei uma captura de tela para ajudar a identificar o erro.</string>
+    <string name="bug_email_body"></string>
     <string name="settings_error_dialog">Erro ao abrir diálogo</string>
     <string name="settings_notif_daily">Lembretes diários</string>
     <string name="settings_notif_missions">Novas missões</string>
