@@ -1,4 +1,4 @@
-package com.example.serpenteando;
+package com.serpenteando.cobra3d;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.serpenteando", appContext.getPackageName());
+        assertEquals("com.serpenteando.cobra3d", appContext.getPackageName());
     }
 }

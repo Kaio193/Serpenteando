@@ -74,9 +74,8 @@
     <color name="cascavel_button_disabled">#66499959</color>
     <color name="cascavel_button_pressed_soft">#1F499959</color>
 
-    <!-- Chips/botoes de escolha: mesmo verde padrao dos botoes (Kaio, 07/10).
-         Antes era a base cinza #3A423E. -->
-    <color name="cascavel_chip_idle">@color/cascavel_button</color>
+    <!-- Os chips/filtros leem direto o cascavel_button: mesma cor dos botoes
+         nos dois temas (ver values/colors.xml). -->
 
     <!-- Cards do Conteudo Educativo e de Mitos e Verdades (Kaio, 07/10):
          o verde escuro #152920 vale SÓ no modo escuro. No modo claro o card

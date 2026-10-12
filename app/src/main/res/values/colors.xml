@@ -88,13 +88,10 @@
     <color name="cascavel_button_disabled">#66499959</color>
     <color name="cascavel_button_pressed_soft">#1F499959</color>
 
-    <!-- Chips/botoes de escolha (Fácil/Médio/Difícil do quiz, filtros de
-         Mitos e Conteúdo, idiomas, cards de missão).
-         Os do Caio (07/10): eles estavam com a base cinza (#3A423E) e o Kaio
-         pediu TODOS os botões do app no verde padrão — então agora o chip
-         idle usa o mesmo token dos botões e não tem mais tom cinza.
-         Os textos que ficam por cima usam cascavel_on_button (branco). -->
-    <color name="cascavel_chip_idle">@color/cascavel_button</color>
+    <!-- Os chips/filtros (Fácil/Médio/Difícil, Mitos, Conteúdo, idiomas e cards
+         de missão) leem direto o cascavel_button: desde 12/10 eles usam a
+         mesma cor dos botões e não têm mais tom cinza. Os textos que ficam por
+         cima usam cascavel_on_button (branco). -->
     <color name="snake_overlay_text">#F2F5F2</color>
 
     <!-- Tela de introducao: o fundo e sempre claro (radial branco),
