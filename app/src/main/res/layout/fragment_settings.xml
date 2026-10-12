@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/transparent">
+    android:background="@drawable/mode_light_screen">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:paddingHorizontal="@dimen/space_20"
-        android:paddingTop="@dimen/space_16"
+        android:paddingTop="@dimen/space_32"
         android:paddingBottom="@dimen/space_32">
 
         <LinearLayout
@@ -18,12 +19,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- CABEÇALHO PADRÃO: favicon arredondado + título, na mesma
+                 altura e no mesmo estilo da tela Início (item 11).
+                 O paddingHorizontal do ScrollView já dá os 20dp de margem,
+                 então aqui não precisa de margem horizontal extra. -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/SerpenteandoLargeTitle"
-                android:text="Ajustes"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09):
+                     o logo fica SO na Home. -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/SerpenteandoLargeTitle"
+                    android:text="@string/settings_title_bar"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <!-- GERAL -->
             <TextView
@@ -32,19 +47,24 @@
                 android:layout_marginTop="@dimen/space_24"
                 android:layout_marginBottom="@dimen/space_6"
                 style="@style/SerpenteandoCaption"
-                android:text="GERAL"
-                android:textColor="@color/cascavel_on_surface_variant" />
+                android:text="@string/section_general"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="12dp"
                 android:background="@drawable/settings_group_bg">
 
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowLanguage" />
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowNotification" />
                 <include layout="@layout/item_settings_row_switch"
                     android:id="@+id/rowDarkMode" />
-                <include layout="@layout/item_settings_row_switch"
-                    android:id="@+id/rowVoiceMode" />
             </LinearLayout>
 
             <!-- SOBRE -->
@@ -54,25 +74,24 @@
                 android:layout_marginTop="@dimen/space_24"
                 android:layout_marginBottom="@dimen/space_6"
                 style="@style/SerpenteandoCaption"
-                android:text="SOBRE"
-                android:textColor="@color/cascavel_on_surface_variant" />
+                android:text="@string/section_about"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="12dp"
                 android:background="@drawable/settings_group_bg">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/min_touch_target"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="@dimen/space_16"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView style="@style/SerpenteandoBody" android:text="Versão" android:layout_width="0dp" android:layout_weight="1" />
-                    <TextView style="@style/SerpenteandoFootnote" android:text="0.1.0" android:textColor="@color/cascavel_on_surface_variant" />
-                </LinearLayout>
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowVersion" />
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowCredits" />
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowAbout" />
             </LinearLayout>
 
             <!-- APOIO -->
@@ -82,25 +101,22 @@
                 android:layout_marginTop="@dimen/space_24"
                 android:layout_marginBottom="@dimen/space_6"
                 style="@style/SerpenteandoCaption"
-                android:text="APOIO"
-                android:textColor="@color/cascavel_on_surface_variant" />
+                android:text="@string/section_support"
+                android:textColor="@color/cascavel_jade_bright"
+                android:textStyle="bold"
+                android:letterSpacing="0.15" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="12dp"
                 android:background="@drawable/settings_group_bg">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/min_touch_target"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="@dimen/space_16"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView style="@style/SerpenteandoBody" android:text="Fale Conosco" android:layout_width="0dp" android:layout_weight="1" />
-                    <TextView style="@style/SerpenteandoBody" android:text="›" android:textColor="@color/cascavel_on_surface_variant" />
-                </LinearLayout>
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowContact" />
+                <include layout="@layout/item_settings_row_click"
+                    android:id="@+id/rowBugReport" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

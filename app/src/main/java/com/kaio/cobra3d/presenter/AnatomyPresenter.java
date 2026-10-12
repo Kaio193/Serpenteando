@@ -1,24 +1,33 @@
 package com.kaio.cobra3d.presenter;
 
+import android.content.Context;
+
+import com.kaio.cobra3d.R;
 import com.kaio.cobra3d.contract.AnatomyContract;
 import com.kaio.cobra3d.model.db.DatabaseHelper;
 import com.kaio.cobra3d.model.entity.AnatomyHotspot;
 import com.kaio.cobra3d.model.entity.AnatomyLayer;
 import com.kaio.cobra3d.model.repository.AnatomyRepository;
+import com.kaio.cobra3d.model.repository.ProgressRepository;
 
 import java.util.List;
 
 public class AnatomyPresenter implements AnatomyContract.Presenter {
 
     private final AnatomyContract.View view;
+    private final Context context;
     private final AnatomyRepository anatomyRepository;
+    private final ProgressRepository progressRepository;
     private List<AnatomyLayer> layers;
     private List<AnatomyHotspot> currentHotspots;
     private int currentLayerIndex;
+    private boolean layerActuallySwitched;
 
-    public AnatomyPresenter(AnatomyContract.View view, DatabaseHelper dbHelper) {
+    public AnatomyPresenter(AnatomyContract.View view, DatabaseHelper dbHelper, Context context) {
         this.view = view;
+        this.context = context.getApplicationContext();
         this.anatomyRepository = new AnatomyRepository(dbHelper.getWritableDatabase());
+        this.progressRepository = new ProgressRepository(dbHelper.getWritableDatabase());
         this.currentLayerIndex = 0;
     }
 
@@ -29,11 +38,12 @@ public class AnatomyPresenter implements AnatomyContract.Presenter {
         view.hideLoading();
 
         if (layers.isEmpty()) {
-            view.showError("Nenhuma camada encontrada");
+            view.showError(context.getString(R.string.error_no_layer));
             return;
         }
 
         selectLayer(layers.get(0).getLayerName());
+        layerActuallySwitched = true;
     }
 
     @Override
@@ -54,6 +64,11 @@ public class AnatomyPresenter implements AnatomyContract.Presenter {
                     break;
                 }
             }
+
+            // Conta troca de camada real (botões OU bottom sheet), ignorando a primeira carga
+            if (layerActuallySwitched) {
+                progressRepository.incrementEvent("ANATOMY_LAYER");
+            }
         }
     }
 
@@ -62,6 +77,7 @@ public class AnatomyPresenter implements AnatomyContract.Presenter {
         AnatomyHotspot hotspot = anatomyRepository.getHotspotById(hotspotId);
         if (hotspot != null) {
             view.showHotspotInfo(hotspot);
+            progressRepository.incrementEvent("ANATOMY_HOTSPOT");
         }
     }
 
@@ -73,6 +89,7 @@ public class AnatomyPresenter implements AnatomyContract.Presenter {
         AnatomyHotspot hotspot = currentHotspots.get(index);
         if (hotspot != null) {
             view.showHotspotInfo(hotspot);
+            progressRepository.incrementEvent("ANATOMY_HOTSPOT");
         }
     }
 

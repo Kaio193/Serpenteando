@@ -6,6 +6,17 @@
         android:glEsVersion="0x00030000"
         android:required="true" />
 
+    <!-- Notificações (Android 13+ precisa de permissão explícita) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Feedback tátil no módulo 3D -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Alarme diário funciona mesmo com bateria otimizada -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Reagenda alarmes após reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Wakelock leve para processar alarme -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".SerpenteandoApp"
         android:allowBackup="true"
@@ -36,6 +47,25 @@
             android:exported="true"
             android:theme="@style/Theme.Serpenteando">
         </activity>
+
+        <!-- Receiver para notificações agendadas (alarme diário) -->
+        <receiver
+            android:name=".receiver.NotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.kaio.cobra3d.ACTION_DAILY_REMINDER" />
+                <action android:name="com.kaio.cobra3d.ACTION_MISSION_AVAILABLE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Receiver para reagendar alarmes após reboot -->
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

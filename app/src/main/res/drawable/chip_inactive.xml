@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/cascavel_surface" />
-    <stroke android:width="0.5dp" android:color="@color/cascavel_outline" />
-    <corners android:radius="16dp" />
+    <!-- Filtro NAO selecionado (Kaio, 11/10 — itens 5 e 6): MESMO verde claro
+         do selecionado (cascavel_inofensiva), texto branco, e so o anel mais
+         fino/neutro diferencia. Antes era a base cinza escura, que o Kaio
+         descreveu como "apagado". -->
+    <solid android:color="@color/cascavel_inofensiva" />
+    <stroke android:width="1dp" android:color="@color/cascavel_outline" />
+    <corners android:radius="@dimen/radius_circular" />
 </shape>

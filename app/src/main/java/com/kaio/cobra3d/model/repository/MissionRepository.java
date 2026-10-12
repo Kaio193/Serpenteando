@@ -81,6 +81,15 @@ public class MissionRepository {
                 new String[]{String.valueOf(missionId)});
     }
 
+    // Marca um item da missão como cumprido (a missão avança sozinha conforme as ações reais)
+    public void updateItemCorrect(long itemId, boolean correct) {
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.MissionItemsTable.COL_IS_CORRECT, correct ? 1 : 0);
+        db.update(Contract.MissionItemsTable.TABLE_NAME, cv,
+                Contract.MissionItemsTable.COL_ID + " = ?",
+                new String[]{String.valueOf(itemId)});
+    }
+
     public int getCompletedCount() {
         Cursor c = db.rawQuery(
                 "SELECT COUNT(*) FROM " + Contract.MissionsTable.TABLE_NAME +
@@ -100,6 +109,7 @@ public class MissionRepository {
         m.setDescription(c.getString(c.getColumnIndexOrThrow(Contract.MissionsTable.COL_DESCRIPTION)));
         m.setDifficulty(c.getInt(c.getColumnIndexOrThrow(Contract.MissionsTable.COL_DIFFICULTY)));
         m.setPoints(c.getInt(c.getColumnIndexOrThrow(Contract.MissionsTable.COL_POINTS)));
+        m.setTotalDays(c.getInt(c.getColumnIndexOrThrow(Contract.MissionsTable.COL_TOTAL_DAYS)));
         m.setCompleted(c.getInt(c.getColumnIndexOrThrow(Contract.MissionsTable.COL_IS_COMPLETED)) == 1);
         return m;
     }
@@ -109,6 +119,8 @@ public class MissionRepository {
         item.setId(c.getLong(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_ID)));
         item.setMissionId(c.getLong(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_MISSION_ID)));
         item.setItemText(c.getString(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_ITEM_TEXT)));
+        item.setTrigger(c.getString(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_TRIGGER)));
+        item.setTarget(c.getInt(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_TARGET)));
         item.setCorrect(c.getInt(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_IS_CORRECT)) == 1);
         item.setDisplayOrder(c.getInt(c.getColumnIndexOrThrow(Contract.MissionItemsTable.COL_DISPLAY_ORDER)));
         return item;

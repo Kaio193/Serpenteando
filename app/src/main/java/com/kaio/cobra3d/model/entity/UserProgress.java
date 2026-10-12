@@ -11,6 +11,13 @@ public class UserProgress {
     private int currentStreak;
     private String lastQuizDate;
     private String lastTipDate;
+    private int quizFacilCount;
+    private int quizMedioCount;
+    private int quizDificilCount;
+    private int anatomyHotspotCount;
+    private int anatomyLayerCount;
+    private int contentDetailCount;
+    private String awardedMissions;
 
     // [ALÉM DO TEI] Campos mapeados para colunas SQLite — lidos via Cursor pelo ProgressRepository e gravados com ContentValues
     public UserProgress() {
@@ -44,4 +51,25 @@ public class UserProgress {
 
     public String getLastTipDate() { return lastTipDate; }
     public void setLastTipDate(String lastTipDate) { this.lastTipDate = lastTipDate; }
+
+    public int getQuizFacilCount() { return quizFacilCount; }
+    public void setQuizFacilCount(int n) { this.quizFacilCount = n; }
+
+    public int getQuizMedioCount() { return quizMedioCount; }
+    public void setQuizMedioCount(int n) { this.quizMedioCount = n; }
+
+    public int getQuizDificilCount() { return quizDificilCount; }
+    public void setQuizDificilCount(int n) { this.quizDificilCount = n; }
+
+    public int getAnatomyHotspotCount() { return anatomyHotspotCount; }
+    public void setAnatomyHotspotCount(int n) { this.anatomyHotspotCount = n; }
+
+    public int getAnatomyLayerCount() { return anatomyLayerCount; }
+    public void setAnatomyLayerCount(int n) { this.anatomyLayerCount = n; }
+
+    public int getContentDetailCount() { return contentDetailCount; }
+    public void setContentDetailCount(int n) { this.contentDetailCount = n; }
+
+    public String getAwardedMissions() { return awardedMissions; }
+    public void setAwardedMissions(String ids) { this.awardedMissions = ids; }
 }

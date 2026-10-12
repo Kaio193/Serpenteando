@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/cascavel_bg" />
-        </shape>
-    </item>
-    <item android:gravity="center">
-        <shape android:shape="oval">
-            <solid android:color="@color/cascavel_surface" />
-            <size
-                android:width="240dp"
-                android:height="240dp" />
-        </shape>
-    </item>
-    <item android:gravity="center" android:top="48dp">
-        <shape android:shape="oval">
-            <solid android:color="@color/cascavel_surface_container" />
-            <size
-                android:width="120dp"
-                android:height="120dp" />
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Splash estatica (Kaio, 11/10 — item 16): UMA cor so do comeco ao fim.
+         Antes era um layer-list com dois circulos de tons diferentes, que
+         davam a impressao de fundo mudando de cor. A cor e a de fundo real do
+         modo claro do app (cascavel_bg_light = #F5F5F0), a mesma que o
+         windowSplashScreenBackground do tema Light ja usa — entao a splash do
+         sistema e a nossa ficam identicas, sem transicao de tonalidade. -->
+    <solid android:color="@color/cascavel_bg_light" />
+</shape>

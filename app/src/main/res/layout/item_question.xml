@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/space_8"
-    style="@style/AppleCard">
+    style="@style/SerpenteandoCard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:id="@+id/questionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppleTitle3"
+            style="@style/SerpenteandoTitle3"
             android:paddingBottom="@dimen/space_16" />
 
         <RadioGroup
@@ -29,32 +29,32 @@
                 android:id="@+id/radioA"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_touch_target"
-                android:text="Opção A"
-                style="@style/AppleBody"
+                android:text="@string/option_label_a"
+                style="@style/SerpenteandoBody"
                 android:buttonTint="@color/cascavel_jade" />
 
             <RadioButton
                 android:id="@+id/radioB"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_touch_target"
-                android:text="Opção B"
-                style="@style/AppleBody"
+                android:text="@string/option_label_b"
+                style="@style/SerpenteandoBody"
                 android:buttonTint="@color/cascavel_jade" />
 
             <RadioButton
                 android:id="@+id/radioC"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_touch_target"
-                android:text="Opção C"
-                style="@style/AppleBody"
+                android:text="@string/option_label_c"
+                style="@style/SerpenteandoBody"
                 android:buttonTint="@color/cascavel_jade" />
 
             <RadioButton
                 android:id="@+id/radioD"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_touch_target"
-                android:text="Opção D"
-                style="@style/AppleBody"
+                android:text="@string/option_label_d"
+                style="@style/SerpenteandoBody"
                 android:buttonTint="@color/cascavel_jade" />
 
         </RadioGroup>

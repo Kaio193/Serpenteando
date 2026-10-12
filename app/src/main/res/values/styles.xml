@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ========== TYPOGRAPHY ========== -->
     <style name="SerpenteandoLargeTitle">
@@ -6,9 +6,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">34sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
         
-        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:letterSpacing">-0.012</item>
     </style>
 
     <style name="SerpenteandoTitle1">
@@ -16,9 +16,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         
-        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:letterSpacing">-0.009</item>
     </style>
 
     <style name="SerpenteandoTitle2">
@@ -26,9 +26,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         
-        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:letterSpacing">-0.008</item>
     </style>
 
     <style name="SerpenteandoTitle3">
@@ -36,9 +36,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        
+        <item name="android:letterSpacing">-0.006</item>
     </style>
 
     <style name="SerpenteandoHeadline">
@@ -46,9 +46,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        
+        <item name="android:letterSpacing">0</item>
     </style>
 
     <style name="SerpenteandoBody">
@@ -56,17 +56,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
-        
-        <item name="android:letterSpacing">0</item>
-    </style>
-
-    <style name="SerpenteandoCallout">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/label_primary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         
         <item name="android:letterSpacing">0</item>
     </style>
@@ -76,7 +66,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/label_secondary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         
         <item name="android:letterSpacing">0</item>
     </style>
@@ -86,7 +76,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/label_secondary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         
         <item name="android:letterSpacing">0</item>
     </style>
@@ -96,62 +86,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/label_tertiary</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:letterSpacing">0</item>
-    </style>
-
-    <style name="SerpenteandoCaption2">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/label_tertiary</item>
-        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:letterSpacing">0</item>
     </style>
 
     <!-- ========== BUTTONS ========== -->
-    <style name="SerpenteandoButton" parent="Widget.Material3.Button">
-        <item name="android:layout_height">44dp</item>
-        <item name="android:minHeight">44dp</item>
-        <item name="backgroundTint">@color/cascavel_jade</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">17sp</item>
-        <item name="cornerRadius">@dimen/radius_button</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
-
-    <style name="SerpenteandoCapsuleButton" parent="Widget.Material3.Button">
-        <item name="android:layout_height">44dp</item>
-        <item name="android:minHeight">44dp</item>
-        <item name="backgroundTint">@color/cascavel_jade</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">17sp</item>
-        <item name="cornerRadius">999dp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
-
-    <style name="SerpenteandoOutlineButton" parent="Widget.Material3.Button.TonalButton">
-        <item name="android:layout_height">44dp</item>
-        <item name="android:minHeight">44dp</item>
-        <item name="backgroundTint">@color/cascavel_surface_container_high</item>
-        <item name="android:textColor">@color/cascavel_jade_bright</item>
-        <item name="android:textSize">17sp</item>
-        <item name="cornerRadius">@dimen/radius_button</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:stateListAnimator">@null</item>
-    </style>
-
     <!-- ========== CARDS ========== -->
     <style name="SerpenteandoCard" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">@dimen/radius_card</item>
@@ -163,161 +102,20 @@
     </style>
 
     <!-- ========== BOTTOM NAV ========== -->
-    <style name="SerpenteandoTabBar" parent="Widget.Material3.BottomNavigationView">
-        <item name="backgroundTint">@color/cascavel_glass_bg</item>
-        <item name="itemIconTint">@color/bottom_nav_color</item>
-        <item name="itemTextColor">@color/bottom_nav_color</item>
-        <item name="itemActiveIndicatorStyle">@style/SerpenteandoTabBarIndicator</item>
-        <item name="labelVisibilityMode">labeled</item>
-        <item name="itemRippleColor">@android:color/transparent</item>
-        <item name="android:elevation">0dp</item>
-    </style>
-
-    <style name="SerpenteandoTabBarIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/cascavel_jade_bright</item>
-    </style>
-
     <!-- ========== TOOLBAR ========== -->
-    <style name="SerpenteandoToolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">@color/cascavel_glass_bg</item>
-        <item name="android:minHeight">44dp</item>
-        <item name="titleTextAppearance">@style/SerpenteandoHeadline</item>
-        <item name="subtitleTextColor">@color/cascavel_on_surface_variant</item>
+
+    <!-- ========== FORMAS (ShapeableImageView) ========== -->
+    <!-- Avatar de verdade: recorta a foto num círculo. Antes a foto quadrada
+         ficava por cima do fundo oval (circle_avatar_bg) e não arredondava nada. -->
+    <style name="ShapeAppearanceOverlay.Serpenteando.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
-    <!-- ========== CARD STYLES ========== -->
-    <style name="CardStyle" parent="Widget.Material3.CardView.Filled">
-        <item name="cardCornerRadius">@dimen/radius_card</item>
-        <item name="cardElevation">0dp</item>
-        <item name="cardBackgroundColor">@color/cascavel_surface_container_high</item>
-        <item name="strokeColor">@color/cascavel_outline</item>
-        <item name="strokeWidth">0.5dp</item>
+    <!-- Marca do app (favicon) com cantos arredondados -->
+    <style name="ShapeAppearanceOverlay.Serpenteando.Favicon" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28%</item>
     </style>
-
-    <style name="CardStyle.Elevated">
-        <item name="cardElevation">2dp</item>
-        <item name="strokeWidth">0dp</item>
-    </style>
-
-    <style name="GreenButton" parent="Widget.Material3.Button">
-        <item name="android:layout_height">@dimen/min_touch_target</item>
-        <item name="backgroundTint">@color/cascavel_jade</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_body</item>
-        <item name="cornerRadius">@dimen/radius_button</item>
-        <item name="android:textAllCaps">false</item>
-    </style>
-
-    <style name="GoldButton" parent="Widget.Material3.Button.TonalButton">
-        <item name="android:layout_height">@dimen/min_touch_target</item>
-        <item name="backgroundTint">@color/cascavel_gold</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_body</item>
-        <item name="cornerRadius">@dimen/radius_button</item>
-        <item name="android:textAllCaps">false</item>
-    </style>
-
-    <style name="OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:layout_height">@dimen/min_touch_target</item>
-        <item name="strokeColor">@color/cascavel_jade</item>
-        <item name="android:textColor">@color/cascavel_jade_bright</item>
-        <item name="android:textSize">@dimen/text_size_body</item>
-        <item name="cornerRadius">@dimen/radius_button</item>
-        <item name="android:textAllCaps">false</item>
-    </style>
-
-    <style name="CategoryButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/card_category</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingTop">@dimen/space_16</item>
-        <item name="android:paddingBottom">@dimen/space_12</item>
-    </style>
-
-    <style name="CategoryButtonText">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/cascavel_on_bg</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="GoldTitle">
-        <item name="android:textSize">@dimen/text_size_title</item>
-        <item name="android:textColor">@color/cascavel_gold</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="SectionTitle">
-        <item name="android:textSize">@dimen/text_size_section</item>
-        <item name="android:textColor">@color/cascavel_on_bg</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="SubText">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textColor">@color/cascavel_on_surface_variant</item>
-    </style>
-
-    <style name="SwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
-        <item name="thumbTint">@color/cascavel_jade_bright</item>
-        <item name="trackTint">@color/cascavel_surface_container_highest</item>
-    </style>
-
-    <style name="ProgressStyle" parent="Widget.Material3.LinearProgressIndicator">
-        <item name="indicatorColor">@color/cascavel_gold</item>
-        <item name="trackColor">@color/cascavel_outline</item>
-        <item name="trackCornerRadius">4dp</item>
-    </style>
-
-    <style name="BottomNavStyle" parent="Widget.Material3.BottomNavigationView">
-        <item name="backgroundTint">@color/cascavel_glass_bg</item>
-        <item name="itemIconTint">@color/cascavel_on_surface_variant</item>
-        <item name="itemTextColor">@color/cascavel_on_surface_variant</item>
-        <item name="itemActiveIndicatorStyle">@style/BottomNavIndicator</item>
-    </style>
-
-    <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/cascavel_jade_bright</item>
-    </style>
-
-    <style name="QuizFilterButton" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:fontFamily">@font/inter</item>
-        <item name="android:textStyle">bold</item>
-        <item name="strokeColor">@color/cascavel_jade</item>
-        <item name="android:textColor">@color/cascavel_jade_bright</item>
-        <item name="cornerRadius">999dp</item>
-        <item name="backgroundTint">@android:color/transparent</item>
-        <item name="rippleColor">@color/cascavel_jade_bright</item>
-    </style>
-
-    <!-- ========== BACKWARD-COMPAT: Apple aliases ========== -->
-    <style name="AppleLargeTitle" parent="SerpenteandoLargeTitle" />
-    <style name="AppleTitle1" parent="SerpenteandoTitle1" />
-    <style name="AppleTitle2" parent="SerpenteandoTitle2" />
-    <style name="AppleTitle3" parent="SerpenteandoTitle3" />
-    <style name="AppleHeadline" parent="SerpenteandoHeadline" />
-    <style name="AppleBody" parent="SerpenteandoBody" />
-    <style name="AppleCallout" parent="SerpenteandoCallout" />
-    <style name="AppleSubhead" parent="SerpenteandoSubhead" />
-    <style name="AppleFootnote" parent="SerpenteandoFootnote" />
-    <style name="AppleCaption" parent="SerpenteandoCaption" />
-    <style name="AppleCaption2" parent="SerpenteandoCaption2" />
-    <style name="AppleButton" parent="SerpenteandoButton" />
-    <style name="AppleCapsuleButton" parent="SerpenteandoCapsuleButton" />
-    <style name="AppleOutlineButton" parent="SerpenteandoOutlineButton" />
-    <style name="AppleCard" parent="SerpenteandoCard" />
-    <style name="AppleTabBar" parent="SerpenteandoTabBar" />
-    <style name="AppleTabBarIndicator" parent="SerpenteandoTabBarIndicator" />
-    <style name="AppleNavigationBar" parent="SerpenteandoToolbar" />
 </resources>
 

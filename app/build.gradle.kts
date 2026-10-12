@@ -19,7 +19,8 @@ android {
             isMinifyEnabled = false
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -42,6 +43,8 @@ dependencies {
     implementation(libs.activity.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.dynamicanimation)
+    implementation(libs.viewpager2)
 
     // Filament — motor 3D (Serpenteando renderiza modelo anatômico da cobra)
     implementation(libs.filament)

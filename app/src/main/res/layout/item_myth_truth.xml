@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/space_8"
-    style="@style/AppleCard">
+    style="@style/SerpenteandoCard"
+    app:cardBackgroundColor="@color/cascavel_card_dark"
+    app:strokeColor="@color/cascavel_card_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,18 +25,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/AppleHeadline"
-                android:textColor="@color/cascavel_on_bg" />
+                style="@style/SerpenteandoHeadline"
+                android:textColor="@color/cascavel_on_card_dark" />
 
             <TextView
                 android:id="@+id/badgeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AppleFootnote"
+                style="@style/SerpenteandoFootnote"
                 android:textStyle="bold"
                 android:paddingHorizontal="@dimen/space_8"
                 android:paddingVertical="@dimen/space_4"
-                android:textColor="@color/white"
+                android:textColor="@color/cascavel_on_card_dark"
                 android:background="@drawable/badge_truth"
                 android:gravity="center"
                 android:minWidth="48dp" />
@@ -45,8 +47,9 @@
             android:id="@+id/explanationText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppleFootnote"
-            android:textColor="@color/cascavel_on_surface_variant"
+            style="@style/SerpenteandoFootnote"
+            android:textColor="@color/cascavel_on_card_dark_variant"
+            android:lineSpacingExtra="4dp"
             android:paddingTop="@dimen/space_8" />
 
     </LinearLayout>

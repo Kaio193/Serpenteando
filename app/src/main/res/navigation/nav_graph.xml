@@ -36,13 +36,13 @@
         android:id="@+id/nav_missions"
         android:name="com.kaio.cobra3d.view.MissionFragment"
         android:label="Missões"
-        tools:layout="@layout/fragment_missions" />
+        tools:layout="@layout/fragment_mission" />
 
     <fragment
         android:id="@+id/nav_anatomy"
         android:name="com.kaio.cobra3d.view.Anatomy3DFragment"
         android:label="3D"
-        tools:layout="@layout/fragment_anatomy" />
+        tools:layout="@layout/fragment_anatomy_3d" />
 
     <fragment
         android:id="@+id/nav_settings"
@@ -72,7 +72,7 @@
         android:label="Detalhes">
         <argument
             android:name="contentId"
-            app:argType="integer" />
+            app:argType="long" />
         <argument
             android:name="title"
             app:argType="string" />
@@ -83,5 +83,16 @@
         android:name="com.kaio.cobra3d.view.MythTruthFragment"
         android:label="Mitos e Verdades"
         tools:layout="@layout/fragment_myth_truth" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.kaio.cobra3d.view.AboutFragment"
+        android:label="Sobre">
+        <action
+            android:id="@+id/action_about_popback"
+            app:destination="@id/nav_settings"
+            app:popUpTo="@id/nav_settings"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

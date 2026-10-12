@@ -5,14 +5,19 @@ public class MissionItem {
     private long id;
     private long missionId;
     private String itemText;
+    private String trigger;
+    private int target;
     private boolean isCorrect;
     private int displayOrder;
 
     public MissionItem() {}
 
-    public MissionItem(long missionId, String itemText, boolean isCorrect, int displayOrder) {
+    public MissionItem(long missionId, String itemText, String trigger, int target,
+                       boolean isCorrect, int displayOrder) {
         this.missionId = missionId;
         this.itemText = itemText;
+        this.trigger = trigger;
+        this.target = target;
         this.isCorrect = isCorrect;
         this.displayOrder = displayOrder;
     }
@@ -25,6 +30,12 @@ public class MissionItem {
 
     public String getItemText() { return itemText; }
     public void setItemText(String itemText) { this.itemText = itemText; }
+
+    public String getTrigger() { return trigger; }
+    public void setTrigger(String trigger) { this.trigger = trigger; }
+
+    public int getTarget() { return target; }
+    public void setTarget(int target) { this.target = target; }
 
     public boolean isCorrect() { return isCorrect; }
     public void setCorrect(boolean correct) { isCorrect = correct; }

@@ -5,6 +5,11 @@ import com.kaio.cobra3d.model.entity.AnatomyLayer;
 
 import java.util.List;
 
+/**
+ * Contrato MVP pra Tela de Anatomia 3D.
+ * [ALÉM DO TEI] Inovador — não existe nos slides do prof.
+ * Gerencia camadas, hotspots e modelo 3D.
+ */
 public interface AnatomyContract {
 
     interface View {

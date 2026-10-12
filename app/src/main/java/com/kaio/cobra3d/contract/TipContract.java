@@ -2,6 +2,10 @@ package com.kaio.cobra3d.contract;
 
 import com.kaio.cobra3d.model.entity.Tip;
 
+/**
+ * Contrato MVP pra Dicas.
+ * [ALÉM DO TEI] Inclui TTS (Text-to-Speech) pra ler dica em voz alta.
+ */
 public interface TipContract {
 
     interface View {

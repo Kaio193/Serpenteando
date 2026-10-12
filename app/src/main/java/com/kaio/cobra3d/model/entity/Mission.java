@@ -7,6 +7,7 @@ public class Mission {
     private String description;
     private int difficulty;
     private int points;
+    private int totalDays;
     private boolean isCompleted;
 
     public Mission() {}
@@ -33,6 +34,9 @@ public class Mission {
 
     public int getPoints() { return points; }
     public void setPoints(int points) { this.points = points; }
+
+    public int getTotalDays() { return totalDays; }
+    public void setTotalDays(int totalDays) { this.totalDays = totalDays; }
 
     public boolean isCompleted() { return isCompleted; }
     public void setCompleted(boolean completed) { isCompleted = completed; }

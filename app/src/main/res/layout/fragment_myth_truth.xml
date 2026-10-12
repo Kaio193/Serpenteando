@@ -4,21 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/transparent">
+    android:background="@drawable/mode_light_screen">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/space_20"
-        android:paddingTop="@dimen/space_16">
+        android:paddingTop="@dimen/space_32">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- CABEÇALHO PADRÃO (item 11): seta + favicon arredondado + título,
+             na mesma altura e no mesmo estilo da tela Início. -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/SerpenteandoLargeTitle"
-            android:text="Mitos e Verdades"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:contentDescription="@string/desc_menu"
+                android:padding="10dp"
+                android:scaleX="-1"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/cascavel_on_bg" />
+
+            <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09): o logo
+                 fica SO na Home. -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_10"
+                style="@style/SerpenteandoLargeTitle"
+                android:text="@string/myths_title"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,14 +49,16 @@
             android:layout_marginTop="@dimen/space_4"
             style="@style/SerpenteandoBody"
             android:textColor="@color/cascavel_on_surface_variant"
-            android:text="Descubra o que é real sobre as serpentes" />
+            android:text="@string/myths_subtitle" />
     </LinearLayout>
 
     <!-- Segmented Control: Filtro -->
+    <!-- baselineAligned=false: mantém os 3 chips alinhados pelo TOPO -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:paddingHorizontal="@dimen/space_20"
         android:paddingTop="@dimen/space_16"
         android:paddingBottom="@dimen/space_12">
@@ -44,12 +69,12 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Todos"
-            android:textSize="14sp"
+            android:text="@string/myths_filter_all"
+            android:textSize="@dimen/serp_callout"
             android:fontFamily="@font/inter"
             android:clickable="true"
             android:focusable="true"
-            android:textColor="@color/cascavel_bg"
+            android:textColor="@color/cascavel_on_button"
             android:background="@drawable/chip_active"
             android:layout_marginEnd="@dimen/space_4" />
 
@@ -59,12 +84,12 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Mitos"
-            android:textSize="14sp"
+            android:text="@string/myths_filter_myths"
+            android:textSize="@dimen/serp_callout"
             android:fontFamily="@font/inter"
             android:clickable="true"
             android:focusable="true"
-            android:textColor="@color/cascavel_on_surface_variant"
+            android:textColor="@color/cascavel_on_button"
             android:background="@drawable/chip_inactive"
             android:layout_marginHorizontal="@dimen/space_4" />
 
@@ -74,21 +99,22 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Verdades"
-            android:textSize="14sp"
+            android:text="@string/myths_filter_truths"
+            android:textSize="@dimen/serp_callout"
             android:fontFamily="@font/inter"
             android:clickable="true"
             android:focusable="true"
-            android:textColor="@color/cascavel_on_surface_variant"
+            android:textColor="@color/cascavel_on_button"
             android:background="@drawable/chip_inactive"
             android:layout_marginStart="@dimen/space_4" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mythRecycler"
+    <!-- ViewPager2 — permite arrastar pra trocar de filtro -->
+    <!-- [ALÉM DO TEI] Mesmo padrão do Conteúdo Educativo: FragmentStateAdapter
+         cria/destrói as abas conforme o swipe. -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/mythViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingHorizontal="@dimen/space_20"
-        android:paddingBottom="@dimen/space_12" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

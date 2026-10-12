@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/cascavel_jade" />
-    <corners android:radius="16dp" />
+    <!-- Filtro SELECIONADO (Kaio, 11/10 — itens 5 e 6): mesmo verde claro da
+         classificacao "Inofensiva" dos dois lados (selecionado e nao
+         selecionado usam a MESMA cor), com o texto branco. O que marca qual
+         esta ativo e so o anel mais grosso e escuro — o preenchimento nao
+         muda de tom, como o Kaio pediu. -->
+    <solid android:color="@color/cascavel_inofensiva" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/cascavel_jade_dim" />
+    <corners android:radius="@dimen/radius_circular" />
 </shape>

@@ -5,15 +5,15 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@drawable/mode_light_screen"
     tools:context=".view.QuizFragment">
 
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_32"
         android:contentDescription="@string/desc_menu"
         android:padding="10dp"
         android:scaleX="-1"
@@ -22,20 +22,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/cascavel_on_bg" />
 
+    <!-- O favicon ao lado do titulo saiu (pedido do Kaio, 30/09): o logo fica SO
+         na Home. O titulo agora encosta direto na seta de voltar. -->
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:fontFamily="@font/inter"
+        android:layout_marginStart="@dimen/space_12"
+        style="@style/SerpenteandoLargeTitle"
         android:text="@string/quiz_title"
-        android:textColor="@color/cascavel_on_bg"
-        android:textSize="@dimen/serp_title3"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/backButton"
         app:layout_constraintStart_toEndOf="@id/backButton"
         app:layout_constraintTop_toTopOf="@id/backButton"
         tools:text="@string/quiz_title" />
+
+
 
     <TextView
         android:id="@+id/scoreText"
@@ -72,7 +74,7 @@
             android:fontFamily="@font/inter"
             android:gravity="center"
             android:text="@string/quiz_easy"
-            android:textColor="@color/cascavel_on_bg"
+            android:textColor="@color/cascavel_on_button"
             android:textSize="@dimen/serp_footnote"
             tools:text="@string/quiz_easy" />
 
@@ -86,7 +88,7 @@
             android:fontFamily="@font/inter"
             android:gravity="center"
             android:text="@string/quiz_medium"
-            android:textColor="@color/cascavel_on_surface_variant"
+            android:textColor="@color/cascavel_on_button"
             android:textSize="@dimen/serp_footnote"
             tools:text="@string/quiz_medium" />
 
@@ -99,7 +101,7 @@
             android:fontFamily="@font/inter"
             android:gravity="center"
             android:text="@string/quiz_hard"
-            android:textColor="@color/cascavel_on_surface_variant"
+            android:textColor="@color/cascavel_on_button"
             android:textSize="@dimen/serp_footnote"
             tools:text="@string/quiz_hard" />
     </LinearLayout>
@@ -108,16 +110,16 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
-        android:layout_height="6dp"
+        android:layout_height="8dp"
         android:layout_marginHorizontal="@dimen/space_20"
-        android:layout_marginTop="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_16"
         android:max="10"
         android:progress="2"
-        android:progressBackgroundTint="@color/cascavel_surface"
-        android:progressTint="@color/cascavel_jade_bright"
+        android:progressDrawable="@drawable/progress_quiz"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/difficultySegment" />
+        app:layout_constraintTop_toBottomOf="@id/difficultySegment"
+        app:layout_goneMarginTop="@dimen/space_24" />
 
     <TextView
         android:id="@+id/questionCounterText"
@@ -162,33 +164,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:importantForAccessibility="no">
 
                     <TextView
-                        android:id="@+id/star1"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/difficultyLabel"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/quiz_star_filled"
-                        android:textColor="@color/cascavel_gold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/star2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="@string/quiz_star_filled"
-                        android:textColor="@color/cascavel_gold"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/star3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/quiz_star_filled"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/quiz_easy"
                         android:textColor="@color/cascavel_on_surface_variant"
-                        android:textSize="16sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.12"
+                        tools:text="@string/quiz_easy" />
                 </LinearLayout>
 
                 <TextView
@@ -198,7 +188,7 @@
                     android:layout_marginTop="@dimen/space_12"
                     android:fontFamily="@font/inter"
                     android:textColor="@color/cascavel_on_bg"
-                    android:textSize="@dimen/serp_quiz_question"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="@string/quiz_question_example" />
             </LinearLayout>
@@ -207,7 +197,7 @@
                 android:id="@+id/optionA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_24"
                 android:background="@drawable/option_default_bg"
                 android:clickable="true"
                 android:focusable="true"
@@ -219,7 +209,7 @@
                     android:id="@+id/optionALetter"
                     android:layout_width="@dimen/quiz_letter_size"
                     android:layout_height="@dimen/quiz_letter_size"
-                    android:background="@drawable/quiz_letter_circle_bg"
+                    android:background="@drawable/quiz_option_letter_bg"
                     android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:text="A"
@@ -276,7 +266,7 @@
                     android:id="@+id/optionBLetter"
                     android:layout_width="@dimen/quiz_letter_size"
                     android:layout_height="@dimen/quiz_letter_size"
-                    android:background="@drawable/quiz_letter_circle_bg"
+                    android:background="@drawable/quiz_option_letter_bg"
                     android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:text="B"
@@ -333,7 +323,7 @@
                     android:id="@+id/optionCLetter"
                     android:layout_width="@dimen/quiz_letter_size"
                     android:layout_height="@dimen/quiz_letter_size"
-                    android:background="@drawable/quiz_letter_circle_bg"
+                    android:background="@drawable/quiz_option_letter_bg"
                     android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:text="C"
@@ -390,7 +380,7 @@
                     android:id="@+id/optionDLetter"
                     android:layout_width="@dimen/quiz_letter_size"
                     android:layout_height="@dimen/quiz_letter_size"
-                    android:background="@drawable/quiz_letter_circle_bg"
+                    android:background="@drawable/quiz_option_letter_bg"
                     android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:text="D"
@@ -453,7 +443,7 @@
                         android:id="@+id/resultIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/space_8"
                         android:fontFamily="@font/inter"
                         android:text="@string/quiz_check_icon"
                         android:textColor="@color/cascavel_jade_bright"
@@ -477,10 +467,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/quiz_points_badge_bg"
                         android:fontFamily="@font/inter"
-                        android:paddingStart="10dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="4dp"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingTop="@dimen/space_4"
+                        android:paddingEnd="@dimen/space_10"
+                        android:paddingBottom="@dimen/space_4"
                         android:text="+200 pts"
                         android:textColor="@color/cascavel_bg"
                         android:textSize="12sp"
@@ -505,14 +495,14 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/quiz_button_height"
         android:layout_marginHorizontal="@dimen/space_20"
-        android:layout_marginBottom="@dimen/space_20"
+        android:layout_marginBottom="@dimen/space_16"
         android:background="@drawable/quiz_button_next_bg"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/inter"
         android:gravity="center"
         android:text="@string/quiz_next"
-        android:textColor="@color/cascavel_bg"
+        android:textColor="@color/cascavel_on_button"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="gone"

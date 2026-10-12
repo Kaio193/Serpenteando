@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "7-Day Streak",
+    "description": "Answer quizzes for 7 days straight and evolve",
+    "totalDays": 7,
+    "points": 500,
+    "items": [
+      {"id": 1, "text": "Answer 3 easy quizzes", "trigger": "QUIZ_FACIL", "target": 3},
+      {"id": 2, "text": "Answer 2 medium quizzes", "trigger": "QUIZ_MEDIO", "target": 2},
+      {"id": 3, "text": "Answer 1 hard quiz", "trigger": "QUIZ_DIFICIL", "target": 1}
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Wildlife Explorer",
+    "description": "Learn about snakes and test your knowledge",
+    "totalDays": 0,
+    "points": 300,
+    "items": [
+      {"id": 1, "text": "Open 5 entries in the encyclopedia", "trigger": "CONTENT_DETAIL", "target": 5},
+      {"id": 2, "text": "Answer 1 medium quiz", "trigger": "QUIZ_MEDIO", "target": 1},
+      {"id": 3, "text": "Answer 2 easy quizzes", "trigger": "QUIZ_FACIL", "target": 2}
+    ]
+  }
+]

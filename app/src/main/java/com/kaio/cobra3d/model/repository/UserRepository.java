@@ -1,11 +1,8 @@
 package com.kaio.cobra3d.model.repository;
 
-import android.content.ContentValues;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.kaio.cobra3d.model.db.Contract;
 
 // Repository para dados de usuário - preferências e configurações
 public class UserRepository {
@@ -25,15 +22,6 @@ public class UserRepository {
 
     public void setDarkMode(boolean enabled) {
         prefs.edit().putBoolean("dark_mode", enabled).apply();
-    }
-
-    // Preferências de voz
-    public boolean isVoiceModeEnabled() {
-        return prefs.getBoolean("voice_mode", false);
-    }
-
-    public void setVoiceMode(boolean enabled) {
-        prefs.edit().putBoolean("voice_mode", enabled).apply();
     }
 
     // Dados de usuário

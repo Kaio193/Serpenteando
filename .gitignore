@@ -15,3 +15,12 @@ local.properties
 *.jks
 *.keystore
 *.hprof
+
+# 🔴 Segredo local — nunca subir (mesma remoção feita no PC 2)
+scripts/.gemini_key
+
+# Cópia antiga da árvore (backup local)
+_backup_*/
+
+# Copia antiga da arvore inteira (so existe neste PC)
+/Serpenteando/

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog: seleção de dificuldade — compacto e largo -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_glass_bg"
+    android:layout_marginHorizontal="@dimen/space_28"
+    android:paddingHorizontal="@dimen/space_28"
+    android:paddingTop="@dimen/space_24"
+    android:paddingBottom="@dimen/space_20">
+
+    <!-- Ícone -->
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_dice"
+        android:importantForAccessibility="no"
+        app:tint="@color/cascavel_gold" />
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:gravity="center"
+        android:text="@string/quiz_difficulty_title"
+        android:textColor="@color/cascavel_on_bg"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4"
+        android:gravity="center"
+        android:text="@string/quiz_difficulty_subtitle"
+        android:textSize="14sp"
+        android:textColor="@color/cascavel_on_surface_variant" />
+
+    <!-- Opções de dificuldade -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:orientation="vertical">
+
+        <!-- Fácil -->
+        <TextView
+            android:id="@+id/dialogEasy"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/chip_inactive"
+            android:gravity="center"
+            android:text="@string/quiz_easy"
+            android:textColor="@color/cascavel_on_button"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/space_4"
+            android:background="@color/cascavel_outline" />
+
+        <!-- Médio -->
+        <TextView
+            android:id="@+id/dialogMedium"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/chip_inactive"
+            android:gravity="center"
+            android:text="@string/quiz_medium"
+            android:textColor="@color/cascavel_on_button"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:clickable="true"
+            android:focusable="false" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/space_4"
+            android:background="@color/cascavel_outline" />
+
+        <!-- Difícil -->
+        <TextView
+            android:id="@+id/dialogHard"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/chip_inactive"
+            android:gravity="center"
+            android:text="@string/quiz_hard"
+            android:textColor="@color/cascavel_on_button"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/inter_semibold"
+            android:clickable="true"
+            android:focusable="false" />
+    </LinearLayout>
+</LinearLayout>

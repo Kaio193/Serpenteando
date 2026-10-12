@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog: seleção de idioma — compacto e largo -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_glass_bg"
+    android:layout_marginHorizontal="@dimen/space_28"
+    android:paddingHorizontal="@dimen/space_28"
+    android:paddingTop="@dimen/space_24"
+    android:paddingBottom="@dimen/space_20">
+
+    <!-- Ícone -->
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_language"
+        android:importantForAccessibility="no"
+        app:tint="@color/cascavel_jade_bright" />
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:gravity="center"
+        android:text="@string/settings_language"
+        android:textSize="@dimen/serp_title2"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/cascavel_on_bg" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:gravity="center"
+        android:text="@string/dialog_lang_subtitle"
+        android:textSize="@dimen/serp_body"
+        android:textColor="@color/cascavel_on_surface_variant" />
+
+    <!-- Opções de idioma -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_16"
+        android:orientation="vertical">
+
+        <!-- Português -->
+        <LinearLayout
+            android:id="@+id/langPortugues"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_16"
+            android:background="@drawable/chip_active"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_lang_portuguese"
+                android:textSize="@dimen/serp_callout"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/cascavel_on_button" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✓"
+                android:textSize="18sp"
+                android:textColor="@color/cascavel_on_button" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="2dp"
+            android:background="@color/cascavel_outline" />
+
+        <!-- English -->
+        <LinearLayout
+            android:id="@+id/langEnglish"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_16"
+            android:background="@drawable/chip_inactive"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_lang_english"
+                android:textSize="@dimen/serp_callout"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/cascavel_on_button" />
+
+            <!-- O ✓ precisa existir nas TRES linhas (Kaio, 11/10 — item 2).
+                 Antes so a linha do Portugues tinha esse TextView, entao ao
+                 escolher English/Espanol nenhum ✓ aparecia. Quem mostra/esconde
+                 e o updateLangRow() do SettingsFragment, entao o ✓ fica sempre
+                 so no idioma selecionado. -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✓"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:textColor="@color/cascavel_on_button" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="2dp"
+            android:background="@color/cascavel_outline" />
+
+        <!-- Español -->
+        <LinearLayout
+            android:id="@+id/langEspanol"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/space_16"
+            android:background="@drawable/chip_inactive"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_lang_spanish"
+                android:textSize="@dimen/serp_callout"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/cascavel_on_button" />
+
+            <!-- ✓ do Espanol — mesma logica da linha do English acima. -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✓"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:textColor="@color/cascavel_on_button" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botão fechar -->
+    <TextView
+        android:id="@+id/dialogCloseButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/space_16"
+        android:background="@drawable/dialog_btn_primary"
+        android:gravity="center"
+        android:text="@string/settings_close"
+        android:textColor="@color/cascavel_on_button"
+        android:textSize="@dimen/serp_callout"
+        android:textStyle="bold"
+        android:fontFamily="@font/inter_semibold"
+        android:clickable="true"
+        android:focusable="true" />
+</LinearLayout>

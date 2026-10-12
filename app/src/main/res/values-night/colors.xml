@@ -1,138 +1,82 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- =============================================
-         CASAVEL IDENTITY — DARK MODE
-         Deep forest + neon jade + gold
+         SERPENTEANDO — DARK MODE (compacto)
+         15 cores base. Contraste real entre camadas.
          ============================================= -->
 
-    <!-- Primary: Jade / Neon Green (Dark) -->
-    <color name="cascavel_jade">#4CAF50</color>
-    <color name="cascavel_jade_bright">#00E676</color>
-    <color name="cascavel_jade_dim">#1B5E20</color>
-    <color name="cascavel_jade_light">#81C784</color>
-
-    <!-- Secondary: Gold / Amber (Dark) -->
-    <color name="cascavel_gold">#C4A84D</color>
-    <color name="cascavel_gold_bright">#FFD54F</color>
-    <color name="cascavel_gold_dim">#6D5010</color>
-
-    <!-- Surface / Background — Deep Forest (Dark) -->
+    <!-- Background: floresta noturna profunda -->
     <color name="cascavel_bg">#0B1210</color>
-    <color name="cascavel_surface">#141E18</color>
-    <color name="cascavel_surface_container">#1A2A1F</color>
-    <color name="cascavel_surface_container_high">#243329</color>
-    <color name="cascavel_surface_container_highest">#2E3D33</color>
 
-    <!-- Glass effects (Dark) -->
-    <color name="cascavel_glass_bg">#0A1A0E99</color>
-    <color name="cascavel_glass_stroke">#1A3A1F</color>
-    <color name="cascavel_glass_clear">#0A1A0E4D</color>
+    <!-- Superfícies: musgo (MUITO mais claro que bg) -->
+    <color name="cascavel_surface">#1E3028</color>
+    <color name="cascavel_surface_container">#162620</color>
 
-    <!-- Text (Dark) -->
-    <color name="cascavel_on_bg">#E8EDE8</color>
-    <color name="cascavel_on_surface">#E8EDE8</color>
-    <color name="cascavel_on_surface_variant">#9EAA9E</color>
-    <color name="cascavel_tertiary_label">#5A6B5A</color>
+    <!-- Textos -->
+    <color name="cascavel_on_bg">#E8F0EA</color>
+    <color name="cascavel_on_surface_variant">#94A89C</color>
+    <color name="cascavel_tertiary_label">#6B8072</color>
 
-    <!-- Functional (Dark) -->
-    <color name="cascavel_outline">#2E3A30</color>
-    <color name="cascavel_outline_variant">#1E2820</color>
-    <color name="cascavel_error">#CF6679</color>
-    <color name="cascavel_correct">#4CAF50</color>
-    <color name="cascavel_wrong">#E53935</color>
+    <!-- Acentos -->
+    <color name="cascavel_jade">#4CAF50</color>
+    <color name="cascavel_jade_bright">#66BB6A</color>
+    <color name="cascavel_jade_dim">#2E7D32</color>
+    <color name="cascavel_gold">#C4A84D</color>
 
-    <!-- Label Hierarchy (Apple HIG — opacidade relativa ao on_bg) -->
-    <color name="label_primary">@color/cascavel_on_bg</color>
-    <color name="label_secondary">#99E8EDE8</color>
-    <color name="label_tertiary">#4DE8EDE8</color>
-    <color name="label_quaternary">#2EE8EDE8</color>
+    <!-- Verde claro da classificacao "Inofensiva" (mesmo token do badge_safe).
+         Kaio, 11/10 (itens 2, 6, 7 e 8): o MESMO verde nos dois temas, sem
+         variacao entre claro/escuro. Alias, nao cor nova. -->
+    <color name="cascavel_inofensiva">@color/cascavel_jade_bright</color>
 
-    <!-- Myth / Truth backgrounds (Dark) -->
-    <color name="myth_bg">#4A1A1A</color>
-    <color name="truth_bg">#1A3A1A</color>
-    <color name="myth_text">#E53935</color>
-    <color name="truth_text">#4CAF50</color>
+    <!-- Bordas -->
+    <color name="cascavel_outline">#2A3D32</color>
+
+    <!-- Functional -->
+    <color name="cascavel_wrong">#EF5350</color>
 
     <!-- =============================================
-         BACKWARD-COMPAT ALIASES — DARK
+         REFERÊNCIAS
          ============================================= -->
-
-    <color name="system_blue">#0A84FF</color>
-    <color name="system_green">@color/cascavel_jade_bright</color>
-    <color name="system_red">#E53935</color>
-    <color name="system_orange">@color/cascavel_gold</color>
-    <color name="system_yellow">@color/cascavel_gold_bright</color>
-    <color name="system_purple">#7E57C2</color>
-    <color name="system_pink">#EC407A</color>
-    <color name="system_indigo">#5C6BC0</color>
-    <color name="system_teal">@color/cascavel_jade_light</color>
-    <color name="system_mint">@color/cascavel_jade_bright</color>
-    <color name="system_cyan">#26C6DA</color>
-    <color name="system_brown">#8D6E63</color>
-
-    <color name="system_gray">#6B7A6B</color>
-    <color name="system_gray_2">#5A6B5A</color>
-    <color name="system_gray_3">#4A5A4A</color>
-    <color name="system_gray_4">#3A4A3A</color>
-    <color name="system_gray_5">#2E3D33</color>
-    <color name="system_gray_6">#1A2A1F</color>
-
+    <color name="cascavel_on_surface">@color/cascavel_on_bg</color>
+    <color name="cascavel_outline_variant">@color/cascavel_surface_container</color>
+    <color name="cascavel_glass_stroke">#33E8F0EA</color>
+    <color name="cascavel_glass_clear">#1C1C1E4D</color>
+    <color name="cascavel_gold_bright">#D4B85A</color>
+    <color name="cascavel_gold_dim">#6D5010</color>
+    <color name="cascavel_back_button">#66000000</color>
+    <color name="label_primary">@color/cascavel_on_bg</color>
+    <color name="label_secondary">@color/cascavel_on_surface_variant</color>
+    <color name="label_tertiary">@color/cascavel_tertiary_label</color>
+    <color name="myth_bg_vibrant">#26EF5350</color>
+    <color name="myth_border_vibrant">#4DEF5350</color>
+    <color name="truth_bg_vibrant">#264CAF50</color>
+    <color name="quiz_letter_bg">@color/cascavel_surface_container</color>
+    <color name="system_gray_4">#48484A</color>
     <color name="label">@color/cascavel_on_bg</color>
     <color name="secondary_label">@color/cascavel_on_surface_variant</color>
-    <color name="tertiary_label">@color/cascavel_tertiary_label</color>
-    <color name="quaternary_label">#4A5A4A</color>
-    <color name="system_background">@color/cascavel_bg</color>
-    <color name="secondary_system_bg">@color/cascavel_surface</color>
-    <color name="tertiary_system_bg">@color/cascavel_surface_container</color>
-    <color name="grouped_background">@color/cascavel_bg</color>
-    <color name="secondary_grouped_bg">@color/cascavel_surface</color>
-    <color name="tertiary_grouped_bg">@color/cascavel_surface_container</color>
-    <color name="separator">@color/cascavel_outline</color>
-    <color name="link">@color/cascavel_jade_bright</color>
-
-    <color name="glass_bg">@color/cascavel_glass_bg</color>
     <color name="glass_clear">@color/cascavel_glass_clear</color>
-
-    <color name="apple_nav_bg">@color/cascavel_glass_bg</color>
-    <color name="apple_text">@color/cascavel_on_bg</color>
-    <color name="apple_secondary_text">@color/cascavel_on_surface_variant</color>
-    <color name="apple_link">@color/cascavel_jade_bright</color>
-    <color name="apple_button">@color/cascavel_jade</color>
-    <color name="apple_button_border">@color/cascavel_outline</color>
-    <color name="apple_footer_bg">@color/cascavel_surface</color>
-
-    <color name="dark_bg">@color/cascavel_bg</color>
-    <color name="dark_surface">@color/cascavel_surface</color>
-    <color name="dark_card">@color/cascavel_surface_container_high</color>
-    <color name="dark_card_border">@color/cascavel_outline</color>
+    <color name="dark_card">@color/cascavel_surface</color>
     <color name="gold">@color/cascavel_gold</color>
-    <color name="gold_light">@color/cascavel_gold_bright</color>
-    <color name="gold_dim">@color/cascavel_gold_dim</color>
-    <color name="accent_gold">@color/cascavel_gold</color>
-    <color name="green_accent">@color/cascavel_jade</color>
-    <color name="green_text">@color/cascavel_jade_bright</color>
-    <color name="green_dim">@color/cascavel_jade_dim</color>
-    <color name="text_primary">@color/cascavel_on_bg</color>
     <color name="text_secondary">@color/cascavel_on_surface_variant</color>
-    <color name="text_dim">@color/cascavel_tertiary_label</color>
-    <color name="correct">@color/cascavel_correct</color>
-    <color name="wrong">@color/cascavel_wrong</color>
+    <color name="white">#E8F0EA</color>
+    <color name="black">@color/cascavel_bg</color>
+    <color name="cascavel_card_bg">#261E3028</color>
+    <color name="cascavel_card_stroke">#334CAF50</color>
+    <color name="home_icon_tint">@color/cascavel_jade</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="card_background">@color/cascavel_surface_container_high</color>
-    <color name="primary">@color/cascavel_jade</color>
-    <color name="primary_dark">@color/cascavel_jade_dim</color>
-    <color name="primary_light">@color/cascavel_jade_light</color>
-    <color name="accent">@color/cascavel_gold</color>
+    <!-- Botoes: mesma cor do tema claro (27/09/2026) — verde padrao #4CAF50
+         desde 30/09/2026. E ele que define a cor de TODOS os botoes. -->
+    <color name="cascavel_button">#4CAF50</color>
+    <color name="cascavel_on_button">#FFFFFF</color>
 
-    <color name="md3_on_primary">@color/cascavel_bg</color>
-    <color name="md3_on_surface">@color/cascavel_on_bg</color>
-    <color name="md3_on_surface_variant">@color/cascavel_on_surface_variant</color>
-    <color name="md3_outline">@color/cascavel_outline</color>
-    <color name="md3_surface_container">@color/cascavel_surface_container</color>
-    <color name="md3_surface_container_high">@color/cascavel_surface_container_high</color>
+    <!-- Chips/botoes de escolha: mesmo verde padrao dos botoes (Kaio, 07/10).
+         Antes era a base cinza #3A423E. -->
+    <color name="cascavel_chip_idle">@color/cascavel_button</color>
 
-    <color name="bottom_nav_bg">@color/cascavel_glass_bg</color>
-    <color name="bottom_nav_indicator">@color/cascavel_jade_bright</color>
+    <!-- Cards do Conteudo Educativo e de Mitos e Verdades (Kaio, 07/10):
+         o verde escuro #152920 vale SÓ no modo escuro. No modo claro o card
+         usa o tom dos grupos de Configurações (ver values/colors.xml). -->
+    <color name="cascavel_card_dark">#152920</color>
+    <color name="cascavel_on_card_dark">#F2F5F2</color>
+    <color name="cascavel_on_card_dark_variant">#A9BFB2</color>
 </resources>
