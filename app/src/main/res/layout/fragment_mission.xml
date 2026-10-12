@@ -186,6 +186,25 @@
                 android:textColor="@color/black"
                 android:text="@string/mission_items_done" />
 
+            <!-- [MELHORIA] Botão Trocar de missão — fica abaixo do item count pill,
+                 mantendo o mesmo padrão visual do botão verificar progresso. -->
+            <TextView
+                android:id="@+id/trocarMissaoButton"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginHorizontal="@dimen/space_20"
+                android:layout_marginTop="@dimen/space_18"
+                android:gravity="center"
+                android:text="@string/mission_change_title"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/cascavel_jade"
+                android:background="@drawable/btn_outline_gold"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

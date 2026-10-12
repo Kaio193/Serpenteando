@@ -13,6 +13,16 @@ public interface MissionContract {
 
     interface View {
         void showMission(Mission mission, List<MissionItem> items);
+
+    /**
+     * Troca a missão atual por outra, já com salvamento do progresso atual.
+     */
+    void switchMission(long newMissionId);
+
+    /**
+     * Abre o diálogo de troca de missão, usando a lista existente de missões disponíveis.
+     */
+    void showMissionChangeDialog();
         void showMissionList(List<Mission> missions);
         void showResult(boolean success, int points, String message);
         void showProgressMessage(String message);

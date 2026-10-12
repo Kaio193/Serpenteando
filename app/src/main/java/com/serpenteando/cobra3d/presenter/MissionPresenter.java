@@ -147,4 +147,49 @@ public class MissionPresenter implements MissionContract.Presenter {
         missionRepository.markCompleted(missionId);
         progressRepository.updateMissionCompleted(missionId, points);
     }
+
+    /**
+     * Troca a missão atual por outra.
+     * Antes de carregar a nova missão, recalcula e persiste o progresso
+     * dos itens da missão atual (sem marcar a missão como completada se
+     * ainda não estiver completa).
+     */
+    @Override
+    public void switchMission(long newMissionId) {
+        long currentId = currentItems != null && !currentItems.isEmpty()
+                ? currentItems.get(0).getMissionId() : -1L;
+
+        if (currentId == newMissionId) {
+            return;
+        }
+
+        // Salva o estado atual dos itens antes de trocar de missão.
+        // Isso preserva o que o usuário já fez; a missão só completa quando
+        // a lógica existente detecta que todas as metas foram batidas.
+        if (currentId != -1L) {
+            refreshProgress(currentId);
+        }
+
+        view.showLoading();
+        currentItems = missionRepository.getItemsByMissionId(newMissionId);
+        view.hideLoading();
+
+        if (newMissionId <= 0 || currentItems == null || currentItems.isEmpty()) {
+            view.showError(context.getString(R.string.error_mission_not_found));
+            return;
+        }
+
+        view.showMission(missionRepository.getById(newMissionId), currentItems);
+    }
+
+    @Override
+    public void showMissionChangeDialog() {
+        List<Mission> missions = missionRepository.getAll();
+        if (missions == null || missions.isEmpty()) {
+            view.showError(context.getString(R.string.missions_empty));
+            return;
+        }
+
+        view.showMissionList(missions);
+    }
 }

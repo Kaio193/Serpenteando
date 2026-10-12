@@ -64,6 +64,7 @@ public class MissionFragment extends Fragment implements MissionContract.View {
     private CircularProgressIndicator progressRing;
     private Dialog resultDialog;
     private MissionItemAdapter adapter;
+    private TextView trocarMissaoButton;
     private long currentMissionId = -1;
 
     @Nullable
@@ -86,6 +87,7 @@ public class MissionFragment extends Fragment implements MissionContract.View {
         missionProgressText = view.findViewById(R.id.missionProgressText);
         missionItemCountText = view.findViewById(R.id.missionItemCountText);
         verifyButton = view.findViewById(R.id.verifyProgressButton);
+        trocarMissaoButton = view.findViewById(R.id.trocarMissaoButton);
         missionChecklist = view.findViewById(R.id.missionChecklist);
         missionChecklist.setNestedScrollingEnabled(false);
         progressRing = view.findViewById(R.id.missionProgressRing);
@@ -166,6 +168,19 @@ public class MissionFragment extends Fragment implements MissionContract.View {
             }
 
             if (verifyButton != null) verifyButton.setVisibility(View.VISIBLE);
+
+            // [MELHORIA] Botão "Trocar de missão" fica abaixo do item count pill.
+            // O progresso atual é salvo no presenter antes de carregar a nova missão.
+            if (trocarMissaoButton != null) {
+                trocarMissaoButton.setVisibility(View.VISIBLE);
+                trocarMissaoButton.setOnClickListener(vista -> {
+                    if (presenter != null) {
+                        presenter.showMissionChangeDialog();
+                    }
+                });
+                PressSpring.attach(trocarMissaoButton);
+            }
+
             updateScore();
         } catch (Exception e) {
             if (getContext() != null) {
@@ -181,10 +196,21 @@ public class MissionFragment extends Fragment implements MissionContract.View {
             missionTitle.setText(R.string.missions_empty);
             missionDescription.setText("");
             verifyButton.setVisibility(View.GONE);
+            if (trocarMissaoButton != null) trocarMissaoButton.setVisibility(View.GONE);
             return;
         }
 
         showMissionSelectDialog(missions);
+    }
+
+    /**
+     * Abre o diálogo de escolha de missão para troca.
+     * Usa a mesma lista de missões disponíveis do sistema atual.
+     */
+    @Override
+    public void showMissionChangeDialog() {
+        if (!isAdded() || presenter == null) return;
+        presenter.loadMissions();
     }
 
     @Override
@@ -336,7 +362,7 @@ public class MissionFragment extends Fragment implements MissionContract.View {
                     dialog.dismiss();
                     if (!isAdded() || presenter == null) return;
                     if (currentMissionId != -1) {
-                        presenter.loadMission(currentMissionId);
+                        presenter.switchMission(mission.getId());
                     } else {
                         presenter.loadMissions();
                     }
