@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Botao principal do dialog do Quiz.
-     Kaio, 11/10 (item 8): mesmo formato do dialog_btn_primary, mas com o verde
-     claro da classificacao "Inofensiva" (cascavel_inofensiva), o mesmo dos
-     filtros e do dialog de idioma.
-     Ficou separado de proposito: assim esse verde vale SO no quiz e os outros
-     dialogs (missoes, notificacoes, creditos) continuam exatamente como estavam. -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/cascavel_inofensiva" />
-    <corners android:radius="@dimen/radius_button" />
-</shape>
+     Kaio, 11/10 (item 8): ficou separado do dialog_btn_primary pra o verde
+     da classificacao "Inofensiva" valer SO no quiz.
+     Ajuste de 12/10: a cor de TODOS os botoes passou a ser o verde #499959,
+     entao este botao acompanha os outros (o "Inofensiva" continua nos
+     filtros e no icone do dialog) — e ganhou os estados de pressionado e
+     desabilitado, que antes nao existiam. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_disabled" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_pressed" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+</selector>

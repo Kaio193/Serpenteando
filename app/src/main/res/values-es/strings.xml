@@ -94,9 +94,9 @@
     <string name="settings_report_bug">Reportar Bug</string>
     <string name="settings_no_email">No se encontró app de correo</string>
     <string name="contact_email_subject">Contacto — Serpenteando</string>
-    <string name="contact_email_body">¡Hola! Me gustaría ponerme en contacto con el equipo de Serpenteando para resolver una duda o enviar una sugerencia.</string>
+    <string name="contact_email_body">¡Hola! Me gustaría ponerme en contacto con el equipo para resolver una duda u obtener ayuda. Mi asunto es: </string>
     <string name="bug_email_subject">Error — Serpenteando</string>
-    <string name="bug_email_body">¡Hola! Encontré un problema en la aplicación Serpenteando. Ocurrió en: [describe la pantalla o función]. Qué pasó: [describe el problema].</string>
+    <string name="bug_email_body">¡Hola! Me gustaría reportar un error en la aplicación.\n\n*Descripción del problema:*\n\n*En qué pantalla ocurrió:*\n\n*Qué pasó:*\n\nSi es posible, enviaré una captura de pantalla para ayudar a identificar el error.</string>
     <string name="settings_error_dialog">Error al abrir diálogo</string>
     <string name="settings_notif_daily">Recordatorios diarios</string>
     <string name="settings_notif_missions">Nuevas misiones</string>
@@ -134,8 +134,6 @@
     <string name="role_client">Cliente/Evaluador</string>
 
     <!-- ========== LAYOUT HARDCODED (from XML) ========== -->
-    <string name="onboarding_skip_btn">Omitir</string>
-    <string name="onboarding_next_btn">Siguiente</string>
     <string name="settings_title_bar">Ajustes</string>
     <string name="layers_sheet_title">Capas</string>
     <string name="mission_select_subtitle">Elige tu próxima aventura</string>
@@ -189,8 +187,6 @@
     <string name="desc_icon_quiz">Quiz</string>
     <string name="desc_icon_myths">Mitos y Verdades</string>
     <!-- ========== ONBOARDING ========== -->
-    <string name="onboarding_next">Siguiente</string>
-    <string name="onboarding_start">Comenzar</string>
 
     <!-- ========== SPLASH ========== -->
     <!-- ========== BOTTOM SHEET LAYERS ========== -->
@@ -213,6 +209,7 @@
     <string name="about_version">v0.1.0 · IFPB TCC</string>
     <!-- Iconos de contacto de los integrantes (Acerca de) -->
     <string name="social_linkedin">LinkedIn</string>
+    <string name="social_instagram">Instagram</string>
     <string name="social_email">Correo</string>
     <string name="about_description">App educativo sobre serpientes brasileñas. Desarrollado como Trabajo de Fin de Curso del IFPB.</string>
 

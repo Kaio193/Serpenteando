@@ -94,9 +94,9 @@
     <string name="settings_report_bug">Report Bug</string>
     <string name="settings_no_email">No email app found</string>
     <string name="contact_email_subject">Contact — Serpenteando</string>
-    <string name="contact_email_body">Hi! I would like to contact the Serpenteando team to ask a question or send a suggestion.</string>
+    <string name="contact_email_body">Hi! I would like to get in touch with the team to ask a question or get help. My subject is: </string>
     <string name="bug_email_subject">Bug — Serpenteando</string>
-    <string name="bug_email_body">Hi! I found a problem in the Serpenteando app. It happened in: [describe the screen or feature]. What happened: [describe the problem].</string>
+    <string name="bug_email_body">Hi! I would like to report a bug in the app.\n\n*Problem description:*\n\n*Which screen it happened on:*\n\n*What happened:*\n\nIf possible, I will send a screenshot to help identify the error.</string>
     <string name="settings_error_dialog">Error opening dialog</string>
     <string name="settings_notif_daily">Daily reminders</string>
     <string name="settings_notif_missions">New missions</string>
@@ -124,8 +124,6 @@
     <string name="role_client">Client/Evaluator</string>
 
     <!-- ========== LAYOUT HARDCODED (from XML) ========== -->
-    <string name="onboarding_skip_btn">Skip</string>
-    <string name="onboarding_next_btn">Next</string>
     <string name="settings_title_bar">Settings</string>
     <string name="layers_sheet_title">Layers</string>
     <string name="mission_select_subtitle">Choose your next adventure</string>
@@ -179,8 +177,6 @@
     <string name="desc_icon_quiz">Quiz</string>
     <string name="desc_icon_myths">Myths &amp; Truths</string>
     <!-- ========== ONBOARDING ========== -->
-    <string name="onboarding_next">Next</string>
-    <string name="onboarding_start">Start</string>
 
     <!-- ========== SPLASH ========== -->
     <!-- ========== BOTTOM SHEET LAYERS ========== -->
@@ -203,6 +199,7 @@
     <string name="about_version">v0.1.0 . IFPB TCC</string>
     <!-- Contact icons for team members (About) -->
     <string name="social_linkedin">LinkedIn</string>
+    <string name="social_instagram">Instagram</string>
     <string name="social_email">Email</string>
     <string name="about_description">Educational app about Brazilian snakes. Developed as a Final Project at IFPB.</string>
 

@@ -96,9 +96,9 @@
     <!-- Mensagens que já vêm preenchidas no e-mail (Kaio, 30/09) — o usuário
          pode editar tudo antes de enviar. -->
     <string name="contact_email_subject">Contato — Serpenteando</string>
-    <string name="contact_email_body">Olá! Gostaria de entrar em contato com a equipe do Serpenteando para tirar uma dúvida ou enviar uma sugestão.</string>
+    <string name="contact_email_body">Olá! Gostaria de entrar em contato com a equipe para tirar uma dúvida ou obter ajuda. Meu assunto é: </string>
     <string name="bug_email_subject">Bug — Serpenteando</string>
-    <string name="bug_email_body">Olá! Encontrei um problema no aplicativo Serpenteando e gostaria de relatar o seguinte bug:</string>
+    <string name="bug_email_body">Olá! Gostaria de reportar um bug no aplicativo.\n\n*Descrição do problema:*\n\n*Em qual tela aconteceu:*\n\n*O que aconteceu:*\n\nSe possível, enviarei uma captura de tela para ajudar a identificar o erro.</string>
     <string name="settings_error_dialog">Erro ao abrir diálogo</string>
     <string name="settings_notif_daily">Lembretes diários</string>
     <string name="settings_notif_missions">Novas missões</string>
@@ -136,8 +136,6 @@
     <string name="role_client">Cliente/Avaliador</string>
 
     <!-- ========== LAYOUT HARDCODED (from XML) ========== -->
-    <string name="onboarding_skip_btn">Pular</string>
-    <string name="onboarding_next_btn">Próximo</string>
     <string name="settings_title_bar">Ajustes</string>
     <string name="layers_sheet_title">Camadas</string>
     <string name="mission_select_subtitle">Escolha sua próxima aventura</string>
@@ -192,8 +190,6 @@
     <string name="desc_icon_quiz">Quiz</string>
     <string name="desc_icon_myths">Mitos e Verdades</string>
     <!-- ========== ONBOARDING ========== -->
-    <string name="onboarding_next">Próximo</string>
-    <string name="onboarding_start">Começar</string>
 
     <!-- ========== SPLASH ========== -->
     <!-- ========== BOTTOM SHEET LAYERS ========== -->

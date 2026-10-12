@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/cascavel_button" />
-    <corners android:radius="@dimen/radius_button" />
-</shape>
+<!-- Botao principal dos dialogs. A cor de base agora e o verde #499959
+     (cascavel_button) e ele responde ao toque: escurece um pouco enquanto
+     esta pressionado e fica translucido quando desabilitado. Antes era um
+     <shape> chapado, entao o clique nao dava nenhuma resposta visual. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_disabled" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_pressed" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button" />
+            <corners android:radius="@dimen/radius_button" />
+        </shape>
+    </item>
+
+</selector>

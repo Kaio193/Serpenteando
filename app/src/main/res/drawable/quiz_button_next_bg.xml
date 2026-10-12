@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="@color/cascavel_button" />
-    <corners android:radius="12dp" />
-</shape>
+<!-- Botao "Proxima" do quiz: verde #499959 + resposta ao toque
+     (escurece pressionado, fica translucido desabilitado). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_disabled" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button_pressed" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/cascavel_button" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+</selector>

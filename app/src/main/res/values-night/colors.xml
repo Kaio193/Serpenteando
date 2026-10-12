@@ -64,10 +64,15 @@
     <color name="cascavel_card_stroke">#334CAF50</color>
     <color name="home_icon_tint">@color/cascavel_jade</color>
 
-    <!-- Botoes: mesma cor do tema claro (27/09/2026) — verde padrao #4CAF50
-         desde 30/09/2026. E ele que define a cor de TODOS os botoes. -->
-    <color name="cascavel_button">#4CAF50</color>
+    <!-- Botoes: mesma cor do tema claro. Desde 12/10/2026 o valor e o verde
+         #499959, e e ele que define a cor de TODOS os botoes nos dois temas.
+         Os estados de toque (pressed/disabled) sao os mesmos do tema claro,
+         senao o botao mudaria de tom ao trocar de tema. -->
+    <color name="cascavel_button">#499959</color>
     <color name="cascavel_on_button">#FFFFFF</color>
+    <color name="cascavel_button_pressed">#3C7D4A</color>
+    <color name="cascavel_button_disabled">#66499959</color>
+    <color name="cascavel_button_pressed_soft">#1F499959</color>
 
     <!-- Chips/botoes de escolha: mesmo verde padrao dos botoes (Kaio, 07/10).
          Antes era a base cinza #3A423E. -->
