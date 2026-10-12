@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/cascavel_bg" />
-        </shape>
-    </item>
-    <item android:gravity="center">
-        <shape android:shape="oval">
-            <solid android:color="@color/cascavel_surface" />
-            <size
-                android:width="240dp"
-                android:height="240dp" />
-        </shape>
-    </item>
-    <item android:gravity="center" android:top="48dp">
-        <shape android:shape="oval">
-            <solid android:color="@color/cascavel_surface_container" />
-            <size
-                android:width="120dp"
-                android:height="120dp" />
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Splash estatica do MODO ESCURO — par da do claro (Kaio, 12/10).
+         Antes era um layer-list com dois circulos (240dp e 120dp) atras do
+         favicon, que apareciam como "umas coisas atras" do logo e do nome. O
+         Kaio pediu deixar igual ao claro: so o fundo liso, sem nada atrás.
+         A cor e a de fundo real do modo escuro (cascavel_bg = #0B1210), a mesma
+         que o windowSplashScreenBackground do tema Dark ja usa — entao a splash
+         do sistema e a nossa ficam identicas, sem transicao de tonalidade. -->
+    <solid android:color="@color/cascavel_bg" />
+</shape>

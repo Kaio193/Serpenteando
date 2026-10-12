@@ -1,9 +1,15 @@
 package com.serpenteando.cobra3d.view;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,9 +82,101 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         PressSpring.attach(view.findViewById(R.id.exploreAnatomyCard));
         PressSpring.attach(view.findViewById(R.id.exploreContentCard));
 
+        // Enquadramento da arte do card de boas-vindas
+        ajustarArteDoCard(view);
+
         // Carrega dados do banco: dica do dia + progresso do usuário
         presenter.loadTip();
         presenter.loadProgress();
+    }
+
+    /**
+     * Ajusta o enquadramento da arte que fica atrás da frase do card de boas-vindas.
+     *
+     * A arte (barra clara no modo claro / barra escura no escuro) é mais larga que o
+     * card, então o centerCrop corta os dois lados dela por igual — o desenho da cobra
+     * fica no lado direito da arte e esse corte comia a ponta do desenho (Kaio, 12/10:
+     * "as imagens estão deslocadas pra direita e parte delas fica cortada").
+     *
+     * Aqui a arte é desenhada com a mesma escala do centerCrop, só que andando pra
+     * esquerda até a borda direita encostar na borda direita do card. Assim o corte sai
+     * inteiro do lado esquerdo (que é fundo liso) e o desenho aparece completo.
+     * A conta é feita no código, e não fixa no XML, porque a largura do card muda de
+     * celular pra celular: em tela mais larga a sobra é menor, e assim nunca sobra
+     * buraco do lado direito.
+     */
+    private void ajustarArteDoCard(View view) {
+        ImageView arte = view.findViewById(R.id.heroBannerImage);
+
+        // post: só dá pra medir o tamanho da imagem depois que a tela foi desenhada
+        arte.post(() -> {
+            Drawable desenho = arte.getDrawable();
+            int larguraTela = arte.getWidth();
+            int alturaTela = arte.getHeight();
+
+            // Sem desenho (ou antes de medir) não faz nada: fica o centerCrop do XML
+            if (desenho == null || larguraTela == 0 || alturaTela == 0) return;
+
+            // Mesma escala que o centerCrop usa: a maior entre largura e altura
+            float escala = Math.max((float) larguraTela / desenho.getIntrinsicWidth(),
+                    (float) alturaTela / desenho.getIntrinsicHeight());
+
+            // Quanto a arte passa do card em cada eixo (é o que o centerCrop corta)
+            float sobraX = desenho.getIntrinsicWidth() * escala - larguraTela;
+            float sobraY = desenho.getIntrinsicHeight() * escala - alturaTela;
+
+            // Arte mais estreita que o card: não tem corte lateral, nada pra ajustar
+            if (sobraX <= 4f) return;
+
+            // A arte termina com uma ponta transparente (a clara tem ~9px, a escura
+            // nenhum). Essa ponta precisa cair FORA do card, senão aparecem alguns
+            // pixels do fundo do card na borda direita — no modo claro isso virava
+            // uma faixinha clara de ~5px (visto no print, 12/10).
+            float pontaTransparente = transparenciaNoFim(desenho, escala);
+            float folga = pontaTransparente + 4f;   // 4px (~1,5dp) de segurança
+
+            // Enquadramento do centerCrop (centralizado) andando pra esquerda, sem
+            // deixar buraco na direita: a arte sai no máximo até encostar na borda
+            float deslocamento = Math.max(0f, sobraX / 2f - folga);
+
+            Matrix matriz = new Matrix();
+            matriz.setScale(escala, escala);
+            matriz.postTranslate(-sobraX / 2f - deslocamento, -sobraY / 2f);
+
+            arte.setScaleType(ImageView.ScaleType.MATRIX);
+            arte.setImageMatrix(matriz);
+        });
+    }
+
+    /**
+     * Mede quantos pixels desenhados a arte tem de transparência na ponta direita.
+     * Lê uma linha do meio da imagem e conta, da direita pra esquerda, quantos pixels
+     * estão transparentes (alpha < 250). Serve pra saber de quanto precisa ser a folga
+     * de segurança — se a arte for trocada por outra com fade maior, a conta acompanha.
+     */
+    private float transparenciaNoFim(Drawable desenho, float escala) {
+        if (!(desenho instanceof BitmapDrawable)) return 0f;
+        try {
+            Bitmap mapa = ((BitmapDrawable) desenho).getBitmap();
+            int largura = mapa.getWidth();
+            int larguraDrawable = desenho.getIntrinsicWidth();
+            if (largura == 0 || larguraDrawable == 0) return 4f;
+
+            int[] linha = new int[largura];
+            mapa.getPixels(linha, 0, largura, 0, mapa.getHeight() / 2, largura, 1);
+
+            int fim = largura - 1;
+            while (fim > 0 && Color.alpha(linha[fim]) < 250) fim--;
+
+            // O tamanho que o drawable usa pra desenhar não é o do bitmap: o Android
+            // ajusta pela densidade da tela. Converte os pixels do bitmap pro tamanho
+            // do drawable antes de aplicar a escala do card.
+            float fator = (float) larguraDrawable / largura;
+            return (largura - 1 - fim) * fator * escala;
+        } catch (Exception e) {
+            // Qualquer surpresa aqui só vira folga a mais: nunca quebra a tela
+            return 4f;
+        }
     }
 
     /**

@@ -84,6 +84,13 @@
                      (110dp -> 96dp) e a frase saiu do centro e foi pro LADO
                      ESQUERDO, junto com a imagem nova.
 
+                     LADO (ajuste de 12/10): como a arte é mais larga que o card,
+                     o centerCrop cortava os dois lados e comia a ponta do desenho
+                     (que fica na direita). A arte continua preenchendo tudo, mas
+                     quem posiciona é o HomeFragment (ajustarArteDoCard), que anda
+                     a imagem pra esquerda até encostar o lado direito no card.
+                     O centerCrop aqui é só o fallback se o código não rodar.
+
                      Quem arredonda é o CardView (20dp), que recorta o filho. -->
                 <FrameLayout
                     android:layout_width="match_parent"
