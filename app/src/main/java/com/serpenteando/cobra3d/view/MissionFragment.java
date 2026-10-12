@@ -104,12 +104,8 @@ public class MissionFragment extends Fragment implements MissionContract.View {
         PressSpring.attach(verifyButton);
 
 
-        long lastMissionId = new PreferenceManager(requireContext()).getLastMissionId();
-        if (lastMissionId > 0) {
-            presenter.loadMission(lastMissionId);
-        } else {
-            presenter.loadMissions();
-        }
+        // Forçar sempre a "Ofensiva de 7 dias" (id 1)
+        presenter.loadMission(1L);
     }
 
     /**
@@ -169,16 +165,9 @@ public class MissionFragment extends Fragment implements MissionContract.View {
 
             if (verifyButton != null) verifyButton.setVisibility(View.VISIBLE);
 
-            // [MELHORIA] Botão "Trocar de missão" fica abaixo do item count pill.
-            // O progresso atual é salvo no presenter antes de carregar a nova missão.
+            // Botão "Trocar de missão" ocultado: manter apenas "Ofensiva de 7 dias"
             if (trocarMissaoButton != null) {
-                trocarMissaoButton.setVisibility(View.VISIBLE);
-                trocarMissaoButton.setOnClickListener(vista -> {
-                    if (presenter != null) {
-                        presenter.showMissionChangeDialog();
-                    }
-                });
-                PressSpring.attach(trocarMissaoButton);
+                trocarMissaoButton.setVisibility(View.GONE);
             }
 
             updateScore();
@@ -362,7 +351,7 @@ public class MissionFragment extends Fragment implements MissionContract.View {
                     dialog.dismiss();
                     if (!isAdded() || presenter == null) return;
                     if (currentMissionId != -1) {
-                        presenter.switchMission(mission.getId());
+                        presenter.loadMission(currentMissionId);
                     } else {
                         presenter.loadMissions();
                     }
