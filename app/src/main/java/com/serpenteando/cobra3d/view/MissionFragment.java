@@ -64,7 +64,6 @@ public class MissionFragment extends Fragment implements MissionContract.View {
     private CircularProgressIndicator progressRing;
     private Dialog resultDialog;
     private MissionItemAdapter adapter;
-    private TextView trocarMissaoButton;
     private long currentMissionId = -1;
 
     @Nullable
@@ -87,7 +86,6 @@ public class MissionFragment extends Fragment implements MissionContract.View {
         missionProgressText = view.findViewById(R.id.missionProgressText);
         missionItemCountText = view.findViewById(R.id.missionItemCountText);
         verifyButton = view.findViewById(R.id.verifyProgressButton);
-        trocarMissaoButton = view.findViewById(R.id.trocarMissaoButton);
         missionChecklist = view.findViewById(R.id.missionChecklist);
         missionChecklist.setNestedScrollingEnabled(false);
         progressRing = view.findViewById(R.id.missionProgressRing);
@@ -165,10 +163,7 @@ public class MissionFragment extends Fragment implements MissionContract.View {
 
             if (verifyButton != null) verifyButton.setVisibility(View.VISIBLE);
 
-            // Botão "Trocar de missão" ocultado: manter apenas "Ofensiva de 7 dias"
-            if (trocarMissaoButton != null) {
-                trocarMissaoButton.setVisibility(View.GONE);
-            }
+
 
             updateScore();
         } catch (Exception e) {
@@ -185,7 +180,6 @@ public class MissionFragment extends Fragment implements MissionContract.View {
             missionTitle.setText(R.string.missions_empty);
             missionDescription.setText("");
             verifyButton.setVisibility(View.GONE);
-            if (trocarMissaoButton != null) trocarMissaoButton.setVisibility(View.GONE);
             return;
         }
 

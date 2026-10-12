@@ -58,7 +58,7 @@
     <string name="missions_complete_title">Missão Completa!</string>
     <string name="missions_retry_title">Tente Novamente</string>
     <string name="missions_ok">OK</string>
-    <string name="mission_change_title">Trocar de missão</string>
+
 
     <!-- ========== MYTHS & TRUTHS ========== -->
     <string name="myths_title">Mitos e Verdades</string>
