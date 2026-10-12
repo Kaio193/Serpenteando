@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.kaio.cobra3d.view.HomeFragment"
+        android:name="com.serpenteando.cobra3d.view.HomeFragment"
         android:label="Início"
         tools:layout="@layout/fragment_home">
         <action
@@ -28,31 +28,31 @@
 
     <fragment
         android:id="@+id/nav_quiz"
-        android:name="com.kaio.cobra3d.view.QuizFragment"
+        android:name="com.serpenteando.cobra3d.view.QuizFragment"
         android:label="Quiz"
         tools:layout="@layout/fragment_quiz" />
 
     <fragment
         android:id="@+id/nav_missions"
-        android:name="com.kaio.cobra3d.view.MissionFragment"
+        android:name="com.serpenteando.cobra3d.view.MissionFragment"
         android:label="Missões"
         tools:layout="@layout/fragment_mission" />
 
     <fragment
         android:id="@+id/nav_anatomy"
-        android:name="com.kaio.cobra3d.view.Anatomy3DFragment"
+        android:name="com.serpenteando.cobra3d.view.Anatomy3DFragment"
         android:label="3D"
         tools:layout="@layout/fragment_anatomy_3d" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.kaio.cobra3d.view.SettingsFragment"
+        android:name="com.serpenteando.cobra3d.view.SettingsFragment"
         android:label="Config"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_content"
-        android:name="com.kaio.cobra3d.view.ContentListFragment"
+        android:name="com.serpenteando.cobra3d.view.ContentListFragment"
         android:label="Conteúdo">
         <argument
             android:name="category"
@@ -68,7 +68,7 @@
 
     <fragment
         android:id="@+id/nav_content_detail"
-        android:name="com.kaio.cobra3d.view.ContentDetailFragment"
+        android:name="com.serpenteando.cobra3d.view.ContentDetailFragment"
         android:label="Detalhes">
         <argument
             android:name="contentId"
@@ -80,13 +80,13 @@
 
     <fragment
         android:id="@+id/nav_myth_truth"
-        android:name="com.kaio.cobra3d.view.MythTruthFragment"
+        android:name="com.serpenteando.cobra3d.view.MythTruthFragment"
         android:label="Mitos e Verdades"
         tools:layout="@layout/fragment_myth_truth" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.kaio.cobra3d.view.AboutFragment"
+        android:name="com.serpenteando.cobra3d.view.AboutFragment"
         android:label="Sobre">
         <action
             android:id="@+id/action_about_popback"

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kaio.cobra3d"
+    namespace = "com.serpenteando.cobra3d"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.kaio.cobra3d"
+        applicationId = "com.serpenteando.cobra3d"
         minSdk = 23
         targetSdk = 36
         versionCode = 1

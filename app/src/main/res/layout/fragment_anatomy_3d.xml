@@ -31,7 +31,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/fundo_3d" />
 
-    <com.kaio.cobra3d.view.renderer.AnatomySurfaceView
+    <com.serpenteando.cobra3d.view.renderer.AnatomySurfaceView
         android:id="@+id/anatomySurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -48,8 +48,8 @@
             android:name=".receiver.NotificationReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.kaio.cobra3d.ACTION_DAILY_REMINDER" />
-                <action android:name="com.kaio.cobra3d.ACTION_MISSION_AVAILABLE" />
+                <action android:name="com.serpenteando.cobra3d.ACTION_DAILY_REMINDER" />
+                <action android:name="com.serpenteando.cobra3d.ACTION_MISSION_AVAILABLE" />
             </intent-filter>
         </receiver>
 
