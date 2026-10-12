@@ -60,19 +60,6 @@ public class TipRepository {
         return null;
     }
 
-    public Tip getRandom() {
-        Cursor c = db.rawQuery(
-                "SELECT * FROM " + Contract.TipsTable.TABLE_NAME +
-                        " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1" +
-                        " ORDER BY RANDOM() LIMIT 1", null);
-        if (c != null && c.moveToFirst()) {
-            Tip tip = cursorToTip(c);
-            c.close();
-            return tip;
-        }
-        return null;
-    }
-
     public Tip getById(long id) {
         Cursor c = db.query(Contract.TipsTable.TABLE_NAME, null,
                 Contract.TipsTable.COL_ID + " = ?",
