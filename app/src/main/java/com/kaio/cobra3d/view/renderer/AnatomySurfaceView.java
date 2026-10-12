@@ -80,6 +80,14 @@ public class AnatomySurfaceView extends SurfaceView
         this.engine = engine;
         this.renderer = renderer;
         this.scene3d = new Anatomy3DRenderer(getContext(), engine, renderer);
+        // O renderer avisa quando a câmera mudou: sem isso o loop só voltaria a
+        // desenhar no próximo onResume.
+        this.scene3d.setFrameRequester(this::requestFrame);
+    }
+
+    /** Acorda o render loop (chamado pelo renderer quando o usuário gira ou dá zoom). */
+    public void requestFrame() {
+        onResumeFrame();
     }
 
     public Anatomy3DRenderer getScene3d() {
@@ -124,6 +132,9 @@ public class AnatomySurfaceView extends SurfaceView
 
     public void onResumeFrame() {
         if (choreographer == null) choreographer = Choreographer.getInstance();
+        // Garante alguns quadros: a surface nova precisa desenhar pelo menos uma
+        // vez antes de o loop poder parar de novo.
+        if (scene3d != null) scene3d.aquecerQuadros();
         if (ready && !running) {
             running = true;
             choreographer.postFrameCallback(this);
@@ -157,8 +168,15 @@ public class AnatomySurfaceView extends SurfaceView
             return;
         }
         if (scene3d != null) scene3d.render(frameTimeNanos);
-        if (running && choreographer != null) {
+
+        // Com a cena parada e o modelo já carregado, para de pedir quadro: o
+        // último desenho continua na tela e quem acorda o loop de novo é o
+        // toque. Antes daqui saía um postFrameCallback a cada VSync (120x por
+        // segundo nesse aparelho) redesenhando exatamente a mesma imagem.
+        if (running && choreographer != null && (scene3d == null || scene3d.precisaRenderizar())) {
             choreographer.postFrameCallback(this);
+        } else {
+            running = false;
         }
     }
 

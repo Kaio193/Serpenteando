@@ -96,6 +96,26 @@ public final class Anatomy3DRenderer {
     private Thread threadCarga;
     private long prazoCarga;
 
+    // Quantos quadros ainda desenhar sem ninguém pedir. O loop de render roda
+    // junto com o VSync (120x por segundo nesse aparelho), então, com a cena
+    // parada, ele ficava redesenhando a MESMA imagem pra sempre — era isso que
+    // deixava a tela travada depois que entrou a imagem de fundo (o desenho
+    // extra custa CPU e GPU a cada quadro).
+    // O aquecimento cobre o primeiro quadro da surface nova e, principalmente,
+    // as texturas que o Filament sobe em paralelo DEPOIS de o modelo entrar na
+    // cena. Medido no A36: com 6 quadros o modelo aparecia com o sombreado
+    // diferente do original; 180 (1,5 s a 120 Hz) devolve exatamente a mesma
+    // imagem de antes da otimização e o loop continua parando em seguida.
+    private static final int QUADROS_AQUECIMENTO = 180;
+    private int quadrosAquecimento = QUADROS_AQUECIMENTO;
+
+    // Quem acorda o loop quando o usuário mexe na câmera. É a SurfaceView.
+    public interface FrameRequester {
+        void requestFrame();
+    }
+
+    private FrameRequester frameRequester;
+
     // Ligada só quando o aoTerminarLeitura() rodou — ou seja, quando já existe
     // carga E já se sabe se as texturas são assíncronas ou não. Sem ela, um frame
     // que caísse entre o create() (thread de fundo) e o retorno na main daria o
@@ -152,6 +172,7 @@ public final class Anatomy3DRenderer {
         this.view.setViewport(viewport);
         updateCameraProjection(width, height);
         frameCamera(false);
+        pedirQuadros();
     }
 
     public void resize(int width, int height) {
@@ -159,6 +180,7 @@ public final class Anatomy3DRenderer {
         viewport = new Viewport(0, 0, width, height);
         view.setViewport(viewport);
         updateCameraProjection(width, height);
+        pedirQuadros();
         frameCamera(false);
     }
 
@@ -335,6 +357,7 @@ public final class Anatomy3DRenderer {
         orbitTheta -= deltaX * 0.008f;
         orbitPhi = Math.max(-1.3f, Math.min(1.3f, orbitPhi - deltaY * 0.008f));
         updateOrbitCamera();
+        pedirQuadros();
     }
 
     /** Pinça com dois dedos: aproxima/afasta. */
@@ -348,6 +371,7 @@ public final class Anatomy3DRenderer {
         float max = frameDistance * 1.7f;
         orbitDistance = Math.max(min, Math.min(max, orbitDistance * factor));
         updateOrbitCamera();
+        pedirQuadros();
     }
 
     /** Volta pro enquadramento inicial (vista 3/4 lateral, modelo inteiro). */
@@ -417,10 +441,45 @@ public final class Anatomy3DRenderer {
         // A carga das texturas anda mesmo antes da surface existir.
         atualizarCarga();
         if (swapChain == null) return;
+        if (!precisaRenderizar()) return;
         if (renderer.beginFrame(swapChain, frameTimeNanos)) {
             renderer.render(view);
             renderer.endFrame();
+            if (quadrosAquecimento > 0) quadrosAquecimento--;
         }
+    }
+
+    /**
+     * Enquanto o modelo está chegando, continua desenhando (é assim que as
+     * texturas que carregam em paralelo aparecem). Depois disso, só desenha
+     * quando alguém pediu quadro novo — ou seja, quando o usuário girou ou deu
+     * zoom. Com a cena parada, o último quadro desenhado continua na tela.
+     */
+    public boolean precisaRenderizar() {
+        return estadoModelo == MODELO_CARREGANDO || quadrosAquecimento > 0;
+    }
+
+    public void setFrameRequester(FrameRequester requester) {
+        this.frameRequester = requester;
+    }
+
+    /**
+     * Pede quadro novo depois de mexer na câmera. Além do quadro do toque,
+     * deixa alguns de aquecimento: se o usuário girar rápido, o loop continua
+     * vivo entre um toque e outro em vez de parar e voltar a cada movimento.
+     */
+    private void pedirQuadros() {
+        aquecerQuadros();
+        if (frameRequester != null) frameRequester.requestFrame();
+    }
+
+    /**
+     * Reserva os quadros de aquecimento sem acordar o loop. Separado do
+     * pedirQuadros() de propósito: a SurfaceView chama este pelo caminho do
+     * requestFrame, e se ele avisasse de volta daria recursão infinita.
+     */
+    public void aquecerQuadros() {
+        quadrosAquecimento = Math.max(quadrosAquecimento, QUADROS_AQUECIMENTO);
     }
 
     /**
