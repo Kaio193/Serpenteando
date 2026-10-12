@@ -63,8 +63,8 @@ public class ContentTabFragment extends Fragment implements ContentContract.View
 
         filter = "all";
         if (getArguments() != null) {
-            String f = getArguments().getString(ARG_FILTER);
-            if (f != null) filter = f;
+            String filtroRecebido = getArguments().getString(ARG_FILTER);
+            if (filtroRecebido != null) filter = filtroRecebido;
         }
 
         presenter = new ContentPresenter(this, DatabaseHelper.getInstance(requireContext()), requireContext());
@@ -89,16 +89,16 @@ public class ContentTabFragment extends Fragment implements ContentContract.View
     public void showContentList(List<Content> contents) {
         // Filtra conteúdo baseado no tipo da aba
         List<Content> filtered = new ArrayList<>();
-        for (Content c : contents) {
+        for (Content conteudo : contents) {
             switch (filter) {
                 case "venomous":
-                    if (c.isVenomous()) filtered.add(c);
+                    if (conteudo.isVenomous()) filtered.add(conteudo);
                     break;
                 case "non_venomous":
-                    if (!c.isVenomous()) filtered.add(c);
+                    if (!conteudo.isVenomous()) filtered.add(conteudo);
                     break;
                 default:
-                    filtered.add(c);
+                    filtered.add(conteudo);
                     break;
             }
         }

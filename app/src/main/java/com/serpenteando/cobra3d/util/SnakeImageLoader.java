@@ -1,4 +1,4 @@
-package com.serpenteando.cobra3d.adapter;
+package com.serpenteando.cobra3d.util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -17,14 +17,14 @@ public final class SnakeImageLoader {
         if (imageName == null || imageName.isEmpty()) {
             return null;
         }
-        AssetManager am = context.getAssets();
+        AssetManager assetManager = context.getAssets();
         String[] candidates = {
                 "images/" + imageName + ".png",
                 "images/" + imageName + ".jpg",
                 "images/" + imageName + ".jpeg"
         };
         for (String path : candidates) {
-            try (InputStream is = am.open(path)) {
+            try (InputStream is = assetManager.open(path)) {
                 Bitmap bmp = BitmapFactory.decodeStream(is);
                 if (bmp != null) {
                     return bmp;

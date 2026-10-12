@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.serpenteando.cobra3d.R;
 import com.serpenteando.cobra3d.model.entity.Content;
+import com.serpenteando.cobra3d.util.SnakeImageLoader;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
             holder.contentImage.setImageResource(R.drawable.ic_cobra);
         }
 
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(vista -> {
             if (listener != null) {
                 listener.onItemClick(content);
             }

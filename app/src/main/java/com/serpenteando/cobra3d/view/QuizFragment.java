@@ -127,8 +127,8 @@ public class QuizFragment extends Fragment implements QuizContract.View {
 
         // [TEI Persistência] DatabaseHelper = SQLiteOpenHelper do slide 06
         // O QuizPresenter grava o progresso (quizzes/sequência) no SQLite
-        DatabaseHelper db = DatabaseHelper.getInstance(requireContext());
-        presenter = new QuizPresenter(this, db, requireContext());
+        DatabaseHelper bancoDados = DatabaseHelper.getInstance(requireContext());
+        presenter = new QuizPresenter(this, bancoDados, requireContext());
 
         bindViews(view);
         setupDifficultySegment();
@@ -143,10 +143,10 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         // funcionando).
         showDifficultyDialog();
 
-        view.findViewById(R.id.backButton).setOnClickListener(v ->
+        view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
-        nextButton.setOnClickListener(v -> {
+        nextButton.setOnClickListener(vista -> {
             if (isLoadingNext) return;
             isLoadingNext = true;
             presenter.nextQuestion();
@@ -198,9 +198,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     }
 
     private void setupDifficultySegment() {
-        chipFacil.setOnClickListener(v -> selectDifficulty(DIFFICULTY_FACIL));
-        chipMedio.setOnClickListener(v -> selectDifficulty(DIFFICULTY_MEDIO));
-        chipDificil.setOnClickListener(v -> selectDifficulty(DIFFICULTY_DIFICIL));
+        chipFacil.setOnClickListener(vista -> selectDifficulty(DIFFICULTY_FACIL));
+        chipMedio.setOnClickListener(vista -> selectDifficulty(DIFFICULTY_MEDIO));
+        chipDificil.setOnClickListener(vista -> selectDifficulty(DIFFICULTY_DIFICIL));
     }
 
     /**
@@ -275,24 +275,24 @@ public class QuizFragment extends Fragment implements QuizContract.View {
             final int index = i;
 
             // Efeito de pressão no toque (scale down/up)
-            optionContainers[i].setOnTouchListener((v, event) -> {
+            optionContainers[i].setOnTouchListener((vista, event) -> {
                 if (answered) return false;
                 if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(90).start();
+                    vista.animate().scaleX(0.98f).scaleY(0.98f).setDuration(90).start();
                 } else if (event.getAction() == android.view.MotionEvent.ACTION_UP
                         || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(120).start();
+                    vista.animate().scaleX(1f).scaleY(1f).setDuration(120).start();
                 }
                 return false;
             });
 
             // Ao clicar: mostra dialog de confirmação
-            optionContainers[i].setOnClickListener(v -> {
+            optionContainers[i].setOnClickListener(vista -> {
                 if (answered) return;
-                v.animate().scaleX(1f).scaleY(1f).setDuration(120).start();
+                vista.animate().scaleX(1f).scaleY(1f).setDuration(120).start();
 
                 // Feedback tátil ao tocar na alternativa
-                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                vista.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
 
                 optionContainers[index].setBackgroundResource(R.drawable.option_selected);
                 String chosen = optionTexts[index].getText().toString();
@@ -435,7 +435,7 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         TextView dialogMessage = dialog.findViewById(R.id.dialogMessage);
         dialogMessage.setText(getString(R.string.quiz_confirm_message, chosenAnswer));
 
-        dialog.findViewById(R.id.btnConfirm).setOnClickListener(v -> {
+        dialog.findViewById(R.id.btnConfirm).setOnClickListener(vista -> {
             dialog.dismiss();
             if (!isAdded()) return;
             answered = true;
@@ -445,7 +445,7 @@ public class QuizFragment extends Fragment implements QuizContract.View {
             presenter.selectAnswer(optionIndex);
         });
 
-        dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> {
+        dialog.findViewById(R.id.btnCancel).setOnClickListener(vista -> {
             dialog.dismiss();
             limparSelecaoDasOpcoes();
         });
@@ -490,17 +490,17 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         TextView dialogMedium = dialog.findViewById(R.id.dialogMedium);
         TextView dialogHard = dialog.findViewById(R.id.dialogHard);
 
-        if (dialogEasy != null) dialogEasy.setOnClickListener(v -> {
+        if (dialogEasy != null) dialogEasy.setOnClickListener(vista -> {
             dificuldadeEscolhida = true;
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_FACIL);
         });
-        if (dialogMedium != null) dialogMedium.setOnClickListener(v -> {
+        if (dialogMedium != null) dialogMedium.setOnClickListener(vista -> {
             dificuldadeEscolhida = true;
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_MEDIO);
         });
-        if (dialogHard != null) dialogHard.setOnClickListener(v -> {
+        if (dialogHard != null) dialogHard.setOnClickListener(vista -> {
             dificuldadeEscolhida = true;
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_DIFICIL);
@@ -545,15 +545,15 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         TextView dialogMedium = dialog.findViewById(R.id.dialogMedium);
         TextView dialogHard = dialog.findViewById(R.id.dialogHard);
 
-        if (dialogEasy != null) dialogEasy.setOnClickListener(v -> {
+        if (dialogEasy != null) dialogEasy.setOnClickListener(vista -> {
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_FACIL);
         });
-        if (dialogMedium != null) dialogMedium.setOnClickListener(v -> {
+        if (dialogMedium != null) dialogMedium.setOnClickListener(vista -> {
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_MEDIO);
         });
-        if (dialogHard != null) dialogHard.setOnClickListener(v -> {
+        if (dialogHard != null) dialogHard.setOnClickListener(vista -> {
             dialog.dismiss();
             selectDifficulty(DIFFICULTY_DIFICIL);
         });
@@ -593,7 +593,7 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         dialogScore.setText(String.format(Locale.getDefault(), "%d / %d", score, total));
         dialogMessage.setText(passed ? R.string.quiz_result_passed_msg : R.string.quiz_result_failed_msg);
 
-        dialog.findViewById(R.id.dialogCloseButton).setOnClickListener(v -> {
+        dialog.findViewById(R.id.dialogCloseButton).setOnClickListener(vista -> {
             dialog.dismiss();
             // Apos fechar resultado, mostra dialog de continuar
             showContinueDialog();

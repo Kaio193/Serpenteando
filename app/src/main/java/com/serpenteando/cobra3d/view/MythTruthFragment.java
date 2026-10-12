@@ -46,7 +46,7 @@ public class MythTruthFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Botão voltar
-        view.findViewById(R.id.backButton).setOnClickListener(v ->
+        view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
         // ViewPager2 (swipe entre Todos / Mitos / Verdades)
@@ -70,9 +70,9 @@ public class MythTruthFragment extends Fragment {
         viewPager.setUserInputEnabled(false);
 
         // Clique nos filtros → troca de aba no ViewPager2
-        filterAll.setOnClickListener(v -> viewPager.setCurrentItem(0, true));
-        filterMyths.setOnClickListener(v -> viewPager.setCurrentItem(1, true));
-        filterTruths.setOnClickListener(v -> viewPager.setCurrentItem(2, true));
+        filterAll.setOnClickListener(vista -> viewPager.setCurrentItem(0, true));
+        filterMyths.setOnClickListener(vista -> viewPager.setCurrentItem(1, true));
+        filterTruths.setOnClickListener(vista -> viewPager.setCurrentItem(2, true));
 
         // Atualiza o visual do filtro selecionado quando troca de aba (swipe)
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

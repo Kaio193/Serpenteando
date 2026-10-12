@@ -60,8 +60,8 @@ public class MythTabFragment extends Fragment implements MythTruthContract.View 
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            String f = getArguments().getString(ARG_FILTER);
-            if (f != null) filter = f;
+            String filtroRecebido = getArguments().getString(ARG_FILTER);
+            if (filtroRecebido != null) filter = filtroRecebido;
         }
 
         presenter = new MythTruthPresenter(this, DatabaseHelper.getInstance(requireContext()));

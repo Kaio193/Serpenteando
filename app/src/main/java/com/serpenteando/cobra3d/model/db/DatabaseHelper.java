@@ -94,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         // Abre DB existente (mantém dados do usuário)
         DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase bancoDados = helper.getWritableDatabase();
 
         // Só dropa tabelas de conteúdo — user_progress fica intacto
         String[] contentTables = {
@@ -108,11 +108,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Contract.AnatomyHotspotsTable.TABLE_NAME
         };
         for (String table : contentTables) {
-            try { db.execSQL("DROP TABLE IF EXISTS " + table); } catch (Exception ignored) {}
+            try { bancoDados.execSQL("DROP TABLE IF EXISTS " + table); } catch (Exception ignored) {}
         }
 
         // Recria tabelas de conteúdo e popula com JSON do idioma novo
-        helper.onCreate(db);
+        helper.onCreate(bancoDados);
 
         // Fecha e limpa singleton pra reabrir limpo
         helper.close();
@@ -124,9 +124,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Exemplo: deletar uma missão deleta automaticamente seus itens.
      */
     @Override
-    public void onConfigure(SQLiteDatabase db) {
-        super.onConfigure(db);
-        db.setForeignKeyConstraintsEnabled(true);
+    public void onConfigure(SQLiteDatabase bancoDados) {
+        super.onConfigure(bancoDados);
+        bancoDados.setForeignKeyConstraintsEnabled(true);
     }
 
     /**
@@ -134,18 +134,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Isso evita que usuários que migraram de versões antigas fiquem sem missões.
      */
     @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
+    public void onOpen(SQLiteDatabase bancoDados) {
+        super.onOpen(bancoDados);
         try {
             int count = 0;
-            android.database.Cursor c = db.rawQuery(
+            android.database.Cursor cursor = bancoDados.rawQuery(
                     "SELECT COUNT(*) FROM " + MissionsTable.TABLE_NAME, null);
-            if (c != null) {
-                if (c.moveToFirst()) count = c.getInt(0);
-                c.close();
+            if (cursor != null) {
+                if (cursor.moveToFirst()) count = cursor.getInt(0);
+                cursor.close();
             }
             if (count == 0) {
-                DatabaseInitializer.reseedMissions(context, db);
+                DatabaseInitializer.reseedMissions(context, bancoDados);
             }
         } catch (Exception ignored) {}
     }
@@ -167,9 +167,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * - user_progress: progresso do usuário (pontos, streak, níveis)
      */
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase bancoDados) {
         // [TEI Persistência] CREATE TABLE — mesmo SQL do slide 06
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + QuestionsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + QuestionsTable.TABLE_NAME + " (" +
                 QuestionsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 QuestionsTable.COL_QUESTION_TEXT + " TEXT NOT NULL, " +
                 QuestionsTable.COL_OPTION_A + " TEXT NOT NULL, " +
@@ -182,14 +182,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 QuestionsTable.COL_EXPLANATION + " TEXT, " +
                 QuestionsTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TipsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + TipsTable.TABLE_NAME + " (" +
                 TipsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TipsTable.COL_TIP_TEXT + " TEXT NOT NULL, " +
                 TipsTable.COL_CATEGORY + " TEXT, " +
                 TipsTable.COL_IS_ACTIVE + " INTEGER DEFAULT 1, " +
                 TipsTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + MissionsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + MissionsTable.TABLE_NAME + " (" +
                 MissionsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MissionsTable.COL_TITLE + " TEXT NOT NULL, " +
                 MissionsTable.COL_DESCRIPTION + " TEXT NOT NULL, " +
@@ -199,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MissionsTable.COL_IS_COMPLETED + " INTEGER DEFAULT 0, " +
                 MissionsTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + MissionItemsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + MissionItemsTable.TABLE_NAME + " (" +
                 MissionItemsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MissionItemsTable.COL_MISSION_ID + " INTEGER NOT NULL, " +
                 MissionItemsTable.COL_ITEM_TEXT + " TEXT NOT NULL, " +
@@ -210,7 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (" + MissionItemsTable.COL_MISSION_ID + ") REFERENCES " +
                 MissionsTable.TABLE_NAME + "(" + MissionsTable.COL_ID + ") ON DELETE CASCADE)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + MythsTruthsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + MythsTruthsTable.TABLE_NAME + " (" +
                 MythsTruthsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MythsTruthsTable.COL_STATEMENT + " TEXT NOT NULL, " +
                 MythsTruthsTable.COL_IS_MYTH + " INTEGER NOT NULL, " +
@@ -218,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MythsTruthsTable.COL_CATEGORY + " TEXT, " +
                 MythsTruthsTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + ContentTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + ContentTable.TABLE_NAME + " (" +
                 ContentTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ContentTable.COL_CATEGORY + " TEXT NOT NULL, " +
                 ContentTable.COL_TITLE + " TEXT NOT NULL, " +
@@ -236,7 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentTable.COL_DISPLAY_ORDER + " INTEGER NOT NULL, " +
                 ContentTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + AnatomyLayersTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + AnatomyLayersTable.TABLE_NAME + " (" +
                 AnatomyLayersTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 AnatomyLayersTable.COL_LAYER_NAME + " TEXT NOT NULL, " +
                 AnatomyLayersTable.COL_DISPLAY_NAME + " TEXT NOT NULL, " +
@@ -244,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 AnatomyLayersTable.COL_MODEL_FILE_NAME + " TEXT, " +
                 AnatomyLayersTable.COL_DISPLAY_ORDER + " INTEGER NOT NULL)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + AnatomyHotspotsTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + AnatomyHotspotsTable.TABLE_NAME + " (" +
                 AnatomyHotspotsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 AnatomyHotspotsTable.COL_LAYER_ID + " INTEGER NOT NULL, " +
                 AnatomyHotspotsTable.COL_HOTSPOT_NAME + " TEXT NOT NULL, " +
@@ -255,7 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (" + AnatomyHotspotsTable.COL_LAYER_ID + ") REFERENCES " +
                 AnatomyLayersTable.TABLE_NAME + "(" + AnatomyLayersTable.COL_ID + ") ON DELETE CASCADE)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + UserProgressTable.TABLE_NAME + " (" +
+        bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + UserProgressTable.TABLE_NAME + " (" +
                 UserProgressTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserProgressTable.COL_QUIZ_HIGH_SCORE + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_QUIZZES_COMPLETED + " INTEGER DEFAULT 0, " +
@@ -273,7 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UserProgressTable.COL_AWARDED_MISSIONS + " TEXT DEFAULT '', " +
                 UserProgressTable.COL_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
-        DatabaseInitializer.initialize(context, db);
+        DatabaseInitializer.initialize(context, bancoDados);
     }
 
     /**
@@ -287,15 +287,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * - Recria tabelas de missão com os novos gatilhos
      */
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase bancoDados, int oldVersion, int newVersion) {
         if (oldVersion < 5) {
             try {
-                db.execSQL("ALTER TABLE " + MissionItemsTable.TABLE_NAME +
+                bancoDados.execSQL("ALTER TABLE " + MissionItemsTable.TABLE_NAME +
                         " ADD COLUMN " + MissionItemsTable.COL_TRIGGER +
                         " TEXT NOT NULL DEFAULT ''");
             } catch (Exception ignored) {}
             try {
-                db.execSQL("ALTER TABLE " + MissionItemsTable.TABLE_NAME +
+                bancoDados.execSQL("ALTER TABLE " + MissionItemsTable.TABLE_NAME +
                         " ADD COLUMN " + MissionItemsTable.COL_TARGET +
                         " INTEGER NOT NULL DEFAULT 1");
             } catch (Exception ignored) {}
@@ -308,21 +308,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     UserProgressTable.COL_CONTENT_DETAIL_COUNT
             }) {
                 try {
-                    db.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
+                    bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
                             " ADD COLUMN " + col + " INTEGER DEFAULT 0");
                 } catch (Exception ignored) {}
             }
             try {
-                db.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
+                bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
                         " ADD COLUMN " + UserProgressTable.COL_AWARDED_MISSIONS +
                         " TEXT DEFAULT ''");
             } catch (Exception ignored) {}
 
             // Re-semeia as missões com os novos gatilhos (drop + insert na tabela de missões)
             try {
-                db.execSQL("DROP TABLE IF EXISTS " + MissionItemsTable.TABLE_NAME);
-                db.execSQL("DROP TABLE IF EXISTS " + MissionsTable.TABLE_NAME);
-                db.execSQL("CREATE TABLE " + MissionsTable.TABLE_NAME + " (" +
+                bancoDados.execSQL("DROP TABLE IF EXISTS " + MissionItemsTable.TABLE_NAME);
+                bancoDados.execSQL("DROP TABLE IF EXISTS " + MissionsTable.TABLE_NAME);
+                bancoDados.execSQL("CREATE TABLE " + MissionsTable.TABLE_NAME + " (" +
                         MissionsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MissionsTable.COL_TITLE + " TEXT NOT NULL, " +
                         MissionsTable.COL_DESCRIPTION + " TEXT NOT NULL, " +
@@ -331,7 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         MissionsTable.COL_TOTAL_DAYS + " INTEGER NOT NULL DEFAULT 0, " +
                         MissionsTable.COL_IS_COMPLETED + " INTEGER DEFAULT 0, " +
                         MissionsTable.COL_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
-                db.execSQL("CREATE TABLE " + MissionItemsTable.TABLE_NAME + " (" +
+                bancoDados.execSQL("CREATE TABLE " + MissionItemsTable.TABLE_NAME + " (" +
                         MissionItemsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MissionItemsTable.COL_MISSION_ID + " INTEGER NOT NULL, " +
                         MissionItemsTable.COL_ITEM_TEXT + " TEXT NOT NULL, " +
@@ -341,17 +341,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         MissionItemsTable.COL_DISPLAY_ORDER + " INTEGER NOT NULL, " +
                         "FOREIGN KEY (" + MissionItemsTable.COL_MISSION_ID + ") REFERENCES " +
                         MissionsTable.TABLE_NAME + "(" + MissionsTable.COL_ID + ") ON DELETE CASCADE)");
-                DatabaseInitializer.reseedMissions(context, db);
+                DatabaseInitializer.reseedMissions(context, bancoDados);
             } catch (Exception ignored) {}
         }
         if (oldVersion < 6) {
             // Migração v5→v6: adiciona total_days (contador "Dia X de Y" do mockup)
             try {
-                db.execSQL("ALTER TABLE " + MissionsTable.TABLE_NAME +
+                bancoDados.execSQL("ALTER TABLE " + MissionsTable.TABLE_NAME +
                         " ADD COLUMN " + MissionsTable.COL_TOTAL_DAYS +
                         " INTEGER NOT NULL DEFAULT 0");
                 // Missões existentes: "Ofensiva de 7 dias" tem 7 dias, as outras 0
-                db.execSQL("UPDATE " + MissionsTable.TABLE_NAME +
+                bancoDados.execSQL("UPDATE " + MissionsTable.TABLE_NAME +
                         " SET " + MissionsTable.COL_TOTAL_DAYS +
                         " = 7 WHERE " + MissionsTable.COL_ID + " = 1");
             } catch (Exception ignored) {}

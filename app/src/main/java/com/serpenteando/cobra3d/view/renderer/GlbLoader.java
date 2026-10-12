@@ -94,11 +94,11 @@ public class GlbLoader {
             ByteBuffer buffer = ByteBuffer.allocateDirect(tamanho).order(ByteOrder.nativeOrder());
             byte[] bloco = new byte[TAMANHO_BLOCO];
             int lido = 0;
-            int n;
+            int bytesLidos;
             while (lido < tamanho
-                    && (n = is.read(bloco, 0, Math.min(TAMANHO_BLOCO, tamanho - lido))) > 0) {
-                buffer.put(bloco, 0, n);
-                lido += n;
+                    && (bytesLidos = is.read(bloco, 0, Math.min(TAMANHO_BLOCO, tamanho - lido))) > 0) {
+                buffer.put(bloco, 0, bytesLidos);
+                lido += bytesLidos;
             }
             is.close();
 

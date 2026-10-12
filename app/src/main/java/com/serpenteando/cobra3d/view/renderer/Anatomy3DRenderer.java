@@ -310,30 +310,30 @@ public final class Anatomy3DRenderer {
 
         Box bb = asset.getBoundingBox();
         if (bb != null) {
-            float[] c = bb.getCenter();
-            float[] h = bb.getHalfExtent();
-            float maior = Math.max(Math.abs(h[0]), Math.max(Math.abs(h[1]), Math.abs(h[2])));
-            Log.d(TAG, MODELO + " bbox center=(" + c[0] + "," + c[1] + "," + c[2]
-                + ") half=(" + h[0] + "," + h[1] + "," + h[2] + ")");
+            float[] centro = bb.getCenter();
+            float[] meiaExtensao = bb.getHalfExtent();
+            float maior = Math.max(Math.abs(meiaExtensao[0]), Math.max(Math.abs(meiaExtensao[1]), Math.abs(meiaExtensao[2])));
+            Log.d(TAG, MODELO + " bbox center=(" + centro[0] + "," + centro[1] + "," + centro[2]
+                + ") half=(" + meiaExtensao[0] + "," + meiaExtensao[1] + "," + meiaExtensao[2] + ")");
 
             if (maior > 0.0001f) {
-                float k = 6.0f / (2.0f * maior);
-                halfX = Math.abs(h[0]) * k;
-                halfY = Math.abs(h[1]) * k;
-                halfZ = Math.abs(h[2]) * k;
+                float escala = 6.0f / (2.0f * maior);
+                halfX = Math.abs(meiaExtensao[0]) * escala;
+                halfY = Math.abs(meiaExtensao[1]) * escala;
+                halfZ = Math.abs(meiaExtensao[2]) * escala;
 
                 TransformManager tm = engine.getTransformManager();
                 int root = asset.getRoot();
                 if (root != 0) {
-                    int t = tm.getInstance(root);
-                    if (t != 0) {
+                    int instancia = tm.getInstance(root);
+                    if (instancia != 0) {
                         // Matriz coluna-dominante (padrão Filament): escala na
                         // diagonal e translação nas posições 12/13/14.
-                        tm.setTransform(t, new float[]{
-                            k, 0, 0, 0,
-                            0, k, 0, 0,
-                            0, 0, k, 0,
-                            -c[0] * k, -c[1] * k, -c[2] * k, 1
+                        tm.setTransform(instancia, new float[]{
+                            escala, 0, 0, 0,
+                            0, escala, 0, 0,
+                            0, 0, escala, 0,
+                            -centro[0] * escala, -centro[1] * escala, -centro[2] * escala, 1
                         });
                     }
                 }
@@ -427,8 +427,8 @@ public final class Anatomy3DRenderer {
             0.0, 1.0, 0.0);
     }
 
-    private void updateCameraProjection(int w, int h) {
-        double aspect = (double) w / Math.max(1, h);
+    private void updateCameraProjection(int width, int height) {
+        double aspect = (double) width / Math.max(1, height);
         camera.setProjection(FOV_GRAUS, aspect, 0.1, 400.0, Camera.Fov.VERTICAL);
     }
 
@@ -583,7 +583,7 @@ public final class Anatomy3DRenderer {
         ByteBuffer allFaces = ByteBuffer
             .allocateDirect(pixelsPorFace * 4 * 6)
             .order(ByteOrder.nativeOrder());
-        for (int f = 0; f < 6; f++) {
+        for (int indiceFace = 0; indiceFace < 6; indiceFace++) {
             allFaces.put(face);
         }
         allFaces.flip();

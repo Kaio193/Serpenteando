@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 public class UserRepository {
 
     private final SharedPreferences prefs;
-    private final SQLiteDatabase db;
+    private final SQLiteDatabase bancoDados;
 
-    public UserRepository(SharedPreferences prefs, SQLiteDatabase db) {
+    public UserRepository(SharedPreferences prefs, SQLiteDatabase bancoDados) {
         this.prefs = prefs;
-        this.db = db;
+        this.bancoDados = bancoDados;
     }
 
     // Preferências de tema

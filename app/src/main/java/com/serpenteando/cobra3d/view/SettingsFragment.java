@@ -73,7 +73,7 @@ public class SettingsFragment extends Fragment {
         ((TextView) langRow.findViewById(R.id.rowTitle)).setText(R.string.settings_language);
         ((TextView) langRow.findViewById(R.id.rowValue)).setText(LocaleHelper.getLanguageName(requireContext()));
         langRow.findViewById(R.id.rowValue).setVisibility(View.VISIBLE);
-        langRow.setOnClickListener(v -> {
+        langRow.setOnClickListener(vista -> {
             showLanguageDialog();
         });
 
@@ -84,7 +84,7 @@ public class SettingsFragment extends Fragment {
         ((TextView) notifRow.findViewById(R.id.rowTitle)).setText(R.string.settings_notifications);
         ((TextView) notifRow.findViewById(R.id.rowValue)).setText(R.string.settings_notifications_on);
         notifRow.findViewById(R.id.rowValue).setVisibility(View.VISIBLE);
-        notifRow.setOnClickListener(v -> {
+        notifRow.setOnClickListener(vista -> {
             showNotificationsDialog();
         });
 
@@ -111,7 +111,7 @@ public class SettingsFragment extends Fragment {
         // Click no row inteiro também alterna o switch
         // NOTA: toggle() dispara o listener, que chama setDefaultNightMode,
         // que recria a Activity. Isso é intencional.
-        darkModeRow.setOnClickListener(v -> darkModeSwitch.toggle());
+        darkModeRow.setOnClickListener(vista -> darkModeSwitch.toggle());
 
         // Version click row
         View versionRow = view.findViewById(R.id.rowVersion);
@@ -125,15 +125,15 @@ public class SettingsFragment extends Fragment {
         View aboutRow = view.findViewById(R.id.rowAbout);
         ((ImageView) aboutRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_person_silhouette);
         ((TextView) aboutRow.findViewById(R.id.rowTitle)).setText(R.string.settings_about);
-        aboutRow.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.nav_about);
+        aboutRow.setOnClickListener(vista -> {
+            Navigation.findNavController(vista).navigate(R.id.nav_about);
         });
 
         // Credits click row — abre dialog com os créditos do app
         View creditsRow = view.findViewById(R.id.rowCredits);
         ((ImageView) creditsRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_trophy);
         ((TextView) creditsRow.findViewById(R.id.rowTitle)).setText(R.string.credits_title);
-        creditsRow.setOnClickListener(v -> {
+        creditsRow.setOnClickListener(vista -> {
             showCreditsDialog();
         });
 
@@ -143,7 +143,7 @@ public class SettingsFragment extends Fragment {
         View contactRow = view.findViewById(R.id.rowContact);
         ((ImageView) contactRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_help);
         ((TextView) contactRow.findViewById(R.id.rowTitle)).setText(R.string.settings_contact);
-        contactRow.setOnClickListener(v -> {
+        contactRow.setOnClickListener(vista -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 // Email central criado pelo Kaio (Falar Conosco)
@@ -162,7 +162,7 @@ public class SettingsFragment extends Fragment {
         View bugRow = view.findViewById(R.id.rowBugReport);
         ((ImageView) bugRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_bug_report);
         ((TextView) bugRow.findViewById(R.id.rowTitle)).setText(R.string.settings_report_bug);
-        bugRow.setOnClickListener(v -> {
+        bugRow.setOnClickListener(vista -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 // Email central criado pelo Kaio (Reportar bug)
@@ -198,7 +198,7 @@ public class SettingsFragment extends Fragment {
             dialog.setCanceledOnTouchOutside(true);
 
             TextView closeBtn = dialog.findViewById(R.id.dialogCloseButton);
-            if (closeBtn != null) closeBtn.setOnClickListener(v -> dialog.dismiss());
+            if (closeBtn != null) closeBtn.setOnClickListener(vista -> dialog.dismiss());
 
             dialog.show();
         } catch (Exception e) {
@@ -239,20 +239,20 @@ public class SettingsFragment extends Fragment {
             updateLangRow(langEn, currentLang.equals("en"));
             updateLangRow(langEs, currentLang.equals("es"));
 
-            langPt.setOnClickListener(v -> {
+            langPt.setOnClickListener(vista -> {
                 changeLanguage(LocaleHelper.LANG_PT);
                 dialog.dismiss();
             });
-            langEn.setOnClickListener(v -> {
+            langEn.setOnClickListener(vista -> {
                 changeLanguage(LocaleHelper.LANG_EN);
                 dialog.dismiss();
             });
-            langEs.setOnClickListener(v -> {
+            langEs.setOnClickListener(vista -> {
                 changeLanguage(LocaleHelper.LANG_ES);
                 dialog.dismiss();
             });
 
-            if (closeBtn != null) closeBtn.setOnClickListener(v -> dialog.dismiss());
+            if (closeBtn != null) closeBtn.setOnClickListener(vista -> dialog.dismiss());
             dialog.show();
 
         } catch (Exception e) {
@@ -349,7 +349,7 @@ public class SettingsFragment extends Fragment {
             dialog.show();
 
             TextView saveBtn = dialog.findViewById(R.id.dialogSaveButton);
-            if (saveBtn != null) saveBtn.setOnClickListener(v -> dialog.dismiss());
+            if (saveBtn != null) saveBtn.setOnClickListener(vista -> dialog.dismiss());
 
         } catch (Exception e) {
             Log.e("SettingsFragment", "Error showing notifications dialog", e);

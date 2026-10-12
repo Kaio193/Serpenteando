@@ -16,7 +16,7 @@ import androidx.navigation.Navigation;
 
 import com.serpenteando.cobra3d.R;
 import com.serpenteando.cobra3d.adapter.ContentAdapter;
-import com.serpenteando.cobra3d.adapter.SnakeImageLoader;
+import com.serpenteando.cobra3d.util.SnakeImageLoader;
 import com.serpenteando.cobra3d.contract.ContentContract;
 import com.serpenteando.cobra3d.model.db.DatabaseHelper;
 import com.serpenteando.cobra3d.model.entity.Content;
@@ -82,7 +82,7 @@ public class ContentDetailFragment extends Fragment implements ContentContract.V
         reproductionHeader = view.findViewById(R.id.reproductionHeader);
         curiosityHeader = view.findViewById(R.id.curiosityHeader);
 
-        view.findViewById(R.id.backButton).setOnClickListener(v ->
+        view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
         if (getArguments() != null && getArguments().containsKey(ARG_CONTENT_ID)) {

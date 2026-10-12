@@ -37,22 +37,22 @@ public class DatabaseInitializer {
      * Inicializa todas as tabelas de conteúdo.
      * Chamado pelo DatabaseHelper.onCreate() na primeira instalação.
      */
-    public static void initialize(Context context, SQLiteDatabase db) {
-        insertQuestions(context, db);   // Perguntas do quiz
-        insertTips(context, db);        // Dicas do dia
-        insertMissions(context, db);    // Missões gamificadas
-        insertMythsTruths(context, db); // Mitos e verdades
-        insertContent(context, db);     // Artigos sobre serpentes
-        insertAnatomyLayers(context, db); // Camadas da anatomia 3D
-        insertUserProgress(db);         // Linha de progresso do usuário
+    public static void initialize(Context context, SQLiteDatabase bancoDados) {
+        insertQuestions(context, bancoDados);   // Perguntas do quiz
+        insertTips(context, bancoDados);        // Dicas do dia
+        insertMissions(context, bancoDados);    // Missões gamificadas
+        insertMythsTruths(context, bancoDados); // Mitos e verdades
+        insertContent(context, bancoDados);     // Artigos sobre serpentes
+        insertAnatomyLayers(context, bancoDados); // Camadas da anatomia 3D
+        insertUserProgress(bancoDados);         // Linha de progresso do usuário
     }
 
     /**
      * Re-semeia só as missões (usado na migração v4→v5).
      * Não mexe em outros dados — só repopula a tabela de missões.
      */
-    public static void reseedMissions(Context context, SQLiteDatabase db) {
-        insertMissions(context, db);
+    public static void reseedMissions(Context context, SQLiteDatabase bancoDados) {
+        insertMissions(context, bancoDados);
     }
 
     /**
@@ -97,7 +97,7 @@ public class DatabaseInitializer {
      * Insere perguntas do quiz no banco.
      * Escolhe o JSON correto baseado no idioma (PT/EN/ES).
      */
-    private static void insertQuestions(Context context, SQLiteDatabase db) {
+    private static void insertQuestions(Context context, SQLiteDatabase bancoDados) {
         // [TEI i18n] Escolhe JSON baseado no idioma do dispositivo
         String lang = LocaleHelper.getLanguage(context);
         String fileName = "perguntas.json";
@@ -114,17 +114,17 @@ public class DatabaseInitializer {
                 JSONObject q = arr.getJSONObject(i);
                 JSONArray options = q.getJSONArray("options");
                 if (options.length() < 4) continue;
-                ContentValues cv = new ContentValues();
-                cv.put(Contract.QuestionsTable.COL_QUESTION_TEXT, q.getString("question"));
-                cv.put(Contract.QuestionsTable.COL_OPTION_A, options.getString(0));
-                cv.put(Contract.QuestionsTable.COL_OPTION_B, options.getString(1));
-                cv.put(Contract.QuestionsTable.COL_OPTION_C, options.getString(2));
-                cv.put(Contract.QuestionsTable.COL_OPTION_D, options.getString(3));
-                cv.put(Contract.QuestionsTable.COL_CORRECT_ANSWER, q.getInt("correctIndex"));
-                cv.put(Contract.QuestionsTable.COL_DIFFICULTY, difficultyToInt(q.optString("difficulty")));
-                cv.put(Contract.QuestionsTable.COL_CATEGORY, "geral");
-                cv.put(Contract.QuestionsTable.COL_EXPLANATION, q.optString("explanation"));
-                db.insert(Contract.QuestionsTable.TABLE_NAME, null, cv);
+                ContentValues valores = new ContentValues();
+                valores.put(Contract.QuestionsTable.COL_QUESTION_TEXT, q.getString("question"));
+                valores.put(Contract.QuestionsTable.COL_OPTION_A, options.getString(0));
+                valores.put(Contract.QuestionsTable.COL_OPTION_B, options.getString(1));
+                valores.put(Contract.QuestionsTable.COL_OPTION_C, options.getString(2));
+                valores.put(Contract.QuestionsTable.COL_OPTION_D, options.getString(3));
+                valores.put(Contract.QuestionsTable.COL_CORRECT_ANSWER, q.getInt("correctIndex"));
+                valores.put(Contract.QuestionsTable.COL_DIFFICULTY, difficultyToInt(q.optString("difficulty")));
+                valores.put(Contract.QuestionsTable.COL_CATEGORY, "geral");
+                valores.put(Contract.QuestionsTable.COL_EXPLANATION, q.optString("explanation"));
+                bancoDados.insert(Contract.QuestionsTable.TABLE_NAME, null, valores);
                 inserted++;
             } catch (Exception e) {
                 Log.e(TAG, "Erro na pergunta " + i, e);
@@ -133,7 +133,7 @@ public class DatabaseInitializer {
         Log.d(TAG, "Perguntas inseridas: " + inserted);
     }
 
-    private static void insertTips(Context context, SQLiteDatabase db) {
+    private static void insertTips(Context context, SQLiteDatabase bancoDados) {
         String lang = LocaleHelper.getLanguage(context);
         String fileName = "dicas.json";
         if ("en".equals(lang)) {
@@ -147,11 +147,11 @@ public class DatabaseInitializer {
         for (int i = 0; i < arr.length(); i++) {
             try {
                 JSONObject t = arr.getJSONObject(i);
-                ContentValues cv = new ContentValues();
-                cv.put(Contract.TipsTable.COL_TIP_TEXT, t.getString("text"));
-                cv.put(Contract.TipsTable.COL_CATEGORY, "geral");
-                cv.put(Contract.TipsTable.COL_IS_ACTIVE, 1);
-                db.insert(Contract.TipsTable.TABLE_NAME, null, cv);
+                ContentValues valores = new ContentValues();
+                valores.put(Contract.TipsTable.COL_TIP_TEXT, t.getString("text"));
+                valores.put(Contract.TipsTable.COL_CATEGORY, "geral");
+                valores.put(Contract.TipsTable.COL_IS_ACTIVE, 1);
+                bancoDados.insert(Contract.TipsTable.TABLE_NAME, null, valores);
                 inserted++;
             } catch (Exception e) {
                 Log.e(TAG, "Erro na dica " + i, e);
@@ -160,7 +160,7 @@ public class DatabaseInitializer {
         Log.d(TAG, "Dicas inseridas: " + inserted);
     }
 
-    private static void insertMissions(Context context, SQLiteDatabase db) {
+    private static void insertMissions(Context context, SQLiteDatabase bancoDados) {
         String lang = LocaleHelper.getLanguage(context);
         String fileName = "missoes.json";
         if ("en".equals(lang)) {
@@ -174,14 +174,14 @@ public class DatabaseInitializer {
         for (int i = 0; i < arr.length(); i++) {
             try {
                 JSONObject m = arr.getJSONObject(i);
-                ContentValues cv = new ContentValues();
-                cv.put(Contract.MissionsTable.COL_TITLE, m.getString("title"));
-                cv.put(Contract.MissionsTable.COL_DESCRIPTION, m.getString("description"));
-                cv.put(Contract.MissionsTable.COL_DIFFICULTY, 1);
-                cv.put(Contract.MissionsTable.COL_POINTS, m.optInt("points", 100));
-                cv.put(Contract.MissionsTable.COL_TOTAL_DAYS, m.optInt("totalDays", 0));
-                cv.put(Contract.MissionsTable.COL_IS_COMPLETED, 0);
-                long missionId = db.insert(Contract.MissionsTable.TABLE_NAME, null, cv);
+                ContentValues valores = new ContentValues();
+                valores.put(Contract.MissionsTable.COL_TITLE, m.getString("title"));
+                valores.put(Contract.MissionsTable.COL_DESCRIPTION, m.getString("description"));
+                valores.put(Contract.MissionsTable.COL_DIFFICULTY, 1);
+                valores.put(Contract.MissionsTable.COL_POINTS, m.optInt("points", 100));
+                valores.put(Contract.MissionsTable.COL_TOTAL_DAYS, m.optInt("totalDays", 0));
+                valores.put(Contract.MissionsTable.COL_IS_COMPLETED, 0);
+                long missionId = bancoDados.insert(Contract.MissionsTable.TABLE_NAME, null, valores);
 
                 JSONArray items = m.optJSONArray("items");
                 if (items != null) {
@@ -194,7 +194,7 @@ public class DatabaseInitializer {
                         icv.put(Contract.MissionItemsTable.COL_TARGET, item.optInt("target", 1));
                         icv.put(Contract.MissionItemsTable.COL_IS_CORRECT, 0);
                         icv.put(Contract.MissionItemsTable.COL_DISPLAY_ORDER, j + 1);
-                        db.insert(Contract.MissionItemsTable.TABLE_NAME, null, icv);
+                        bancoDados.insert(Contract.MissionItemsTable.TABLE_NAME, null, icv);
                     }
                 }
                 inserted++;
@@ -205,7 +205,7 @@ public class DatabaseInitializer {
         Log.d(TAG, "Missoes inseridas: " + inserted);
     }
 
-    private static void insertMythsTruths(Context context, SQLiteDatabase db) {
+    private static void insertMythsTruths(Context context, SQLiteDatabase bancoDados) {
         String lang = LocaleHelper.getLanguage(context);
         String fileName = "mitos_verdades.json";
         if ("en".equals(lang)) {
@@ -219,13 +219,13 @@ public class DatabaseInitializer {
         for (int i = 0; i < arr.length(); i++) {
             try {
                 JSONObject mv = arr.getJSONObject(i);
-                ContentValues cv = new ContentValues();
-                cv.put(Contract.MythsTruthsTable.COL_STATEMENT, mv.getString("phrase"));
-                cv.put(Contract.MythsTruthsTable.COL_IS_MYTH,
+                ContentValues valores = new ContentValues();
+                valores.put(Contract.MythsTruthsTable.COL_STATEMENT, mv.getString("phrase"));
+                valores.put(Contract.MythsTruthsTable.COL_IS_MYTH,
                         "MITO".equals(mv.optString("type")) || "MYTH".equals(mv.optString("type")) ? 1 : 0);
-                cv.put(Contract.MythsTruthsTable.COL_EXPLANATION, mv.getString("explanation"));
-                cv.put(Contract.MythsTruthsTable.COL_CATEGORY, "cobras");
-                db.insert(Contract.MythsTruthsTable.TABLE_NAME, null, cv);
+                valores.put(Contract.MythsTruthsTable.COL_EXPLANATION, mv.getString("explanation"));
+                valores.put(Contract.MythsTruthsTable.COL_CATEGORY, "cobras");
+                bancoDados.insert(Contract.MythsTruthsTable.TABLE_NAME, null, valores);
                 inserted++;
             } catch (Exception e) {
                 Log.e(TAG, "Erro no mito " + i, e);
@@ -234,7 +234,7 @@ public class DatabaseInitializer {
         Log.d(TAG, "Mitos/verdades inseridos: " + inserted);
     }
 
-    private static void insertContent(Context context, SQLiteDatabase db) {
+    private static void insertContent(Context context, SQLiteDatabase bancoDados) {
         String lang = LocaleHelper.getLanguage(context);
         String fileName = "serpentes.json";
         if ("en".equals(lang)) {
@@ -248,22 +248,22 @@ public class DatabaseInitializer {
         for (int i = 0; i < arr.length(); i++) {
             try {
                 JSONObject s = arr.getJSONObject(i);
-                ContentValues cv = new ContentValues();
-                cv.put(Contract.ContentTable.COL_CATEGORY, "serpentes");
-                cv.put(Contract.ContentTable.COL_TITLE, s.getString("popularName"));
-                cv.put(Contract.ContentTable.COL_SCIENTIFIC_NAME, s.optString("scientificName"));
-                cv.put(Contract.ContentTable.COL_FAMILY, s.optString("family"));
-                cv.put(Contract.ContentTable.COL_IS_VENOMOUS, s.optBoolean("venomous") ? 1 : 0);
-                cv.put(Contract.ContentTable.COL_BODY, s.optString("description"));
-                cv.put(Contract.ContentTable.COL_HABITAT, s.optString("habitat"));
-                cv.put(Contract.ContentTable.COL_DISTRIBUTION, s.optString("distribution"));
-                cv.put(Contract.ContentTable.COL_DIET, s.optString("diet"));
-                cv.put(Contract.ContentTable.COL_REPRODUCTION, s.optString("reproduction"));
-                cv.put(Contract.ContentTable.COL_MEDICAL_IMPORTANCE, s.optString("medicalImportance"));
-                cv.put(Contract.ContentTable.COL_CURIOSITY, s.optString("curiosity"));
-                cv.put(Contract.ContentTable.COL_IMAGE_RES_NAME, s.optString("imageName"));
-                cv.put(Contract.ContentTable.COL_DISPLAY_ORDER, i + 1);
-                db.insert(Contract.ContentTable.TABLE_NAME, null, cv);
+                ContentValues valores = new ContentValues();
+                valores.put(Contract.ContentTable.COL_CATEGORY, "serpentes");
+                valores.put(Contract.ContentTable.COL_TITLE, s.getString("popularName"));
+                valores.put(Contract.ContentTable.COL_SCIENTIFIC_NAME, s.optString("scientificName"));
+                valores.put(Contract.ContentTable.COL_FAMILY, s.optString("family"));
+                valores.put(Contract.ContentTable.COL_IS_VENOMOUS, s.optBoolean("venomous") ? 1 : 0);
+                valores.put(Contract.ContentTable.COL_BODY, s.optString("description"));
+                valores.put(Contract.ContentTable.COL_HABITAT, s.optString("habitat"));
+                valores.put(Contract.ContentTable.COL_DISTRIBUTION, s.optString("distribution"));
+                valores.put(Contract.ContentTable.COL_DIET, s.optString("diet"));
+                valores.put(Contract.ContentTable.COL_REPRODUCTION, s.optString("reproduction"));
+                valores.put(Contract.ContentTable.COL_MEDICAL_IMPORTANCE, s.optString("medicalImportance"));
+                valores.put(Contract.ContentTable.COL_CURIOSITY, s.optString("curiosity"));
+                valores.put(Contract.ContentTable.COL_IMAGE_RES_NAME, s.optString("imageName"));
+                valores.put(Contract.ContentTable.COL_DISPLAY_ORDER, i + 1);
+                bancoDados.insert(Contract.ContentTable.TABLE_NAME, null, valores);
                 inserted++;
             } catch (Exception e) {
                 Log.e(TAG, "Erro na serpente " + i, e);
@@ -284,7 +284,7 @@ public class DatabaseInitializer {
      * Cada camada tem hotspots (pontos interativos) que o usuário
      * pode tocar pra ver informações sobre cada estrutura.
      */
-    private static void insertAnatomyLayers(Context context, SQLiteDatabase db) {
+    private static void insertAnatomyLayers(Context context, SQLiteDatabase bancoDados) {
         // Escolhe idioma pros nomes das estruturas
         String lang = LocaleHelper.getLanguage(context);
 
@@ -322,34 +322,34 @@ public class DatabaseInitializer {
         pele.put(Contract.AnatomyLayersTable.COL_DISPLAY_NAME, peleDisplayName);
         pele.put(Contract.AnatomyLayersTable.COL_DESCRIPTION, peleDescription);
         pele.put(Contract.AnatomyLayersTable.COL_DISPLAY_ORDER, 1);
-        long peleId = db.insert(Contract.AnatomyLayersTable.TABLE_NAME, null, pele);
+        long peleId = bancoDados.insert(Contract.AnatomyLayersTable.TABLE_NAME, null, pele);
 
         ContentValues orgaos = new ContentValues();
         orgaos.put(Contract.AnatomyLayersTable.COL_LAYER_NAME, "orgaos");
         orgaos.put(Contract.AnatomyLayersTable.COL_DISPLAY_NAME, orgaosDisplayName);
         orgaos.put(Contract.AnatomyLayersTable.COL_DESCRIPTION, orgaosDescription);
         orgaos.put(Contract.AnatomyLayersTable.COL_DISPLAY_ORDER, 2);
-        long orgaosId = db.insert(Contract.AnatomyLayersTable.TABLE_NAME, null, orgaos);
+        long orgaosId = bancoDados.insert(Contract.AnatomyLayersTable.TABLE_NAME, null, orgaos);
 
-        insertHotspot(db, peleId, hsEscamasName, hsEscamasDesc, 0, 0, 0);
-        insertHotspot(db, orgaosId, hsPulmaoName, hsPulmaoDesc, 0.3f, 0.3f, 0f);
-        insertHotspot(db, orgaosId, hsCoracaoName, hsCoracaoDesc, 0.5f, 0.5f, 0f);
+        insertHotspot(bancoDados, peleId, hsEscamasName, hsEscamasDesc, 0, 0, 0);
+        insertHotspot(bancoDados, orgaosId, hsPulmaoName, hsPulmaoDesc, 0.3f, 0.3f, 0f);
+        insertHotspot(bancoDados, orgaosId, hsCoracaoName, hsCoracaoDesc, 0.5f, 0.5f, 0f);
     }
 
-    private static void insertHotspot(SQLiteDatabase db, long layerId, String name,
+    private static void insertHotspot(SQLiteDatabase bancoDados, long layerId, String name,
                                       String description, float x, float y, float z) {
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.AnatomyHotspotsTable.COL_LAYER_ID, layerId);
-        cv.put(Contract.AnatomyHotspotsTable.COL_HOTSPOT_NAME, name);
-        cv.put(Contract.AnatomyHotspotsTable.COL_DESCRIPTION, description);
-        cv.put(Contract.AnatomyHotspotsTable.COL_POSITION_X, x);
-        cv.put(Contract.AnatomyHotspotsTable.COL_POSITION_Y, y);
-        cv.put(Contract.AnatomyHotspotsTable.COL_POSITION_Z, z);
-        db.insert(Contract.AnatomyHotspotsTable.TABLE_NAME, null, cv);
+        ContentValues valores = new ContentValues();
+        valores.put(Contract.AnatomyHotspotsTable.COL_LAYER_ID, layerId);
+        valores.put(Contract.AnatomyHotspotsTable.COL_HOTSPOT_NAME, name);
+        valores.put(Contract.AnatomyHotspotsTable.COL_DESCRIPTION, description);
+        valores.put(Contract.AnatomyHotspotsTable.COL_POSITION_X, x);
+        valores.put(Contract.AnatomyHotspotsTable.COL_POSITION_Y, y);
+        valores.put(Contract.AnatomyHotspotsTable.COL_POSITION_Z, z);
+        bancoDados.insert(Contract.AnatomyHotspotsTable.TABLE_NAME, null, valores);
     }
 
-    private static void insertUserProgress(SQLiteDatabase db) {
-        ContentValues cv = new ContentValues();
-        db.insert(Contract.UserProgressTable.TABLE_NAME, null, cv);
+    private static void insertUserProgress(SQLiteDatabase bancoDados) {
+        ContentValues valores = new ContentValues();
+        bancoDados.insert(Contract.UserProgressTable.TABLE_NAME, null, valores);
     }
 }

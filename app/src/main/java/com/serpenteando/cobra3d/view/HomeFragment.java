@@ -70,10 +70,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         // Cards de navegação — cada um leva pra uma tela diferente
         // Usa Navigation Component (não Intent como no slide 05 do prof.)
         // O prof. usa startActivity; aqui usamos NavGraph porque o app tem várias telas
-        view.findViewById(R.id.exploreQuizCard).setOnClickListener(v -> presenter.onQuizClicked());
-        view.findViewById(R.id.exploreMythsCard).setOnClickListener(v -> presenter.onMythsTruthsClicked());
-        view.findViewById(R.id.exploreAnatomyCard).setOnClickListener(v -> presenter.onAnatomy3DClicked());
-        view.findViewById(R.id.exploreContentCard).setOnClickListener(v -> presenter.onContentClicked("todas"));
+        view.findViewById(R.id.exploreQuizCard).setOnClickListener(vista -> presenter.onQuizClicked());
+        view.findViewById(R.id.exploreMythsCard).setOnClickListener(vista -> presenter.onMythsTruthsClicked());
+        view.findViewById(R.id.exploreAnatomyCard).setOnClickListener(vista -> presenter.onAnatomy3DClicked());
+        view.findViewById(R.id.exploreContentCard).setOnClickListener(vista -> presenter.onContentClicked("todas"));
 
         // Efeito de pressão nos cards (spring animation)
         // Não é do slide do prof. — é um detalhe visual premium

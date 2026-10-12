@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         View root = findViewById(R.id.mainRoot);
         if (root == null) return;
 
-        ViewCompat.setOnApplyWindowInsetsListener(root, (v, windowInsets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(root, (vista, windowInsets) -> {
             Insets bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
             int bottomInset = bars.bottom;
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         // O topo (status bar) continua sendo tratado normalmente.
         SwipeFrameLayout swipeContent = findViewById(R.id.swipeContainer);
         if (swipeContent != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(swipeContent, (v, insets) -> {
+            ViewCompat.setOnApplyWindowInsetsListener(swipeContent, (vista, insets) -> {
                 Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                 return insets.inset(0, 0, 0, bars.bottom);
             });
@@ -199,11 +199,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        navHome.setOnClickListener(v -> navigateTo(R.id.nav_home));
-        navQuiz.setOnClickListener(v -> navigateTo(R.id.nav_quiz));
-        nav3d.setOnClickListener(v -> navigateTo(R.id.nav_anatomy));
-        navMissions.setOnClickListener(v -> navigateTo(R.id.nav_missions));
-        navSettings.setOnClickListener(v -> navigateTo(R.id.nav_settings));
+        navHome.setOnClickListener(vista -> navigateTo(R.id.nav_home));
+        navQuiz.setOnClickListener(vista -> navigateTo(R.id.nav_quiz));
+        nav3d.setOnClickListener(vista -> navigateTo(R.id.nav_anatomy));
+        navMissions.setOnClickListener(vista -> navigateTo(R.id.nav_missions));
+        navSettings.setOnClickListener(vista -> navigateTo(R.id.nav_settings));
     }
 
     private void navigateTo(int destinationId) {

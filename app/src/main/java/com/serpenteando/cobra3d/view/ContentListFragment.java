@@ -47,7 +47,7 @@ public class ContentListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Botão voltar
-        view.findViewById(R.id.backButton).setOnClickListener(v ->
+        view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
         // ViewPager2
@@ -71,9 +71,9 @@ public class ContentListFragment extends Fragment {
         viewPager.setUserInputEnabled(false);
 
         // Clique nos filtros → troca de aba no ViewPager2
-        filterAll.setOnClickListener(v -> viewPager.setCurrentItem(0, true));
-        filterVenomous.setOnClickListener(v -> viewPager.setCurrentItem(1, true));
-        filterNonVenomous.setOnClickListener(v -> viewPager.setCurrentItem(2, true));
+        filterAll.setOnClickListener(vista -> viewPager.setCurrentItem(0, true));
+        filterVenomous.setOnClickListener(vista -> viewPager.setCurrentItem(1, true));
+        filterNonVenomous.setOnClickListener(vista -> viewPager.setCurrentItem(2, true));
 
         // Atualiza visual do filtro selecionado quando troca de aba (swipe)
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

@@ -14,19 +14,19 @@ import java.util.Locale;
 // [ALÉM DO TEI] Repository Pattern — isola as queries SQL; a lógica de negócio não conhece o banco
 public class ProgressRepository {
 
-    private final SQLiteDatabase db;
+    private final SQLiteDatabase bancoDados;
 
-    public ProgressRepository(SQLiteDatabase db) {
-        this.db = db;
+    public ProgressRepository(SQLiteDatabase bancoDados) {
+        this.bancoDados = bancoDados;
     }
 
     public UserProgress getProgress() {
         // [TEI Persistência] db.query: lê registro de progresso do SQLite
-        Cursor c = db.query(Contract.UserProgressTable.TABLE_NAME, null,
+        Cursor cursor = bancoDados.query(Contract.UserProgressTable.TABLE_NAME, null,
                 Contract.UserProgressTable.COL_ID + " = 1", null, null, null, null);
-        if (c != null && c.moveToFirst()) {
-            UserProgress progress = cursorToProgress(c);
-            c.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            UserProgress progress = cursorToProgress(cursor);
+            cursor.close();
             return progress;
         }
         UserProgress defaultProgress = new UserProgress();
@@ -35,21 +35,21 @@ public class ProgressRepository {
     }
 
     public void insertProgress(UserProgress progress) {
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, progress.getQuizHighScore());
-        cv.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted());
-        cv.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted());
-        cv.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints());
-        cv.put(Contract.UserProgressTable.COL_CURRENT_STREAK, progress.getCurrentStreak());
-        cv.put(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT, progress.getQuizFacilCount());
-        cv.put(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT, progress.getQuizMedioCount());
-        cv.put(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT, progress.getQuizDificilCount());
-        cv.put(Contract.UserProgressTable.COL_ANATOMY_HOTSPOT_COUNT, progress.getAnatomyHotspotCount());
-        cv.put(Contract.UserProgressTable.COL_ANATOMY_LAYER_COUNT, progress.getAnatomyLayerCount());
-        cv.put(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT, progress.getContentDetailCount());
-        cv.put(Contract.UserProgressTable.COL_AWARDED_MISSIONS,
+        ContentValues valores = new ContentValues();
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, progress.getQuizHighScore());
+        valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted());
+        valores.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted());
+        valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints());
+        valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK, progress.getCurrentStreak());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT, progress.getQuizFacilCount());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT, progress.getQuizMedioCount());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT, progress.getQuizDificilCount());
+        valores.put(Contract.UserProgressTable.COL_ANATOMY_HOTSPOT_COUNT, progress.getAnatomyHotspotCount());
+        valores.put(Contract.UserProgressTable.COL_ANATOMY_LAYER_COUNT, progress.getAnatomyLayerCount());
+        valores.put(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT, progress.getContentDetailCount());
+        valores.put(Contract.UserProgressTable.COL_AWARDED_MISSIONS,
                 progress.getAwardedMissions() != null ? progress.getAwardedMissions() : "");
-        db.insert(Contract.UserProgressTable.TABLE_NAME, null, cv);
+        bancoDados.insert(Contract.UserProgressTable.TABLE_NAME, null, valores);
     }
 
     // Incrementa o contador de uma ação real (quiz por dificuldade, anatomia, conteúdo)
@@ -65,7 +65,7 @@ public class ProgressRepository {
             case "CONTENT_DETAIL": column = Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT; break;
             default: return;
         }
-        db.execSQL("UPDATE " + Contract.UserProgressTable.TABLE_NAME +
+        bancoDados.execSQL("UPDATE " + Contract.UserProgressTable.TABLE_NAME +
                 " SET " + column + " = " + column + " + 1" +
                 " WHERE " + Contract.UserProgressTable.COL_ID + " = 1");
     }
@@ -83,36 +83,36 @@ public class ProgressRepository {
             case "CONTENT_DETAIL": column = Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT; break;
             default: return 0;
         }
-        Cursor c = db.rawQuery("SELECT " + column +
+        Cursor cursor = bancoDados.rawQuery("SELECT " + column +
                 " FROM " + Contract.UserProgressTable.TABLE_NAME +
                 " WHERE " + Contract.UserProgressTable.COL_ID + " = 1", null);
         int value = 0;
-        if (c != null && c.moveToFirst()) {
-            value = c.getInt(0);
-            c.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            value = cursor.getInt(0);
+            cursor.close();
         }
         return value;
     }
 
     public void updateQuizScore(int score) {
         UserProgress progress = getProgress();
-        ContentValues cv = new ContentValues();
+        ContentValues valores = new ContentValues();
         String hoje = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         if (score > progress.getQuizHighScore()) {
-            cv.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, score);
+            valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, score);
         }
-        cv.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted() + 1);
-        cv.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + score);
+        valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted() + 1);
+        valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + score);
 
         // Sequência de dias seguidos jogando (card "sequência" da Home):
         // antes essa coluna nunca era escrita e o card ficava sempre em 0.
-        cv.put(Contract.UserProgressTable.COL_CURRENT_STREAK,
+        valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK,
                 calcularSequencia(progress.getLastQuizDate(), progress.getCurrentStreak(), hoje));
-        cv.put(Contract.UserProgressTable.COL_LAST_QUIZ_DATE, hoje);
-        cv.put(Contract.UserProgressTable.COL_UPDATED_AT,
+        valores.put(Contract.UserProgressTable.COL_LAST_QUIZ_DATE, hoje);
+        valores.put(Contract.UserProgressTable.COL_UPDATED_AT,
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-        db.update(Contract.UserProgressTable.TABLE_NAME, cv,
+        bancoDados.update(Contract.UserProgressTable.TABLE_NAME, valores,
                 Contract.UserProgressTable.COL_ID + " = 1", null);
     }
 
@@ -140,37 +140,37 @@ public class ProgressRepository {
 
     public void updateMissionCompleted(long missionId, int points) {
         UserProgress progress = getProgress();
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted() + 1);
-        cv.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + points);
+        ContentValues valores = new ContentValues();
+        valores.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted() + 1);
+        valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + points);
         // Registra o id da missão premiada (ex.: "1,3") para não premiar a mesma missão 2x
         String current = progress.getAwardedMissions();
         String sep = (current == null || current.trim().isEmpty()) ? "" : ",";
-        cv.put(Contract.UserProgressTable.COL_AWARDED_MISSIONS,
+        valores.put(Contract.UserProgressTable.COL_AWARDED_MISSIONS,
                 (current == null ? "" : current.trim()) + sep + missionId);
-        cv.put(Contract.UserProgressTable.COL_UPDATED_AT,
+        valores.put(Contract.UserProgressTable.COL_UPDATED_AT,
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-        db.update(Contract.UserProgressTable.TABLE_NAME, cv,
+        bancoDados.update(Contract.UserProgressTable.TABLE_NAME, valores,
                 Contract.UserProgressTable.COL_ID + " = 1", null);
     }
 
-    private UserProgress cursorToProgress(Cursor c) {
+    private UserProgress cursorToProgress(Cursor cursor) {
         UserProgress progress = new UserProgress();
-        progress.setId(c.getLong(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ID)));
-        progress.setQuizHighScore(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE)));
-        progress.setQuizzesCompleted(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZZES_COMPLETED)));
-        progress.setMissionsCompleted(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_MISSIONS_COMPLETED)));
-        progress.setTotalPoints(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_TOTAL_POINTS)));
-        progress.setCurrentStreak(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CURRENT_STREAK)));
-        progress.setLastQuizDate(c.getString(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_QUIZ_DATE)));
-        progress.setLastTipDate(c.getString(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_TIP_DATE)));
-        progress.setQuizFacilCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT)));
-        progress.setQuizMedioCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT)));
-        progress.setQuizDificilCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT)));
-        progress.setAnatomyHotspotCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ANATOMY_HOTSPOT_COUNT)));
-        progress.setAnatomyLayerCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ANATOMY_LAYER_COUNT)));
-        progress.setContentDetailCount(c.getInt(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT)));
-        progress.setAwardedMissions(c.getString(c.getColumnIndexOrThrow(Contract.UserProgressTable.COL_AWARDED_MISSIONS)));
+        progress.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ID)));
+        progress.setQuizHighScore(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE)));
+        progress.setQuizzesCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZZES_COMPLETED)));
+        progress.setMissionsCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_MISSIONS_COMPLETED)));
+        progress.setTotalPoints(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_TOTAL_POINTS)));
+        progress.setCurrentStreak(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CURRENT_STREAK)));
+        progress.setLastQuizDate(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_QUIZ_DATE)));
+        progress.setLastTipDate(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_TIP_DATE)));
+        progress.setQuizFacilCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT)));
+        progress.setQuizMedioCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT)));
+        progress.setQuizDificilCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT)));
+        progress.setAnatomyHotspotCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ANATOMY_HOTSPOT_COUNT)));
+        progress.setAnatomyLayerCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ANATOMY_LAYER_COUNT)));
+        progress.setContentDetailCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT)));
+        progress.setAwardedMissions(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_AWARDED_MISSIONS)));
         return progress;
     }
 }

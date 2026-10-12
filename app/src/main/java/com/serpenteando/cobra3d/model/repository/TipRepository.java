@@ -12,21 +12,21 @@ import java.util.List;
 
 public class TipRepository {
 
-    private final SQLiteDatabase db;
+    private final SQLiteDatabase bancoDados;
 
-    public TipRepository(SQLiteDatabase db) {
-        this.db = db;
+    public TipRepository(SQLiteDatabase bancoDados) {
+        this.bancoDados = bancoDados;
     }
 
     public List<Tip> getAll() {
         List<Tip> list = new ArrayList<>();
-        Cursor c = db.query(Contract.TipsTable.TABLE_NAME, null, null, null,
+        Cursor cursor = bancoDados.query(Contract.TipsTable.TABLE_NAME, null, null, null,
                 null, null, null);
-        if (c != null) {
-            while (c.moveToNext()) {
-                list.add(cursorToTip(c));
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                list.add(cursorToTip(cursor));
             }
-            c.close();
+            cursor.close();
         }
         return list;
     }
@@ -34,7 +34,7 @@ public class TipRepository {
     // Dica do dia: mesma dica o dia inteiro, muda automaticamente à meia-noite.
     // Usa dias desde epoch para escolher um índice estável entre as dicas ativas.
     public Tip getDailyTip() {
-        Cursor count = db.rawQuery(
+        Cursor count = bancoDados.rawQuery(
                 "SELECT COUNT(*) FROM " + Contract.TipsTable.TABLE_NAME +
                         " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1", null);
         int total = 0;
@@ -47,61 +47,61 @@ public class TipRepository {
         long dayIndex = System.currentTimeMillis() / (24L * 60L * 60L * 1000L);
         int offset = (int) (dayIndex % total);
 
-        Cursor c = db.rawQuery(
+        Cursor cursor = bancoDados.rawQuery(
                 "SELECT * FROM " + Contract.TipsTable.TABLE_NAME +
                         " WHERE " + Contract.TipsTable.COL_IS_ACTIVE + " = 1" +
                         " ORDER BY " + Contract.TipsTable.COL_ID +
                         " LIMIT 1 OFFSET ?", new String[]{String.valueOf(offset)});
-        if (c != null && c.moveToFirst()) {
-            Tip tip = cursorToTip(c);
-            c.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            Tip tip = cursorToTip(cursor);
+            cursor.close();
             return tip;
         }
         return null;
     }
 
     public Tip getById(long id) {
-        Cursor c = db.query(Contract.TipsTable.TABLE_NAME, null,
+        Cursor cursor = bancoDados.query(Contract.TipsTable.TABLE_NAME, null,
                 Contract.TipsTable.COL_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
-        if (c != null && c.moveToFirst()) {
-            Tip tip = cursorToTip(c);
-            c.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            Tip tip = cursorToTip(cursor);
+            cursor.close();
             return tip;
         }
         return null;
     }
 
     public long insert(Tip tip) {
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
-        cv.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
-        cv.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
-        return db.insert(Contract.TipsTable.TABLE_NAME, null, cv);
+        ContentValues valores = new ContentValues();
+        valores.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
+        valores.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
+        valores.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
+        return bancoDados.insert(Contract.TipsTable.TABLE_NAME, null, valores);
     }
 
     public int update(Tip tip) {
-        ContentValues cv = new ContentValues();
-        cv.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
-        cv.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
-        cv.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
-        return db.update(Contract.TipsTable.TABLE_NAME, cv,
+        ContentValues valores = new ContentValues();
+        valores.put(Contract.TipsTable.COL_TIP_TEXT, tip.getTipText());
+        valores.put(Contract.TipsTable.COL_CATEGORY, tip.getCategory());
+        valores.put(Contract.TipsTable.COL_IS_ACTIVE, tip.isActive() ? 1 : 0);
+        return bancoDados.update(Contract.TipsTable.TABLE_NAME, valores,
                 Contract.TipsTable.COL_ID + " = ?",
                 new String[]{String.valueOf(tip.getId())});
     }
 
     public int delete(long id) {
-        return db.delete(Contract.TipsTable.TABLE_NAME,
+        return bancoDados.delete(Contract.TipsTable.TABLE_NAME,
                 Contract.TipsTable.COL_ID + " = ?",
                 new String[]{String.valueOf(id)});
     }
 
-    private Tip cursorToTip(Cursor c) {
+    private Tip cursorToTip(Cursor cursor) {
         Tip tip = new Tip();
-        tip.setId(c.getLong(c.getColumnIndexOrThrow(Contract.TipsTable.COL_ID)));
-        tip.setTipText(c.getString(c.getColumnIndexOrThrow(Contract.TipsTable.COL_TIP_TEXT)));
-        tip.setCategory(c.getString(c.getColumnIndexOrThrow(Contract.TipsTable.COL_CATEGORY)));
-        tip.setActive(c.getInt(c.getColumnIndexOrThrow(Contract.TipsTable.COL_IS_ACTIVE)) == 1);
+        tip.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Contract.TipsTable.COL_ID)));
+        tip.setTipText(cursor.getString(cursor.getColumnIndexOrThrow(Contract.TipsTable.COL_TIP_TEXT)));
+        tip.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(Contract.TipsTable.COL_CATEGORY)));
+        tip.setActive(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.TipsTable.COL_IS_ACTIVE)) == 1);
         return tip;
     }
 }

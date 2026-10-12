@@ -30,7 +30,7 @@ public class AboutFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Botão voltar
-        view.findViewById(R.id.backButton).setOnClickListener(v ->
+        view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
         // === LinkedIn e e-mail de cada integrante ===
@@ -75,7 +75,7 @@ public class AboutFragment extends Fragment {
     private void abrirLink(View raiz, int id, String url) {
         View icone = raiz.findViewById(id);
         if (icone == null) return; // integrante sem esse dado cadastrado
-        icone.setOnClickListener(v -> {
+        icone.setOnClickListener(vista -> {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             } catch (Exception e) {
@@ -88,7 +88,7 @@ public class AboutFragment extends Fragment {
     private void abrirEmail(View raiz, int id, String email) {
         View icone = raiz.findViewById(id);
         if (icone == null) return;
-        icone.setOnClickListener(v -> {
+        icone.setOnClickListener(vista -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:" + email));

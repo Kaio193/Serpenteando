@@ -53,22 +53,22 @@ public class UserProgress {
     public void setLastTipDate(String lastTipDate) { this.lastTipDate = lastTipDate; }
 
     public int getQuizFacilCount() { return quizFacilCount; }
-    public void setQuizFacilCount(int n) { this.quizFacilCount = n; }
+    public void setQuizFacilCount(int quizFacilCount) { this.quizFacilCount = quizFacilCount; }
 
     public int getQuizMedioCount() { return quizMedioCount; }
-    public void setQuizMedioCount(int n) { this.quizMedioCount = n; }
+    public void setQuizMedioCount(int quizMedioCount) { this.quizMedioCount = quizMedioCount; }
 
     public int getQuizDificilCount() { return quizDificilCount; }
-    public void setQuizDificilCount(int n) { this.quizDificilCount = n; }
+    public void setQuizDificilCount(int quizDificilCount) { this.quizDificilCount = quizDificilCount; }
 
     public int getAnatomyHotspotCount() { return anatomyHotspotCount; }
-    public void setAnatomyHotspotCount(int n) { this.anatomyHotspotCount = n; }
+    public void setAnatomyHotspotCount(int anatomyHotspotCount) { this.anatomyHotspotCount = anatomyHotspotCount; }
 
     public int getAnatomyLayerCount() { return anatomyLayerCount; }
-    public void setAnatomyLayerCount(int n) { this.anatomyLayerCount = n; }
+    public void setAnatomyLayerCount(int anatomyLayerCount) { this.anatomyLayerCount = anatomyLayerCount; }
 
     public int getContentDetailCount() { return contentDetailCount; }
-    public void setContentDetailCount(int n) { this.contentDetailCount = n; }
+    public void setContentDetailCount(int contentDetailCount) { this.contentDetailCount = contentDetailCount; }
 
     public String getAwardedMissions() { return awardedMissions; }
     public void setAwardedMissions(String ids) { this.awardedMissions = ids; }
