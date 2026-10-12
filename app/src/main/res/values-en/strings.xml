@@ -93,10 +93,14 @@
     <string name="settings_contact">Contact Us</string>
     <string name="settings_report_bug">Report Bug</string>
     <string name="settings_no_email">No email app found</string>
-    <string name="contact_email_subject">Contact — Serpenteando</string>
-    <string name="contact_email_body">Hi! I would like to get in touch with the team to ask a question or get help. My subject is: </string>
-    <string name="bug_email_subject">Bug — Serpenteando</string>
-    <string name="bug_email_body">Hi! I would like to report a bug in the app.\n\n*Problem description:*\n\n*Which screen it happened on:*\n\n*What happened:*\n\nIf possible, I will send a screenshot to help identify the error.</string>
+    <string name="contact_email_subject">Hi! I would like to get in touch with the team to ask a question or get help. My subject is:</string>
+    <string name="contact_email_body"></string>
+    <string name="bug_email_subject">Hi! I would like to report a bug in the app.
+Problem description:
+Which screen it happened on:
+What happened:*
+If possible, I will send a screenshot to help identify the error.</string>
+    <string name="bug_email_body"></string>
     <string name="settings_error_dialog">Error opening dialog</string>
     <string name="settings_notif_daily">Daily reminders</string>
     <string name="settings_notif_missions">New missions</string>
