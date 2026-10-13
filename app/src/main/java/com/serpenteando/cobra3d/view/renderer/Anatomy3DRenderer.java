@@ -27,25 +27,12 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Visualizador 3D do Serpenteando — versão limpa (27/09/2026).
- *
- * O que a tela faz: mostra o modelo Serpente_3D.glb com fundo BRANCO, igual
- * aos visualizadores 3D do Google no celular. O usuário arrasta pra girar e
- * usa dois dedos pra dar zoom (quem trata o toque é a AnatomySurfaceView).
- *
- * ⚠️ NÃO EXISTE NOS SLIDES DO PROF. ALEXANDRE — é inovação total do TCC.
- *
- * O que saiu daqui (tudo era da versão antiga, com fundo verde):
- * - gradiente de fundo esmeralda/jade (o "fundo verde" que o Kaio reprovou);
- * - "tour" automático com keyframes de câmera;
- * - bolinhas de hotspot + ray-picking pra clicar nelas;
- * - cobra procedural (malha gerada em código) + olhos, língua e partículas;
- * - camadas de anatomia e o material de escamas gerado por shader.
- *
- * O que ficou: carregar o .glb (agora em thread de fundo, com tela de
- * carregamento), enquadrar a câmera, luz e o render loop.
- */
+// Quem desenha o modelo 3D na tela
+// [Não existe nos slides do prof. Alexandre] — é a parte inovadora do TCC
+//
+// A tela mostra o Serpente_3D.glb com fundo branco: arrastar gira e dois dedos
+// dão zoom. Aqui dentro ficou só o essencial: ler o arquivo (em thread de
+// fundo, com tela de carregamento), enquadrar a câmera, luz e o loop de desenho.
 public final class Anatomy3DRenderer {
 
     private static final String TAG = "Anatomy3DRenderer";
@@ -96,16 +83,8 @@ public final class Anatomy3DRenderer {
     private Thread threadCarga;
     private long prazoCarga;
 
-    // Quantos quadros ainda desenhar sem ninguém pedir. O loop de render roda
-    // junto com o VSync (120x por segundo nesse aparelho), então, com a cena
-    // parada, ele ficava redesenhando a MESMA imagem pra sempre — era isso que
-    // deixava a tela travada depois que entrou a imagem de fundo (o desenho
-    // extra custa CPU e GPU a cada quadro).
-    // O aquecimento cobre o primeiro quadro da surface nova e, principalmente,
-    // as texturas que o Filament sobe em paralelo DEPOIS de o modelo entrar na
-    // cena. Medido no A36: com 6 quadros o modelo aparecia com o sombreado
-    // diferente do original; 180 (1,5 s a 120 Hz) devolve exatamente a mesma
-    // imagem de antes da otimização e o loop continua parando em seguida.
+    // Quantos quadros desenhar sem ninguém pedir
+    // (o loop roda junto com o VSync e, parado, ficava redesenhando a mesma imagem)
     private static final int QUADROS_AQUECIMENTO = 180;
     private int quadrosAquecimento = QUADROS_AQUECIMENTO;
 
@@ -116,11 +95,8 @@ public final class Anatomy3DRenderer {
 
     private FrameRequester frameRequester;
 
-    // Ligada só quando o aoTerminarLeitura() rodou — ou seja, quando já existe
-    // carga E já se sabe se as texturas são assíncronas ou não. Sem ela, um frame
-    // que caísse entre o create() (thread de fundo) e o retorno na main daria o
-    // modelo por pronto antes da hora (foi assim que o app caiu no device em
-    // 30/09/2026: começou a carregar textura de um asset já descartado).
+    // Só fica ligada quando a leitura terminou. Sem ela, um quadro no meio do
+    // carregamento dava o modelo por pronto antes da hora (e o app caía)
     private boolean cargaAplicada;
 
     private IndirectLight indirectLight;
@@ -188,13 +164,8 @@ public final class Anatomy3DRenderer {
     // Modelo
     // ------------------------------------------------------------------
 
-    /**
-     * Começa o carregamento do modelo.
-     *
-     * Quem chama é o Anatomy3DFragment, assim que a tela aparece. A leitura dos
-     * 66 MB do arquivo roda numa thread de fundo — era isso que congelava a
-     * interface por ~1,8s ("Skipped 170 frames" no Choreographer).
-     */
+    // Começa a carregar o modelo (chamado pelo fragment quando a tela abre)
+    // A leitura dos 66 MB roda em thread de fundo pra não travar a interface
     public void iniciarCarregamento() {
         if (modelBuilt || threadCarga != null) return;
         estadoModelo = MODELO_CARREGANDO;
@@ -202,19 +173,14 @@ public final class Anatomy3DRenderer {
         threadCarga.start();
     }
 
-    /** O Fragment usa isto pra saber quando tirar a tela de carregamento. */
+    // O fragment usa isto pra saber quando tirar a tela de carregamento
     public int getEstadoModelo() {
         return estadoModelo;
     }
 
-    /**
-     * Lê e interpreta o arquivo FORA da thread principal.
-     *
-     * O create() também roda aqui: o Filament aceita criar objetos em outra
-     * thread (a engine sobe com "threading is enabled"), e é justamente isso que
-     * evita a interface travada. O que NÃO pode sair da main thread é tudo que
-     * mexe na cena, no swap chain e no render — isso continua lá em baixo.
-     */
+    // Lê e monta o modelo fora da thread principal (a interface não trava)
+    // O Filament aceita criar objetos em outra thread; o que mexe na cena
+    // continua rodando na main.
     private void carregarEmFundo() {
         try {
             ByteBuffer dados = GlbLoader.readAsset(appContext.getAssets(), MODELO);
@@ -279,15 +245,9 @@ public final class Anatomy3DRenderer {
         }
     }
 
-    /**
-     * Passa o modelo pra cena, normaliza escala/posição pelo bounding box do
-     * próprio arquivo e enquadra a câmera.
-     *
-     * Como o modelo vem em escala desconhecida (pode vir em metros,
-     * centímetros...), a gente escala pra o maior lado virar 6 unidades e centra
-     * na origem: assim a câmera e o zoom têm uma referência fixa e a cobra
-     * aparece grande e centralizada.
-     */
+    // Coloca o modelo na cena e enquadra a câmera nele
+    // O arquivo vem numa escala qualquer, então escala pro maior lado virar 6
+    // e centra na origem — assim a câmera e o zoom têm uma referência fixa.
     private void mostrarModelo() {
         if (carga == null || carga.asset == null) {
             estadoModelo = MODELO_FALHOU;
@@ -360,13 +320,10 @@ public final class Anatomy3DRenderer {
         pedirQuadros();
     }
 
-    /** Pinça com dois dedos: aproxima/afasta. */
+    // Pinça com dois dedos: aproxima ou afasta
     public void zoom(float factor) {
-        // Limites do zoom (pedido do Kaio, 07/10). A faixa antiga (0,55x a
-        // 2,2x) ainda deixava exagerar demais: perto o modelo estourava a tela e
-        // longe virava um pontinho. Esta faixa continua dando zoom de verdade
-        // (dá pra chegar bem perto das escamas) sem nunca perder o modelo.
-        // Só os dois números mudaram — nada foi acrescentado.
+        // Limites do zoom: perto o modelo estourava a tela e longe virava um
+        // pontinho. Esta faixa deixa chegar bem perto das escamas sem perder a cobra.
         float min = frameDistance * 0.7f;
         float max = frameDistance * 1.7f;
         orbitDistance = Math.max(min, Math.min(max, orbitDistance * factor));
@@ -374,20 +331,14 @@ public final class Anatomy3DRenderer {
         pedirQuadros();
     }
 
-    /** Volta pro enquadramento inicial (vista 3/4 lateral, modelo inteiro). */
+    // Volta pro enquadramento inicial (vista de lado, modelo inteiro)
     public void resetCamera() {
         frameCamera(true);
     }
 
-    /**
-     * Calcula a distância da câmera pra o modelo caber inteiro na tela.
-     *
-     * O truque: a tela do celular é retrato, então o campo de visão HORIZONTAL
-     * é bem menor que o vertical. Em vez de usar uma distância fixa (que cortava
-     * a cobra em tela estreita), a gente converte o FOV vertical em horizontal
-     * usando o aspect da tela e calcula a distância pelo pior caso — assim o
-     * modelo cabe em pé ou deitado, em qualquer aparelho.
-     */
+    // Calcula a distância da câmera pra o modelo caber inteiro na tela
+    // A tela é retrato, então o campo de visão horizontal é menor que o vertical:
+    // a gente converte usando o aspecto e usa o pior caso, pra caber em pé ou deitado.
     private void frameCamera(boolean resetOrbit) {
         if (viewport != null && viewport.height > 0) {
             double aspect = (double) viewport.width / viewport.height;

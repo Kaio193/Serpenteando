@@ -41,6 +41,7 @@ public class ProgressRepository {
         valores.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted());
         valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints());
         valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK, progress.getCurrentStreak());
+        valores.put(Contract.UserProgressTable.COL_LAST_MISSION_DATE, progress.getLastMissionDate());
         valores.put(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT, progress.getQuizFacilCount());
         valores.put(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT, progress.getQuizMedioCount());
         valores.put(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT, progress.getQuizDificilCount());
@@ -105,10 +106,9 @@ public class ProgressRepository {
         valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted() + 1);
         valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + score);
 
-        // Sequência de dias seguidos jogando (card "sequência" da Home):
-        // antes essa coluna nunca era escrita e o card ficava sempre em 0.
-        valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK,
-                calcularSequencia(progress.getLastQuizDate(), progress.getCurrentStreak(), hoje));
+        // A sequência de dias NÃO é mais contada pelo quiz (regra nova, 13/10):
+        // o dia só conta quando o usuário conclui uma MISSÃO — ver
+        // updateMissionCompleted(). O quiz continua somando pontos normalmente.
         valores.put(Contract.UserProgressTable.COL_LAST_QUIZ_DATE, hoje);
         valores.put(Contract.UserProgressTable.COL_UPDATED_AT,
                 new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
@@ -116,8 +116,8 @@ public class ProgressRepository {
                 Contract.UserProgressTable.COL_ID + " = 1", null);
     }
 
-    // Regra da sequência: primeiro quiz = 1 · jogar de novo no mesmo dia mantém
-    // · jogar no dia seguinte soma 1 · pular um dia reinicia em 1.
+    // Regra da sequência: 1ª missão = 1 · concluir outra no MESMO dia mantém
+    // · concluir no dia seguinte soma 1 · pular um dia reinicia em 1.
     private int calcularSequencia(String ultimoDia, int sequenciaAtual, String hoje) {
         if (ultimoDia == null || ultimoDia.trim().isEmpty()) return 1;
         if (hoje.equals(ultimoDia.trim())) return Math.max(sequenciaAtual, 1);
@@ -138,11 +138,33 @@ public class ProgressRepository {
         }
     }
 
+    // O que o card da Home mostra: se a última missão foi hoje ou ontem a
+    // sequência vale; se ficou mais de um dia sem concluir, ela já quebrou (0)
+    public int getSequenciaEfetiva(UserProgress progress) {
+        if (progress == null) return 0;
+        String ultimo = progress.getLastMissionDate();
+        if (ultimo == null || ultimo.trim().isEmpty()) return 0;
+        String hoje = diaDeHoje();
+        if (hoje.equals(ultimo.trim())) return Math.max(progress.getCurrentStreak(), 1);
+        if (ehDiaAnterior(ultimo.trim(), hoje)) return Math.max(progress.getCurrentStreak(), 1);
+        return 0;
+    }
+
+    private String diaDeHoje() {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+    }
+
     public void updateMissionCompleted(long missionId, int points) {
         UserProgress progress = getProgress();
         ContentValues valores = new ContentValues();
+        String hoje = diaDeHoje();
         valores.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted() + 1);
         valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + points);
+        // Só aqui a sequência avança: concluir missão é o que faz o dia contar.
+        // Várias no mesmo dia contam uma vez só.
+        valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK,
+                calcularSequencia(progress.getLastMissionDate(), progress.getCurrentStreak(), hoje));
+        valores.put(Contract.UserProgressTable.COL_LAST_MISSION_DATE, hoje);
         // Registra o id da missão premiada (ex.: "1,3") para não premiar a mesma missão 2x
         String current = progress.getAwardedMissions();
         String sep = (current == null || current.trim().isEmpty()) ? "" : ",";
@@ -164,6 +186,7 @@ public class ProgressRepository {
         progress.setCurrentStreak(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CURRENT_STREAK)));
         progress.setLastQuizDate(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_QUIZ_DATE)));
         progress.setLastTipDate(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_TIP_DATE)));
+        progress.setLastMissionDate(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_LAST_MISSION_DATE)));
         progress.setQuizFacilCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_FACIL_COUNT)));
         progress.setQuizMedioCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_MEDIO_COUNT)));
         progress.setQuizDificilCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_DIFICIL_COUNT)));

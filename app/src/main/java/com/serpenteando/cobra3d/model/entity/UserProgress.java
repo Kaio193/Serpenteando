@@ -11,6 +11,7 @@ public class UserProgress {
     private int currentStreak;
     private String lastQuizDate;
     private String lastTipDate;
+    private String lastMissionDate;
     private int quizFacilCount;
     private int quizMedioCount;
     private int quizDificilCount;
@@ -51,6 +52,10 @@ public class UserProgress {
 
     public String getLastTipDate() { return lastTipDate; }
     public void setLastTipDate(String lastTipDate) { this.lastTipDate = lastTipDate; }
+
+    /** Dia (yyyy-MM-dd) da ultima missao concluida — base da sequencia de dias. */
+    public String getLastMissionDate() { return lastMissionDate; }
+    public void setLastMissionDate(String lastMissionDate) { this.lastMissionDate = lastMissionDate; }
 
     public int getQuizFacilCount() { return quizFacilCount; }
     public void setQuizFacilCount(int quizFacilCount) { this.quizFacilCount = quizFacilCount; }

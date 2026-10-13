@@ -22,5 +22,15 @@
       {"id": 2, "text": "Answer 1 medium quiz", "trigger": "QUIZ_MEDIO", "target": 1},
       {"id": 3, "text": "Answer 2 easy quizzes", "trigger": "QUIZ_FACIL", "target": 2}
     ]
+  },
+  {
+    "id": 3,
+    "title": "Educational Content Reader",
+    "description": "Open the educational content about snakes and learn about them",
+    "totalDays": 0,
+    "points": 150,
+    "items": [
+      {"id": 1, "text": "Open the educational content of 3 snakes", "trigger": "CONTENT_DETAIL", "target": 3}
+    ]
   }
 ]

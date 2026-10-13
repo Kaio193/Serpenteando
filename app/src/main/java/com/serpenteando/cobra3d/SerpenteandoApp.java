@@ -10,14 +10,9 @@ import com.serpenteando.cobra3d.util.AlarmScheduler;
 import com.serpenteando.cobra3d.util.NotificationHelper;
 import com.serpenteando.cobra3d.util.PreferenceManager;
 
-/**
- * Application entry point.
- *
- * Inicializa o Utils do Filament aqui (carrega a native lib filament-jni uma ǧnica vez
- * no boot do processo). Tentar inicializar em outro lugar �?" p.ex. em uma Activity
- * qualquer �?" pode falhar com UnsatisfiedLinkError em cold start, porque a lib s�� Ǹ
- * resolvida quando alguǸm chama Utils.init() antes de qualquer uso de Engine.
- */
+// Primeiro código que roda quando o app abre
+// Aqui a gente sobe o Filament, confere o conteúdo do banco, aplica o tema
+// salvo e reagenda os alarmes das notificações
 public class SerpenteandoApp extends Application {
 
     @Override
@@ -25,25 +20,20 @@ public class SerpenteandoApp extends Application {
         super.onCreate();
         Utils.init();
 
-        // Se o conteúdo (JSONs) mudou desde a última abertura, repopula o banco.
-        // Assim a missão do 3D e as dicas novas aparecem em quem já tinha o app.
+        // Se os JSONs de conteúdo mudaram, atualiza o banco de quem já tem o app
         DatabaseHelper.ensureContentVersion(this);
 
-        // Restaura o tema salvo nas Ajustes — sem isso o toggle de Modo Escuro
-        // funciona só até fechar o app e ele volta a seguir o tema do sistema
+        // Volta com o tema que o usuário escolheu nas Ajustes
         AppCompatDelegate.setDefaultNightMode(
                 new PreferenceManager(this).isDarkModeEnabled()
                         ? AppCompatDelegate.MODE_NIGHT_YES
                         : AppCompatDelegate.MODE_NIGHT_NO);
 
-        // Inicializa canais de notificacao
+        // Cria os canais das notificações
         new NotificationHelper(this);
-        // Agenda alarme diario (com try-catch por seguranca)
+        // Reagenda os alarmes (cancela antes de agendar, então não duplica)
         try {
-            PreferenceManager prefs = new PreferenceManager(this);
-            if (prefs.isDailyReminderEnabled()) {
-                AlarmScheduler.scheduleDailyReminder(this);
-            }
+            AlarmScheduler.rescheduleAll(this);
         } catch (Exception e) {
             android.util.Log.w("SerpenteandoApp", "Falha ao agendar alarme", e);
         }

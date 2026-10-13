@@ -97,7 +97,7 @@
     <string name="bug_email_subject">¡Hola! Me gustaría reportar un error en la aplicación.\nDescripción del problema:\nEn qué pantalla ocurrió:\nQué pasó:*\nSi es posible, enviaré una captura de pantalla para ayudar a identificar el error.</string>
     <string name="settings_error_dialog">Error al abrir diálogo</string>
     <string name="settings_notif_daily">Recordatorios diarios</string>
-    <string name="settings_notif_missions">Nuevas misiones</string>
+    <string name="settings_notif_missions">Recordatorios de misiones</string>
     <string name="settings_notif_achievements">Logros</string>
     <string name="settings_lang_portuguese">Português</string>
     <string name="settings_lang_english">English</string>
@@ -108,13 +108,18 @@
     <string name="notif_channel_daily">Recordatorio Diario</string>
     <string name="notif_channel_daily_desc">Consejo diario sobre serpientes</string>
     <string name="notif_channel_missions">Misiones</string>
-    <string name="notif_channel_missions_desc">Nuevas misiones disponibles</string>
+    <string name="notif_channel_missions_desc">Recordatorio de las misiones que faltan</string>
     <string name="notif_channel_achievements">Logros</string>
     <string name="notif_channel_achievements_desc">Logros y completados</string>
     <string name="notif_daily_title">¡Hora de aprender!</string>
     <string name="notif_daily_text">Abre Serpenteando y revisa el consejo de hoy</string>
-    <string name="notif_mission_title">¡Nueva mision disponible!</string>
-    <string name="notif_mission_text">Completa la misión de hoy para ganar puntos</string>
+    <!-- Recordatorio de las misiones PENDIENTES (13/10): la app ya no anuncia
+         "nueva misión", solo recuerda lo que aún puedes completar. -->
+    <string name="notif_missions_pending_title">¡Misiones te esperan!</string>
+    <plurals name="notif_missions_pending_text">
+        <item quantity="one">Aún tienes %1$d misión por completar. Abre Serpenteando y continúa donde lo dejaste.</item>
+        <item quantity="other">Aún tienes %1$d misiones por completar. Abre Serpenteando y continúa donde lo dejaste.</item>
+    </plurals>
     <string name="notif_achievement_title">¡Logro desbloqueado!</string>
     <string name="notif_achievement_text">%1$s</string>
 
@@ -196,7 +201,7 @@
 
     <string name="dialog_notif_subtitle">Gestiona tus alertas</string>
     <string name="dialog_notif_daily_desc">Recibe un consejo por día</string>
-    <string name="dialog_notif_missions_desc">Avisar cuando estén disponibles</string>
+    <string name="dialog_notif_missions_desc">Recordar las misiones pendientes</string>
     <string name="dialog_notif_achievements_desc">Completar misiones y quizzes</string>
     <string name="dialog_lang_subtitle">Elige el idioma de la app</string>
     <!-- ========== ABOUT ========== -->

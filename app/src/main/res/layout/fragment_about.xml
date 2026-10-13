@@ -221,16 +221,15 @@
                     android:gravity="center_vertical"
                     android:paddingVertical="@dimen/space_12">
 
-                    <!-- Foto do Ebert um pouco mais pra cima (Kaio, 11/10 —
-                         item 10): translationY sobe a foto SEM mexer no layout
-                         (a linha, o avatar e o texto continuam no mesmo lugar),
-                         pra ela alinhar com a do Felipe. A imagem em si nao foi
-                         alterada. -->
+                    <!-- Foto do Ebert 4dp mais pra cima, pra alinhar com a do
+                         Felipe. Era translationY, que desenhava fora do pai e
+                         cortava o topo da bolinha; com margem negativa fica
+                         no mesmo lugar sem cortar nada. -->
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:id="@+id/profileEbert"
-                        android:translationY="-4dp"
+                        android:layout_marginTop="-4dp"
                         android:src="@drawable/profile_ebert"
                         android:scaleType="centerCrop"
                         android:importantForAccessibility="no"

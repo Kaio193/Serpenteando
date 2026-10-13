@@ -18,35 +18,22 @@ import com.serpenteando.cobra3d.R;
 import com.serpenteando.cobra3d.view.renderer.Anatomy3DRenderer;
 import com.serpenteando.cobra3d.view.renderer.AnatomySurfaceView;
 
-/**
- * Tela 3D — o recurso INOVADOR do TCC.
- *
- * ⚠️ NÃO EXISTE NOS SLIDES DO PROF. ALEXANDRE — é inovação total.
- * O professor vai perguntar como funciona, então está tudo comentado!
- *
- * Como está agora (pedido do Kaio em 27/09/2026): fundo BRANCO e SÓ o modelo,
- * no estilo dos visualizadores 3D do Google — nada de botão, camada, hotspot
- * ou tour. A interação é direto no modelo: arrastar gira, pinça dá zoom (quem
- * faz isso é o AnatomySurfaceView.onTouchEvent).
- *
- * Tela de carregamento (30/09/2026): o arquivo tem 66 MB, então abrir o 3D
- * passou a ter 3 tempos — toque na aba → tela "CARREGANDO MODELO 3D..." (que
- * aparece no mesmo instante) → o modelo, quando estiver pronto. Quem faz o
- * trabalho pesado fora da thread principal é o Anatomy3DRenderer
- * (iniciarCarregamento), e aqui só se acompanha o estado dele pra saber a hora
- * de tirar o carregamento da frente.
- */
+// Tela 3D — a parte INOVADORA do TCC
+// [Não existe nos slides do prof. Alexandre] — o professor vai pedir explicação
+//
+// Só o modelo na tela: arrastar gira e a pinça dá zoom (quem trata o toque é o
+// AnatomySurfaceView). Enquanto o arquivo de 66 MB carrega, fica na frente a
+// tela de "CARREGANDO MODELO 3D..." — quem carrega é o Anatomy3DRenderer, numa
+// thread de fundo, e aqui a gente só acompanha pra saber quando esconder.
 public class Anatomy3DFragment extends Fragment {
 
-    // De quanto em quanto tempo olhar se o modelo já ficou pronto. 50 ms = o
-    // carregamento sai da frente quase no mesmo frame em que o modelo entra.
+    // De quanto em quanto tempo conferir se o modelo já ficou pronto
     private static final long INTERVALO_ACOMPANHAMENTO_MS = 50L;
 
-    // Superfície 3D (Filament). É a única view da tela.
+    // Onde o modelo é desenhado (Filament) — é a única view da tela
     private AnatomySurfaceView surfaceView;
 
-    // Camada de carregamento (fica na frente da superfície enquanto o modelo
-    // não está pronto). É a View de baixo que aparece através do GL transparente.
+    // Tela de carregamento que fica na frente enquanto o modelo não chega
     private View loadingOverlay;
     private View loadingSpinner;
     private TextView loadingText;
@@ -56,10 +43,8 @@ public class Anatomy3DFragment extends Fragment {
 
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
 
-    /**
-     * Fica perguntando pro renderer em que pé está o carregamento. Simples de
-     * propósito: assim nada precisa atravessar thread pra avisar a UI.
-     */
+    // Fica perguntando pro renderer em que pé está o carregamento
+    // (mais simples que ficar avisando a tela de outra thread)
     private final Runnable acompanharCarga = new Runnable() {
         @Override
         public void run() {
@@ -97,8 +82,7 @@ public class Anatomy3DFragment extends Fragment {
         loadingText = view.findViewById(R.id.loadingModelText);
         if (surfaceView == null) return;
 
-        // A tela de carregamento já nasce visível: o usuário tocou na aba, então
-        // a resposta tem que ser imediata, antes de qualquer trabalho pesado.
+        // Já mostra o carregamento: o usuário tocou na aba e a resposta tem que ser imediata
         mostrarCarregamento();
 
         // Cria a engine 3D do Filament
@@ -111,8 +95,7 @@ public class Anatomy3DFragment extends Fragment {
         filamentRenderer = filamentEngine.createRenderer();
         surfaceView.createFilament(filamentEngine, filamentRenderer);
 
-        // Dispara a leitura dos 66 MB numa thread de fundo (não trava a UI) e
-        // começa a acompanhar: quando o modelo entrar na cena, o carregamento sai.
+        // Lê os 66 MB numa thread de fundo e começa a acompanhar
         Anatomy3DRenderer scene = surfaceView.getScene3d();
         if (scene != null) {
             scene.iniciarCarregamento();
@@ -132,8 +115,7 @@ public class Anatomy3DFragment extends Fragment {
 
     @Override
     public void onPause() {
-        // Sem isso o render loop continuava rodando com o app em segundo plano
-        // (gastando GPU e bateria à toa).
+        // Para o desenho quando o app sai da frente (senão gasta GPU e bateria)
         uiHandler.removeCallbacks(acompanharCarga);
         if (surfaceView != null) {
             surfaceView.onPauseFrame();
@@ -145,8 +127,7 @@ public class Anatomy3DFragment extends Fragment {
     public void onDestroyView() {
         uiHandler.removeCallbacks(acompanharCarga);
 
-        // Libera a superfície 3D e a engine, senão vaza memória/GPU a cada vez
-        // que o usuário sai e volta pra aba 3D.
+        // Libera a superfície e a engine, senão vaza memória a cada ida à aba 3D
         if (surfaceView != null) {
             surfaceView.release();
             surfaceView = null;
@@ -165,9 +146,7 @@ public class Anatomy3DFragment extends Fragment {
         super.onDestroyView();
     }
 
-    // ------------------------------------------------------------------
-    // Tela de carregamento
-    // ------------------------------------------------------------------
+    // ---------- Tela de carregamento ----------
 
     private void iniciarAcompanhamento() {
         uiHandler.removeCallbacks(acompanharCarga);
@@ -184,10 +163,7 @@ public class Anatomy3DFragment extends Fragment {
         if (loadingOverlay != null) loadingOverlay.setVisibility(View.GONE);
     }
 
-    /**
-     * Se o modelo não puder ser carregado, a tela NÃO pode ficar em branco sem
-     * explicação: mantém a camada mas troca o texto e tira o indicador.
-     */
+    // Se o modelo não carregar, avisa na tela em vez de deixar tudo branco
     private void mostrarFalha() {
         if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE);
         if (loadingText != null) loadingText.setText(R.string.error_3d_load);

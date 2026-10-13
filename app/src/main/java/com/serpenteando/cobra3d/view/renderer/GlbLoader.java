@@ -15,26 +15,13 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-/**
- * Leitor do Serpente_3D.glb (66 MB).
- *
- * O carregamento é dividido em 3 passos, e cada um fica no lugar certo:
- *
- *  1. readAsset()  -> só leitura de arquivo, nenhum objeto do Filament envolvido,
- *                     então roda numa thread de fundo. Era AQUI que a interface
- *                     congelava ~1,8s (o "Skipped 170 frames" do Choreographer).
- *  2. create()     -> o parse do .glb. Devolve uma {@link Carga}, que é o dono de
- *                     TUDO que foi criado neste carregamento.
- *  3. beginAsyncLoad() + atualizarTexturas() -> as texturas são decodificadas um
- *                     pouco por frame (API async do próprio gltfio), então a tela
- *                     de carregamento continua respondendo enquanto isso.
- *
- * ⚠️ LIÇÃO APRENDIDA (QA no device, 30/09/2026): antes o AssetLoader, o
- * UbershaderProvider e o ResourceLoader NUNCA eram destruídos. Cada ida e volta
- * na aba 3D vazava ~12 MB de memória nativa (medido: 283 MB -> 331 MB de Native
- * Heap em 4 entradas, com swap subindo junto) — depois de vários usos o sistema
- * mata o processo = o "crash do 3D". Agora quem manda liberar é o destroy(Carga).
- */
+// Lê o modelo Serpente_3D.glb (66 MB) em 3 passos:
+// 1. readAsset() — só lê o arquivo, então roda na thread de fundo
+// 2. create()    — monta o modelo no Filament
+// 3. beginAsyncLoad() — carrega as texturas aos poucos, sem travar a tela
+//
+// Cada carregamento tem o seu dono (Carga) pra poder ser liberado no fim:
+// antes nada era destruído e cada ida à aba 3D vazava memória até o app cair.
 public class GlbLoader {
 
     private static final String TAG = "GlbLoader";
@@ -44,13 +31,8 @@ public class GlbLoader {
     // pico, com o heap do aparelho em 256 MB). Agora só existe o buffer direto.
     private static final int TAMANHO_BLOCO = 256 * 1024;
 
-    /**
-     * Um carregamento do modelo: o asset e tudo que foi criado junto dele.
-     *
-     * É a peça que faltava antes. Como cada carregamento tem o seu dono, a
-     * limpeza pode ser feita sem estado estático compartilhado (o antigo
-     * "cachedLoader" estático podia apontar pro engine de uma tela já destruída).
-     */
+    // Um carregamento do modelo: guarda tudo que foi criado junto dele,
+    // pra poder liberar depois sem mexer no que já foi destruído
     public static final class Carga {
 
         final FilamentAsset asset;
@@ -70,17 +52,11 @@ public class GlbLoader {
         }
     }
 
-    /** Impede instanciar esta classe (ela é só um punhado de funções). */
+    // Ninguém cria um GlbLoader: a classe é só um conjunto de funções
     private GlbLoader() {}
 
-    /**
-     * Passo 1 — lê o .glb inteiro para um buffer direto.
-     *
-     * Feito pra rodar em thread de fundo: aqui não existe nenhum objeto do
-     * Filament, é só I/O.
-     *
-     * @return o buffer pronto pra leitura (position 0), ou null se falhar.
-     */
+    // Passo 1 — lê o arquivo inteiro pra um buffer. Roda na thread de fundo.
+    // Aqui não tem nada do Filament, é só leitura de arquivo.
     public static ByteBuffer readAsset(AssetManager androidAssets, String path) {
         try {
             InputStream is = androidAssets.open(path);
@@ -120,11 +96,7 @@ public class GlbLoader {
         }
     }
 
-    /**
-     * Passo 2 — transforma os bytes no asset do Filament.
-     *
-     * @return a carga (com asset + loader + provider), ou null se falhar.
-     */
+    // Passo 2 — transforma os bytes no modelo do Filament
     public static Carga create(Engine engine, ByteBuffer dados, String path) {
         if (dados == null) return null;
 
@@ -159,14 +131,8 @@ public class GlbLoader {
         }
     }
 
-    /**
-     * Passo 3 — começa a decodificar as texturas em pedaços, sem travar a UI.
-     *
-     * @return true se a carga assíncrona começou (nesse caso quem avança é o
-     *         {@link #atualizarTexturas(Carga)}); false se não havia nada pra
-     *         carregar (ou o caminho async não estivesse disponível) — nesse
-     *         caso os recursos já foram carregados aqui mesmo, de uma vez.
-     */
+    // Passo 3 — começa a carregar as texturas em pedaços (não trava a tela)
+    // Devolve true se ficou pendente; aí quem avança é o atualizarTexturas()
     public static boolean beginAsyncLoad(Engine engine, Carga carga) {
         if (carga == null || carga.asset == null) return false;
 
@@ -193,7 +159,7 @@ public class GlbLoader {
         return false;
     }
 
-    /** Progresso 0..1 das texturas; -1 quando não há carga em andamento. */
+    // Quanto das texturas já carregou (0 a 1); -1 se não tem nada carregando
     public static float progresso(Carga carga) {
         if (carga == null || carga.resources == null) return -1f;
         try {
@@ -203,12 +169,7 @@ public class GlbLoader {
         }
     }
 
-    /**
-     * Avança a decodificação das texturas. Precisa ser chamado na thread
-     * principal, uma vez por frame (é o render loop que chama).
-     *
-     * @return true quando terminou (ou quando não há mais o que carregar).
-     */
+    // Avança o carregamento das texturas — chamado uma vez por quadro
     public static boolean atualizarTexturas(Carga carga) {
         if (carga == null || carga.resources == null) return true;
         try {
@@ -230,13 +191,8 @@ public class GlbLoader {
         }
     }
 
-    /**
-     * Solta a cópia interna do .glb que fica dentro do asset (o "source data").
-     *
-     * São dezenas de MB de memória nativa que só servem durante o carregamento —
-     * a documentação do Filament manda chamar isto logo depois que os recursos
-     * foram carregados (loadResources/asyncBeginLoad).
-     */
+    // Solta a cópia do arquivo que fica guardada dentro do modelo:
+    // são dezenas de MB que só serviam durante o carregamento
     public static void liberarFonte(Carga carga) {
         if (carga == null || carga.texturasEmAndamento) return;
         try {
@@ -247,13 +203,8 @@ public class GlbLoader {
         }
     }
 
-    /**
-     * Libera TUDO o que foi criado para este carregamento.
-     *
-     * A ordem importa: o material provider só pode soltar os materiais DEPOIS
-     * que o asset (que usa esses materiais) foi destruído, e o engine ainda
-     * precisa estar vivo — por isso isto é chamado antes do engine.destroy().
-     */
+    // Libera tudo o que foi criado neste carregamento (chamar antes de destruir a engine)
+    // A ordem importa: os materiais só podem sair depois que o modelo foi destruído.
     public static void destroy(Carga carga) {
         if (carga == null) return;
 

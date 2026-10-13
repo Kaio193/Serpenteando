@@ -14,17 +14,8 @@ import com.google.android.filament.Renderer;
 import com.google.android.filament.SwapChain;
 import com.google.android.filament.SwapChainFlags;
 
-/**
- * SurfaceView que hospeda o render 3D do Filament e trata o toque.
- *
- * Duas responsabilidades:
- * 1. Ciclo de vida — cria o SwapChain quando a surface existe e garante que o
- *    render loop comece/termine junto com a tela (senão vaza GPU).
- * 2. Toque — um dedo orbita o modelo, dois dedos dão zoom.
- *
- * A versão antiga também fazia ray-picking das bolinhas de hotspot e iniciava
- * um "tour" automático; tudo isso saiu junto com a versão antiga da tela.
- */
+// É a view onde o modelo 3D aparece (Filament), e também quem lê o toque:
+// um dedo gira o modelo, dois dedos dão zoom.
 // [ALÉM DO TEI] Choreographer — sincroniza o render loop com o VSync do dispositivo para animação fluida
 public class AnatomySurfaceView extends SurfaceView
         implements SurfaceHolder.Callback, Choreographer.FrameCallback {
@@ -55,37 +46,27 @@ public class AnatomySurfaceView extends SurfaceView
     }
 
     private void init() {
-        // O fundo BRANCO do 3D não é pintado pelo GL: ele vem da própria View do
-        // Android que fica atrás (o FrameLayout do fragment_anatomy_3d.xml, que é
-        // @android:color/white).
-        //
-        // Por que não pintar no GL? Porque o Filament aplica color grading (que é
-        // obrigatório, é ele quem faz a codificação de gamma) através de um LUT de
-        // 32 níveis — e o LUT nunca devolve 1,0: o branco puro satura em 247
-        // (#F7F7F7), então o "branco" do 3D ficava 8 tons mais escuro que o branco
-        // do resto do app. Deixando o GL transparente, o branco vem do Android e é
-        // 255 exato, igual ao resto do app.
-        //
-        // ZOrderOnTop: por padrão o SurfaceView é uma camada ATRÁS da janela (a
-        // janela abre um buraco pra ele aparecer). Só com ele por cima é que o
-        // transparente do GL deixa vazar a View branca de baixo.
+        // O fundo branco do 3D vem da View que fica atrás, não do GL: desenhando
+        // transparente, o branco é o 255 exato do resto do app (pintado pelo
+        // Filament ele ficava um pouco mais escuro)
+        // ZOrderOnTop deixa a superfície por cima, e é isso que faz o
+        // transparente do GL mostrar a View de baixo
         setZOrderOnTop(true);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         getHolder().addCallback(this);
         setFocusable(true);
     }
 
-    /** Deve ser chamado antes do attach da surface (o Fragment já garante a ordem). */
+    // Chamado antes da surface existir (o fragment garante a ordem)
     public void createFilament(Engine engine, Renderer renderer) {
         this.engine = engine;
         this.renderer = renderer;
         this.scene3d = new Anatomy3DRenderer(getContext(), engine, renderer);
-        // O renderer avisa quando a câmera mudou: sem isso o loop só voltaria a
-        // desenhar no próximo onResume.
+        // O renderer avisa quando a câmera muda, aí a tela redesenha
         this.scene3d.setFrameRequester(this::requestFrame);
     }
 
-    /** Acorda o render loop (chamado pelo renderer quando o usuário gira ou dá zoom). */
+    // Acorda o desenho quando o usuário mexe no modelo
     public void requestFrame() {
         onResumeFrame();
     }
@@ -103,8 +84,7 @@ public class AnatomySurfaceView extends SurfaceView
             Log.w(TAG, "surfaceCreated antes de createFilament()");
             return;
         }
-        // CONFIG_TRANSPARENT = SwapChain com canal alfa (o que permite o fundo
-        // vazar pra View branca de trás).
+        // CONFIG_TRANSPARENT deixa o fundo de trás aparecer através do desenho
         swapChain = engine.createSwapChain(holder.getSurface(), SwapChainFlags.CONFIG_TRANSPARENT);
         ready = true;
     }
@@ -122,8 +102,7 @@ public class AnatomySurfaceView extends SurfaceView
         if (engine != null && swapChain != null) {
             engine.destroySwapChain(swapChain);
             swapChain = null;
-            // Sincroniza a referência interna do renderer, senão destroy()
-            // tentaria liberar o mesmo SwapChain de novo (crash).
+            // Avisa o renderer, senão ele tentaria liberar o mesmo SwapChain de novo
             if (scene3d != null) {
                 scene3d.invalidateSwapChain();
             }
@@ -132,8 +111,7 @@ public class AnatomySurfaceView extends SurfaceView
 
     public void onResumeFrame() {
         if (choreographer == null) choreographer = Choreographer.getInstance();
-        // Garante alguns quadros: a surface nova precisa desenhar pelo menos uma
-        // vez antes de o loop poder parar de novo.
+        // Garante alguns quadros antes do loop poder parar de novo
         if (scene3d != null) scene3d.aquecerQuadros();
         if (ready && !running) {
             running = true;
@@ -146,7 +124,7 @@ public class AnatomySurfaceView extends SurfaceView
         if (choreographer != null) choreographer.removeFrameCallback(this);
     }
 
-    /** Chamado pelo Fragment.onDestroyView para liberar tudo. */
+    // Chamado quando a tela fecha, pra liberar tudo
     public void release() {
         onPauseFrame();
         if (scene3d != null) {
@@ -169,10 +147,8 @@ public class AnatomySurfaceView extends SurfaceView
         }
         if (scene3d != null) scene3d.render(frameTimeNanos);
 
-        // Com a cena parada e o modelo já carregado, para de pedir quadro: o
-        // último desenho continua na tela e quem acorda o loop de novo é o
-        // toque. Antes daqui saía um postFrameCallback a cada VSync (120x por
-        // segundo nesse aparelho) redesenhando exatamente a mesma imagem.
+        // Com o modelo parado, para de pedir quadro: o último desenho continua na
+        // tela e o toque acorda o loop (antes ficava redesenhando a mesma imagem)
         if (running && choreographer != null && (scene3d == null || scene3d.precisaRenderizar())) {
             choreographer.postFrameCallback(this);
         } else {
@@ -194,7 +170,7 @@ public class AnatomySurfaceView extends SurfaceView
         }
 
         if (action == MotionEvent.ACTION_POINTER_DOWN) {
-            // Entrou o segundo dedo: guarda a distância entre eles pra começar a pinça
+            // Chegou o segundo dedo: guarda a distância pra começar o zoom
             if (event.getPointerCount() >= 2) {
                 float dx = event.getX(0) - event.getX(1);
                 float dy = event.getY(0) - event.getY(1);

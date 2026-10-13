@@ -32,6 +32,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    // O modelo 3D (assets/Serpente_3D.glb, 66 MB) NÃO entra comprimido no APK.
+    //
+    // Sem isto o AAPT2 guarda o .glb com deflate, e toda abertura da aba 3D
+    // precisava INFLAR os 66 MB antes do Filament ler o arquivo — era essa a
+    // demora de ~3 s entre a tela de carregamento e o modelo (medido no APK:
+    // 66.817.284 bytes guardados em 48.013.859 = Defl:N). Guardado sem
+    // compressão (Stored), o AssetManager lê direto, sem descompactar.
+    // Custo: o APK cresce ~19 MB, mas só na instalação — o que o usuário
+    // ganha é a abertura do 3D quase imediata.
+    androidResources {
+        noCompress += "glb"
+    }
 }
 
 dependencies {

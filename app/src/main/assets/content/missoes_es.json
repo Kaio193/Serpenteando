@@ -22,5 +22,15 @@
       {"id": 2, "text": "Responde 1 quiz medio", "trigger": "QUIZ_MEDIO", "target": 1},
       {"id": 3, "text": "Responde 2 quizzes fáciles", "trigger": "QUIZ_FACIL", "target": 2}
     ]
+  },
+  {
+    "id": 3,
+    "title": "Lector del Contenido Educativo",
+    "description": "Abre el contenido educativo de las serpientes y aprende sobre ellas",
+    "totalDays": 0,
+    "points": 150,
+    "items": [
+      {"id": 1, "text": "Abre el contenido educativo de 3 serpientes", "trigger": "CONTENT_DETAIL", "target": 3}
+    ]
   }
 ]

@@ -50,6 +50,15 @@ public class LocaleHelper {
         return context.createConfigurationContext(config);
     }
 
+    // Devolve um Context já no idioma escolhido no app
+    // (as notificações usam isso, senão o texto saía no idioma do celular)
+    public static Context wrap(Context context) {
+        String lang = getPersistedLanguage(context);
+        Configuration config = new Configuration(context.getResources().getConfiguration());
+        config.setLocale(new Locale(lang));
+        return context.createConfigurationContext(config);
+    }
+
     /**
      * Retorna o código do idioma atual ("pt", "en" ou "es").
      */

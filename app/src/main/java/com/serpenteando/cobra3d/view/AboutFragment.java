@@ -33,11 +33,8 @@ public class AboutFragment extends Fragment {
         view.findViewById(R.id.backButton).setOnClickListener(vista ->
                 Navigation.findNavController(view).popBackStack());
 
-        // === LinkedIn e e-mail de cada integrante ===
-        // [TEI Intents] Intent implícita — mesma técnica do slide 05 usada no
-        // "Fale Conosco" do Ajustes: ACTION_VIEW pro LinkedIn e ACTION_SENDTO
-        // com mailto: pro e-mail. Os dados são os que o Kaio passou; o Paulo
-        // não mandou LinkedIn, então só tem o ícone de e-mail.
+        // [TEI Intents] LinkedIn e e-mail de cada integrante
+        // (Intent implícita — mesma ideia do "Fale Conosco")
         abrirLink(view, R.id.linkedinKaio, "https://www.linkedin.com/in/kaio-dantas193/");
         abrirLink(view, R.id.instagramKaio, "https://www.instagram.com/kaio.russoo/");
         abrirEmail(view, R.id.emailKaio, "kaiodm193@gmail.com");
@@ -57,11 +54,8 @@ public class AboutFragment extends Fragment {
         abrirLink(view, R.id.instagramPaulo, "https://www.instagram.com/paulo.ragner/");
         abrirEmail(view, R.id.emailPaulo, "paulo.freitas@ifpb.edu.br");
 
-        // Enquadramento das fotos: Paulo é a referência (foto quadrada, sem corte).
-        // Ebert e Kaio mandaram fotos verticais — no "centerCrop" puro o corte tira
-        // a mesma faixa de cima e de baixo, e o cabelo acaba cortado. Aqui o corte
-        // fica puxado pro TOPO (bias 0.15), então o cabelo aparece. Fotos quadradas
-        // não têm sobra pra cortar, então não mudam nada.
+        // Ajusta o corte das fotos pra não cortar o cabelo de quem mandou foto
+        // vertical (a quadrada não muda nada)
         view.post(() -> {
             aplicarEnquadramento(view, R.id.profileKaio);
             aplicarEnquadramento(view, R.id.profileEbert);
@@ -71,7 +65,7 @@ public class AboutFragment extends Fragment {
         });
     }
 
-    /** Abre uma URL (LinkedIn) no navegador/app do sistema. */
+    // Abre o link no navegador ou no app do sistema
     private void abrirLink(View raiz, int id, String url) {
         View icone = raiz.findViewById(id);
         if (icone == null) return; // integrante sem esse dado cadastrado
@@ -84,7 +78,7 @@ public class AboutFragment extends Fragment {
         });
     }
 
-    /** Abre o app de e-mail do sistema já com o destinatário preenchido. */
+    // Abre o e-mail já com o destinatário preenchido
     private void abrirEmail(View raiz, int id, String email) {
         View icone = raiz.findViewById(id);
         if (icone == null) return;
@@ -99,11 +93,8 @@ public class AboutFragment extends Fragment {
         });
     }
 
-    /**
-     * Recorta a foto em "centerCrop" com um viés vertical.
-     * bias = 0.0 -> alinha o TOPO da foto no topo da view (mostra mais o cabelo)
-     * bias = 0.5 -> centro (comportamento padrão do centerCrop)
-     */
+    // Corta a foto no estilo centerCrop, mas puxando o corte pra cima pra
+    // não cortar o cabelo (bias 0 = topo, 0.5 = centro)
     private void aplicarEnquadramento(View raiz, int id, float bias) {
         ImageView iv = raiz.findViewById(id);
         if (iv == null || iv.getWidth() == 0 || iv.getHeight() == 0) return;
@@ -114,7 +105,7 @@ public class AboutFragment extends Fragment {
         float lf = d.getIntrinsicWidth(), af = d.getIntrinsicHeight();
         if (lf <= 0 || af <= 0) return;
 
-        // mesma escala do centerCrop (cobre a view inteira)
+        // Mesma escala do centerCrop (cobre a view inteira)
         float escala = Math.max(lv / lf, av / af);
         float dx = (lv - lf * escala) * 0.5f;
         float dy = (av - af * escala) * bias;

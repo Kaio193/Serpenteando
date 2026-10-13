@@ -22,5 +22,15 @@
       {"id": 2, "text": "Responda 1 quiz do nível médio", "trigger": "QUIZ_MEDIO", "target": 1},
       {"id": 3, "text": "Responda 2 quizzes do nível fácil", "trigger": "QUIZ_FACIL", "target": 2}
     ]
+  },
+  {
+    "id": 3,
+    "title": "Leitor do Conteúdo Educativo",
+    "description": "Abra o conteúdo educativo das serpentes e aprenda sobre elas",
+    "totalDays": 0,
+    "points": 150,
+    "items": [
+      {"id": 1, "text": "Abra o conteúdo educativo de 3 serpentes", "trigger": "CONTENT_DETAIL", "target": 3}
+    ]
   }
 ]

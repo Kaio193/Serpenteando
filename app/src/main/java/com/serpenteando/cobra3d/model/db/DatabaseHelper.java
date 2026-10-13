@@ -70,13 +70,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SharedPreferences prefs = context.getSharedPreferences(
                 "serpenteando_prefs", Context.MODE_PRIVATE);
         int saved = prefs.getInt(PREF_CONTENT_VERSION, 0);
-        if (saved >= CONTENT_VERSION) return;
 
+        if (saved < CONTENT_VERSION) {
+            try {
+                // Conteúdo mudou: repovoa as tabelas de conteúdo (o progresso fica)
+                resetForLanguageChange(context);
+                prefs.edit().putInt(PREF_CONTENT_VERSION, CONTENT_VERSION).apply();
+            } catch (Exception ignored) {
+                // Se falhar tenta de novo no próximo boot — não pode derrubar o app
+            }
+        }
+
+        // Missão nova entra aqui e só ela: assim quem já tem o app ganha a missão
+        // nova sem perder o "concluída" das antigas
         try {
-            resetForLanguageChange(context);
-            prefs.edit().putInt(PREF_CONTENT_VERSION, CONTENT_VERSION).apply();
+            DatabaseInitializer.ensureNewMissions(context, getInstance(context).getWritableDatabase());
         } catch (Exception ignored) {
-            // Se falhar, tenta de novo no próximo boot — não pode derrubar o app
         }
     }
 
@@ -264,6 +273,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UserProgressTable.COL_CURRENT_STREAK + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_LAST_QUIZ_DATE + " TEXT, " +
                 UserProgressTable.COL_LAST_TIP_DATE + " TEXT, " +
+                UserProgressTable.COL_LAST_MISSION_DATE + " TEXT, " +
                 UserProgressTable.COL_QUIZ_FACIL_COUNT + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_QUIZ_MEDIO_COUNT + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_QUIZ_DIFICIL_COUNT + " INTEGER DEFAULT 0, " +
@@ -354,6 +364,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 bancoDados.execSQL("UPDATE " + MissionsTable.TABLE_NAME +
                         " SET " + MissionsTable.COL_TOTAL_DAYS +
                         " = 7 WHERE " + MissionsTable.COL_ID + " = 1");
+            } catch (Exception ignored) {}
+        }
+        if (oldVersion < 7) {
+            // v6→v7: a sequência de dias agora conta as MISSÕES concluídas
+            // (antes era o quiz). A coluna nasce vazia, então a sequência
+            // recomeça na próxima missão que o usuário concluir.
+            try {
+                bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
+                        " ADD COLUMN " + UserProgressTable.COL_LAST_MISSION_DATE + " TEXT");
             } catch (Exception ignored) {}
         }
     }

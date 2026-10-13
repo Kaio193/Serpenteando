@@ -2,6 +2,7 @@ package com.serpenteando.cobra3d.model.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -167,49 +168,89 @@ public class DatabaseInitializer {
         Log.d(TAG, "Dicas inseridas: " + inserted);
     }
 
-    private static void insertMissions(Context context, SQLiteDatabase bancoDados) {
+    // Qual é o arquivo de missões do idioma que está selecionado
+    private static String missionsFileName(Context context) {
         String lang = LocaleHelper.getLanguage(context);
-        String fileName = "missoes.json";
-        if ("en".equals(lang)) {
-            fileName = "missoes_en.json";
-        } else if ("es".equals(lang)) {
-            fileName = "missoes_es.json";
-        }
-        JSONArray arr = readJson(context, fileName);
+        if ("en".equals(lang)) return "missoes_en.json";
+        if ("es".equals(lang)) return "missoes_es.json";
+        return "missoes.json";
+    }
+
+    private static void insertMissions(Context context, SQLiteDatabase bancoDados) {
+        JSONArray arr = readJson(context, missionsFileName(context));
         if (arr == null) return;
         int inserted = 0;
         for (int i = 0; i < arr.length(); i++) {
             try {
-                JSONObject m = arr.getJSONObject(i);
-                ContentValues valores = new ContentValues();
-                valores.put(Contract.MissionsTable.COL_TITLE, m.getString("title"));
-                valores.put(Contract.MissionsTable.COL_DESCRIPTION, m.getString("description"));
-                valores.put(Contract.MissionsTable.COL_DIFFICULTY, 1);
-                valores.put(Contract.MissionsTable.COL_POINTS, m.optInt("points", 100));
-                valores.put(Contract.MissionsTable.COL_TOTAL_DAYS, m.optInt("totalDays", 0));
-                valores.put(Contract.MissionsTable.COL_IS_COMPLETED, 0);
-                long missionId = bancoDados.insert(Contract.MissionsTable.TABLE_NAME, null, valores);
-
-                JSONArray items = m.optJSONArray("items");
-                if (items != null) {
-                    for (int j = 0; j < items.length(); j++) {
-                        JSONObject item = items.getJSONObject(j);
-                        ContentValues icv = new ContentValues();
-                        icv.put(Contract.MissionItemsTable.COL_MISSION_ID, missionId);
-                        icv.put(Contract.MissionItemsTable.COL_ITEM_TEXT, item.getString("text"));
-                        icv.put(Contract.MissionItemsTable.COL_TRIGGER, item.optString("trigger", ""));
-                        icv.put(Contract.MissionItemsTable.COL_TARGET, item.optInt("target", 1));
-                        icv.put(Contract.MissionItemsTable.COL_IS_CORRECT, 0);
-                        icv.put(Contract.MissionItemsTable.COL_DISPLAY_ORDER, j + 1);
-                        bancoDados.insert(Contract.MissionItemsTable.TABLE_NAME, null, icv);
-                    }
-                }
-                inserted++;
+                if (insertMission(bancoDados, arr.getJSONObject(i)) > 0) inserted++;
             } catch (Exception e) {
                 Log.e(TAG, "Erro na missao " + i, e);
             }
         }
         Log.d(TAG, "Missoes inseridas: " + inserted);
+    }
+
+    // Insere uma missão com os itens dela (devolve o id, ou -1 se der erro)
+    private static long insertMission(SQLiteDatabase bancoDados, JSONObject m) {
+        try {
+            ContentValues valores = new ContentValues();
+            valores.put(Contract.MissionsTable.COL_TITLE, m.getString("title"));
+            valores.put(Contract.MissionsTable.COL_DESCRIPTION, m.getString("description"));
+            valores.put(Contract.MissionsTable.COL_DIFFICULTY, 1);
+            valores.put(Contract.MissionsTable.COL_POINTS, m.optInt("points", 100));
+            valores.put(Contract.MissionsTable.COL_TOTAL_DAYS, m.optInt("totalDays", 0));
+            valores.put(Contract.MissionsTable.COL_IS_COMPLETED, 0);
+            long missionId = bancoDados.insert(Contract.MissionsTable.TABLE_NAME, null, valores);
+
+            JSONArray items = m.optJSONArray("items");
+            if (items != null) {
+                for (int j = 0; j < items.length(); j++) {
+                    JSONObject item = items.getJSONObject(j);
+                    ContentValues icv = new ContentValues();
+                    icv.put(Contract.MissionItemsTable.COL_MISSION_ID, missionId);
+                    icv.put(Contract.MissionItemsTable.COL_ITEM_TEXT, item.getString("text"));
+                    icv.put(Contract.MissionItemsTable.COL_TRIGGER, item.optString("trigger", ""));
+                    icv.put(Contract.MissionItemsTable.COL_TARGET, item.optInt("target", 1));
+                    icv.put(Contract.MissionItemsTable.COL_IS_CORRECT, 0);
+                    icv.put(Contract.MissionItemsTable.COL_DISPLAY_ORDER, j + 1);
+                    bancoDados.insert(Contract.MissionItemsTable.TABLE_NAME, null, icv);
+                }
+            }
+            return missionId;
+        } catch (Exception e) {
+            Log.e(TAG, "Erro ao inserir missao", e);
+            return -1;
+        }
+    }
+
+    // Essa missão já está no banco?
+    private static boolean missionExists(SQLiteDatabase bancoDados, String title) {
+        Cursor cursor = bancoDados.query(Contract.MissionsTable.TABLE_NAME,
+                new String[]{Contract.MissionsTable.COL_ID},
+                Contract.MissionsTable.COL_TITLE + " = ?",
+                new String[]{title}, null, null, null);
+        boolean existe = cursor != null && cursor.getCount() > 0;
+        if (cursor != null) cursor.close();
+        return existe;
+    }
+
+    // Insere só as missões que ainda não existem no banco
+    // (assim dá pra lançar missão nova sem apagar o que o usuário já concluiu)
+    public static void ensureNewMissions(Context context, SQLiteDatabase bancoDados) {
+        JSONArray arr = readJson(context, missionsFileName(context));
+        if (arr == null) return;
+        int inseridas = 0;
+        for (int i = 0; i < arr.length(); i++) {
+            try {
+                JSONObject m = arr.getJSONObject(i);
+                String titulo = m.getString("title");
+                if (missionExists(bancoDados, titulo)) continue;
+                if (insertMission(bancoDados, m) > 0) inseridas++;
+            } catch (Exception e) {
+                Log.e(TAG, "Erro no ensureNewMissions " + i, e);
+            }
+        }
+        if (inseridas > 0) Log.d(TAG, "Missoes novas inseridas: " + inseridas);
     }
 
     private static void insertMythsTruths(Context context, SQLiteDatabase bancoDados) {

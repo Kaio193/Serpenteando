@@ -45,6 +45,11 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadProgress() {
         UserProgress progress = progressRepository.getProgress();
+        if (progress != null) {
+            // A sequência do card só vale se o usuário concluiu missão hoje ou
+            // ontem; se ficou dias sem concluir, o card mostra 0 (quebrou).
+            progress.setCurrentStreak(progressRepository.getSequenciaEfetiva(progress));
+        }
         view.showProgress(progress);
     }
 

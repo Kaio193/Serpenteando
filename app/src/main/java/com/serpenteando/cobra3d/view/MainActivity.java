@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private NavController.OnDestinationChangedListener destinationListener;
 
-    // Custom bottom nav views
+    // Views da navbar de baixo
     private LinearLayout navHome, navQuiz, nav3d, navMissions, navSettings;
     private TextView navHomeLabel, navQuizLabel, nav3dLabel, navMissionsLabel, navSettingsLabel;
     private ImageView navHomeIcon, navQuizIcon, nav3dIcon, navMissionsIcon, navSettingsIcon;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             getWindow().setBackgroundBlurRadius(25);
         }
 
-        // Setup NavHostFragment
+        // Pega o NavHost pra controlar a navegação
         NavHostFragment navHost = null;
         try {
             navHost = (NavHostFragment) getSupportFragmentManager()
@@ -58,15 +58,15 @@ public class MainActivity extends AppCompatActivity {
         if (navHost != null) {
             navController = navHost.getNavController();
 
-            // Setup custom bottom nav
+            // Monta a navbar de baixo
             setupCustomBottomNav();
 
-            // Listen for destination changes to highlight active tab
+            // Marca a aba certa a cada troca de tela
             destinationListener = (controller, destination, arguments) -> {
                 int destId = destination.getId();
                 highlightTab(destId);
 
-                // Show/hide bottom nav for sub-screens
+                // Esconde a navbar nas telas internas (Sobre, Conteúdo, Mitos)
                 boolean isTab = destId == R.id.nav_home
                         || destId == R.id.nav_quiz
                         || destId == R.id.nav_anatomy
@@ -76,36 +76,24 @@ public class MainActivity extends AppCompatActivity {
                 if (bottomNav != null) {
                     bottomNav.setVisibility(isTab ? View.VISIBLE : View.GONE);
                 }
-                // Realinha o espaço reservado embaixo: com a navbar escondida o
-                // conteúdo desce até a barra nativa (senão sobra faixa vazia).
+                // Reajusta o espaço de baixo (a navbar pode ter sido escondida)
                 applyBottomSpacing();
             };
             navController.addOnDestinationChangedListener(destinationListener);
 
-            // Start on home
+            // Abre já na Home
             if (savedInstanceState == null) {
                 highlightTab(R.id.nav_home);
             }
 
-            // Navegação por SWIPE horizontal REMOVIDA (Kaio, 11/10 — item 17).
-            // Antes daqui saía o setupSwipeGesture(), que ligava o arrasto
-            // Home <-> Quiz <-> 3D <-> Missões <-> Config. Agora quem navega é
-            // só a navbar e os botões. O SwipeFrameLayout do layout continua
-            // no XML (ele cuida do espaçamento/insets), mas fica sem callback
-            // — ou seja, sem nenhum gesto de navegação.
+            // Navegação por swipe foi removida: quem troca de tela é só a navbar
 
-            // Ajusta o bottom nav pra não ficar escondido atrás da barra de
-            // navegação nativa (celular com botões, ex: A36)
+            // Sobe a navbar pra ela não ficar atrás da barra nativa do celular
             applyNavBarInsets();
         }
     }
 
-    /**
-     * Ajusta a barra de navegação inferior do app pra não sobrepor a barra
-     * nativa do celular. Em celulares com gestos funciona sozinho; em
-     * celulares com botões (A36), a barra nativa fica em cima da nossa.
-     * Aqui a gente adiciona paddingBottom = altura da barra nativa.
-     */
+    // Sobe a navbar pra ela não ficar atrás da barra nativa do celular
     private void applyNavBarInsets() {
         View root = findViewById(R.id.mainRoot);
         if (root == null) return;
@@ -129,13 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
             return windowInsets;
         });
-        // O conteúdo dos fragments NÃO pode somar o inset de baixo de novo.
-        // O swipeContainer já termina exatamente no topo da pill da navbar, e
-        // vários layouts de fragment usam fitsSystemWindows="true" — sem isso
-        // eles aplicam o inset nativo outra vez no padding inferior e sobra uma
-        // FAIXA de ~48dp com a cor de fundo entre o conteúdo e a navbar
-        // (era a "barrinha" que escondia a explicação do quiz).
-        // O topo (status bar) continua sendo tratado normalmente.
+        // O conteúdo não pode somar o inset de baixo de novo (sobraria uma faixa)
+        // O topo (barra de status) continua sendo tratado normalmente
         SwipeFrameLayout swipeContent = findViewById(R.id.swipeContainer);
         if (swipeContent != null) {
             ViewCompat.setOnApplyWindowInsetsListener(swipeContent, (vista, insets) -> {
@@ -147,17 +130,10 @@ public class MainActivity extends AppCompatActivity {
         root.requestApplyInsets();
     }
 
-    /** Último inset da barra nativa recebido (px), guardado pra realinhar o
-     *  conteúdo quando a navbar do app é escondida ou mostrada de novo. */
+    // Último inset da barra nativa (px), pra realinhar o conteúdo
     private int lastBottomInset = 0;
 
-    /**
-     * Reserva embaixo do conteúdo só o que existe de verdade:
-     * - navbar do app VISÍVEL   -> 64dp da pill + 10dp de folga + inset nativo;
-     * - navbar do app ESCONDIDA -> só o inset nativo.
-     * Sem isso, nas telas que escondem a navbar (Sobre, Conteúdo, Mitos) sobrava
-     * uma FAIXA VAZIA de 75dp em cima da barra nativa - a "barrinha" invisível.
-     */
+    // Reserva embaixo do conteúdo só o que existe: a navbar (quando visível) + a barra nativa
     private void applyBottomSpacing() {
         SwipeFrameLayout swipe = findViewById(R.id.swipeContainer);
         if (swipe == null) return;
@@ -211,22 +187,22 @@ public class MainActivity extends AppCompatActivity {
         if (navController.getCurrentDestination() != null
                 && navController.getCurrentDestination().getId() == destinationId) return;
 
-        // Pop back to start destination before navigating to a new tab
+        // Volta pra Home antes de ir pra outra aba
         navController.popBackStack(R.id.nav_home, false);
 
-        // Navigate to the selected tab
+        // Vai pra aba escolhida
         navController.navigate(destinationId);
     }
 
     private void highlightTab(int activeId) {
-        // Reset all to inactive
+        // Deixa todas as abas apagadas
         resetTab(navHomeLabel, navHomeIcon, R.drawable.ic_home);
         resetTab(navQuizLabel, navQuizIcon, R.drawable.ic_dice);
         resetTab(nav3dLabel, nav3dIcon, R.drawable.ic_3d);
         resetTab(navMissionsLabel, navMissionsIcon, R.drawable.ic_rocket);
         resetTab(navSettingsLabel, navSettingsIcon, R.drawable.ic_settings);
 
-        // Highlight active tab
+        // Acende a aba atual
         if (activeId == R.id.nav_home) {
             setActiveTab(navHomeLabel, navHomeIcon, R.drawable.ic_home);
         } else if (activeId == R.id.nav_quiz) {

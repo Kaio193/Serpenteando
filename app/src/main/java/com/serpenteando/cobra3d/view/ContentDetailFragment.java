@@ -25,6 +25,10 @@ import com.serpenteando.cobra3d.presenter.ContentPresenter;
 public class ContentDetailFragment extends Fragment implements ContentContract.View {
 
     private static final String ARG_CONTENT_ID = "contentId";
+    private static final String STATE_CONTEOU_CONTEUDO = "contouConteudo";
+
+    // Cada ficha aberta conta uma vez só pra missão do conteúdo educativo
+    private boolean contouConteudo = false;
 
     private ContentPresenter presenter;
     private ImageView heroImage;
@@ -65,6 +69,10 @@ public class ContentDetailFragment extends Fragment implements ContentContract.V
 
         presenter = new ContentPresenter(this, DatabaseHelper.getInstance(requireContext()), requireContext());
 
+        if (savedInstanceState != null) {
+            contouConteudo = savedInstanceState.getBoolean(STATE_CONTEOU_CONTEUDO, false);
+        }
+
         heroImage = view.findViewById(R.id.heroImage);
         titleText = view.findViewById(R.id.titleText);
         scientificText = view.findViewById(R.id.scientificText);
@@ -102,13 +110,15 @@ public class ContentDetailFragment extends Fragment implements ContentContract.V
     public void showContentDetail(Content content) {
         if (!isAdded()) return;
 
-        // Missão "Explorador da Fauna": abre ficha na enciclopédia = progresso real
+        // Missão do Conteúdo Educativo: abrir a ficha conta como progresso (CONTENT_DETAIL)
         try {
-            com.serpenteando.cobra3d.model.repository.ProgressRepository progressRepo =
-                    new com.serpenteando.cobra3d.model.repository.ProgressRepository(
-                            DatabaseHelper.getInstance(requireContext()).getWritableDatabase());
-            if (getArguments() != null && getArguments().getLong(ARG_CONTENT_ID, -1) != -1) {
+            if (!contouConteudo && getArguments() != null
+                    && getArguments().getLong(ARG_CONTENT_ID, -1) != -1) {
+                com.serpenteando.cobra3d.model.repository.ProgressRepository progressRepo =
+                        new com.serpenteando.cobra3d.model.repository.ProgressRepository(
+                                DatabaseHelper.getInstance(requireContext()).getWritableDatabase());
                 progressRepo.incrementEvent("CONTENT_DETAIL");
+                contouConteudo = true;
             }
         } catch (Exception ignored) {}
 
@@ -159,6 +169,13 @@ public class ContentDetailFragment extends Fragment implements ContentContract.V
     public void showError(String message) {
         if (!isAdded() || getContext() == null) return;
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Guarda a trava pra uma rotação de tela não contar a mesma ficha 2x.
+        outState.putBoolean(STATE_CONTEOU_CONTEUDO, contouConteudo);
     }
 
     @Override

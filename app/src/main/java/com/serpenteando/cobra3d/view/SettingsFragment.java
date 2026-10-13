@@ -52,7 +52,7 @@ public class SettingsFragment extends Fragment {
     private boolean ignoreDarkModeListener = false; // Flag pra ignorar listener do dark mode durante setup
 
     // Email central do app (Kaio) — usado nos botões Fale Conosco e Reportar Bug
-    private static final String EMAIL_CENTRAL = "centralserpenteando@gmail.com";
+    private static final String EMAIL_CENTRAL = "suporteserpenteando@gmail.com";
 
     @Nullable
     @Override
@@ -111,12 +111,10 @@ public class SettingsFragment extends Fragment {
                     isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO));
             }
         });
-        // Click no row inteiro também alterna o switch
-        // NOTA: toggle() dispara o listener, que chama setDefaultNightMode,
-        // que recria a Activity. Isso é intencional.
+        // Tocar na linha inteira também liga/desliga o switch
         darkModeRow.setOnClickListener(vista -> darkModeSwitch.toggle());
 
-        // Version click row
+        // Linha Versão: só mostra o número, sem seta
         View versionRow = view.findViewById(R.id.rowVersion);
         ((ImageView) versionRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_info);
         ((TextView) versionRow.findViewById(R.id.rowTitle)).setText(R.string.settings_version);
@@ -124,7 +122,7 @@ public class SettingsFragment extends Fragment {
         versionRow.findViewById(R.id.rowValue).setVisibility(View.VISIBLE);
         versionRow.findViewById(R.id.rowChevron).setVisibility(View.GONE);
 
-        // About click row — navega para a tela Sobre
+        // Linha Sobre: abre a tela Sobre
         View aboutRow = view.findViewById(R.id.rowAbout);
         ((ImageView) aboutRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_person_silhouette);
         ((TextView) aboutRow.findViewById(R.id.rowTitle)).setText(R.string.settings_about);
@@ -132,7 +130,7 @@ public class SettingsFragment extends Fragment {
             Navigation.findNavController(vista).navigate(R.id.nav_about);
         });
 
-        // Credits click row — abre dialog com os créditos do app
+        // Linha Créditos: abre o dialog de créditos
         View creditsRow = view.findViewById(R.id.rowCredits);
         ((ImageView) creditsRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_trophy);
         ((TextView) creditsRow.findViewById(R.id.rowTitle)).setText(R.string.credits_title);
@@ -140,20 +138,14 @@ public class SettingsFragment extends Fragment {
             showCreditsDialog();
         });
 
-        // === SEÇÃO: CONTATO ===
-        // [TEI Intents] Intent implícita — abre app de email do sistema
-        // Mesmo padrão do slide 05: ACTION_SENDTO + mailto:
+        // [TEI Intents] Fale Conosco: abre o Gmail com o assunto já escrito
         View contactRow = view.findViewById(R.id.rowContact);
         ((ImageView) contactRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_help);
         ((TextView) contactRow.findViewById(R.id.rowTitle)).setText(R.string.settings_contact);
         contactRow.setOnClickListener(vista -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                // Email central criado pelo Kaio (Falar Conosco)
-                // O assunto vai DENTRO da URI mailto: (subject=... já codificado).
-                // O Gmail ignora EXTRA_SUBJECT no ACTION_SENDTO — é o único jeito
-                // confiável de preencher o campo Assunto (spec de 12/10).
-                // Concateno na mão (não uso buildUpon) pra não perder o destinatário.
+                // O assunto vai dentro da URI: o Gmail ignora o EXTRA_SUBJECT
                 intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
                         + Uri.encode(getString(R.string.contact_email_subject))));
                 startActivity(intent);
@@ -162,17 +154,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        // Bug report click row
+        // Linha Reportar Bug: abre o Gmail com o assunto já escrito
         View bugRow = view.findViewById(R.id.rowBugReport);
         ((ImageView) bugRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_bug_report);
         ((TextView) bugRow.findViewById(R.id.rowTitle)).setText(R.string.settings_report_bug);
         bugRow.setOnClickListener(vista -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                // Email central criado pelo Kaio (Reportar bug)
-                // Assunto com o template (26 do doc, 30/09) dentro da URI mailto:
-                // o Gmail preenche o campo Assunto a partir daqui (spec de 12/10).
-                // Concateno na mão (não uso buildUpon) pra não perder o destinatário.
+                // Mesmo esquema do Fale Conosco: assunto dentro da URI
                 intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
                         + Uri.encode(getString(R.string.bug_email_subject))));
                 startActivity(intent);
@@ -182,11 +171,8 @@ public class SettingsFragment extends Fragment {
         });
     }
 
-    /**
-     * Dialog de créditos — lista devs, orientador, avaliador, cliente e
-     * tecnologias usadas no app.
-     * [TEI Dialogs] Dialog customizado (slide 05.1).
-     */
+    // [TEI Dialogs] Dialog de créditos com layout próprio
+
     private void showCreditsDialog() {
         try {
             if (!isAdded() || getContext() == null) return;
@@ -238,7 +224,7 @@ public class SettingsFragment extends Fragment {
             LinearLayout langEs = dialog.findViewById(R.id.langEspanol);
             TextView closeBtn = dialog.findViewById(R.id.dialogCloseButton);
 
-            // Highlight o idioma atual
+            // Marca o idioma que está selecionado
             updateLangRow(langPt, currentLang.equals("pt"));
             updateLangRow(langEn, currentLang.equals("en"));
             updateLangRow(langEs, currentLang.equals("es"));
@@ -336,6 +322,12 @@ public class SettingsFragment extends Fragment {
             });
             if (switchMissions != null) switchMissions.setOnCheckedChangeListener((btn, isChecked) -> {
                 preferenceManager.setMissionNotifEnabled(isChecked);
+                // Liga/desliga o alarme do lembrete de missões pendentes
+                if (isChecked) {
+                    AlarmScheduler.scheduleMissionsReminder(requireContext());
+                } else {
+                    AlarmScheduler.cancelMissionsReminder(requireContext());
+                }
             });
             if (switchAchievements != null) switchAchievements.setOnCheckedChangeListener((btn, isChecked) -> {
                 preferenceManager.setAchievementNotifEnabled(isChecked);

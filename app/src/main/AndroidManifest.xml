@@ -10,8 +10,14 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Feedback tátil no módulo 3D -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- Alarme diário funciona mesmo com bateria otimizada -->
+    <!-- Alarme diário funciona mesmo com bateria otimizada.
+         SCHEDULE_EXACT_ALARM vale pro Android 12; do 13 em diante o Android
+         NEGA esse pedido por padrão e o alarme vira "inexato" (o sistema
+         agrupa com outros e ele pode atrasar) — era essa a causa de o
+         lembrete das 00:00 chegar um pouco atrasado. O USE_EXACT_ALARM abaixo
+         devolve o alarme EXATO sem precisar de tela de permissão. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <!-- Reagenda alarmes após reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Wakelock leve para processar alarme -->
@@ -49,7 +55,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.serpenteando.cobra3d.ACTION_DAILY_REMINDER" />
-                <action android:name="com.serpenteando.cobra3d.ACTION_MISSION_AVAILABLE" />
+                <action android:name="com.serpenteando.cobra3d.ACTION_MISSIONS_REMINDER" />
             </intent-filter>
         </receiver>
 

@@ -5,7 +5,7 @@ public final class Contract {
     private Contract() {}
 
     public static final String DATABASE_NAME = "serpenteando.db";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public static final class QuestionsTable {
         public static final String TABLE_NAME = "questions";
@@ -115,6 +115,9 @@ public final class Contract {
         public static final String COL_CURRENT_STREAK = "current_streak";
         public static final String COL_LAST_QUIZ_DATE = "last_quiz_date";
         public static final String COL_LAST_TIP_DATE = "last_tip_date";
+        // Guarda o dia (yyyy-MM-dd) da ULTIMA MISSAO concluida. É a base da
+        // sequencia de dias: o dia só conta quando o usuario conclui missao.
+        public static final String COL_LAST_MISSION_DATE = "last_mission_date";
         public static final String COL_QUIZ_FACIL_COUNT = "quiz_facil_count";
         public static final String COL_QUIZ_MEDIO_COUNT = "quiz_medio_count";
         public static final String COL_QUIZ_DIFICIL_COUNT = "quiz_dificil_count";

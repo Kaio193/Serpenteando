@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mode_light_screen">
+    android:background="@drawable/mode_light_screen"
+    android:paddingTop="@dimen/space_24">
+
+    <!-- O paddingTop da raiz existe porque esta tela NAO passa pelo
+         swipeContainer do MainActivity (que é quem aplica o inset da barra de
+         status nas outras telas). Sem ele, o topo do card da serpente subia
+         POR CIMA da barra de status (o problema que o Kaio relatou). -->
 
     <ScrollView
         android:layout_width="match_parent"
