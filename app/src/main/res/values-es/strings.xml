@@ -93,20 +93,8 @@
     <string name="settings_contact">Contáctanos</string>
     <string name="settings_report_bug">Reportar Bug</string>
     <string name="settings_no_email">No se encontró app de correo</string>
-    <string name="contact_email_subject">Contacto — Serpenteando</string>
-    <string name="contact_email_body">¡Hola! Me gustaría ponerme en contacto con el equipo para resolver una duda u obtener ayuda.
-
-Mi duda es:</string>
-    <string name="bug_email_subject">Reportar Error — Serpenteando</string>
-    <string name="bug_email_body">¡Hola! Me gustaría reportar un error en la aplicación.
-
-*Descripción del problema:*
-
-*En qué pantalla ocurrió:*
-
-*Qué pasó:*
-
-Si es posible, enviaré una captura de pantalla para ayudar a identificar el error.</string>
+    <string name="contact_email_subject">¡Hola! Me gustaría ponerme en contacto con el equipo para resolver una duda u obtener ayuda. Mi duda es:</string>
+    <string name="bug_email_subject">¡Hola! Me gustaría reportar un error en la aplicación.\nDescripción del problema:\nEn qué pantalla ocurrió:\nQué pasó:*\nSi es posible, enviaré una captura de pantalla para ayudar a identificar el error.</string>
     <string name="settings_error_dialog">Error al abrir diálogo</string>
     <string name="settings_notif_daily">Recordatorios diarios</string>
     <string name="settings_notif_missions">Nuevas misiones</string>

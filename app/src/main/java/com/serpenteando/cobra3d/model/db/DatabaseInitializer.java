@@ -78,16 +78,23 @@ public class DatabaseInitializer {
 
     /**
      * Converte texto de dificuldade do JSON pra número.
-     * "fácil"/"facil" → 1, "médio"/"medio" → 2, "difícil"/"dificil" → 3
+     * PT/ES: "fácil"/"facil" → 1, "médio"/"medio"/"media" → 2, "difícil"/"dificil" → 3
+     * EN: "easy" → 1, "medium" → 2, "hard" → 3
+     * Sem os termos em inglês, o perguntas_en.json inteiro virava dificuldade 1
+     * e o quiz em inglês não achava perguntas em médio/difícil (bug de 12/10).
      */
     private static int difficultyToInt(String difficulty) {
         if (difficulty == null) return 1;
         switch (difficulty) {
             case "medio":
             case "media":
+            case "medium":
                 return 2;
             case "dificil":
+            case "hard":
                 return 3;
+            case "easy":
+            case "facil":
             default:
                 return 1;
         }

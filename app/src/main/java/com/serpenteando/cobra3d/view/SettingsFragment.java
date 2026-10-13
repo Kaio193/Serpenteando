@@ -51,6 +51,9 @@ public class SettingsFragment extends Fragment {
     private PreferenceManager preferenceManager;
     private boolean ignoreDarkModeListener = false; // Flag pra ignorar listener do dark mode durante setup
 
+    // Email central do app (Kaio) — usado nos botões Fale Conosco e Reportar Bug
+    private static final String EMAIL_CENTRAL = "centralserpenteando@gmail.com";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -147,11 +150,12 @@ public class SettingsFragment extends Fragment {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 // Email central criado pelo Kaio (Falar Conosco)
-                intent.setData(Uri.parse("mailto:centralserpenteando@gmail.com"));
-                // A mensagem já vai preenchida (item 25 do doc, 30/09) e o
-                // usuário pode editar tudo antes de enviar.
-                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.contact_email_body));
+                // O assunto vai DENTRO da URI mailto: (subject=... já codificado).
+                // O Gmail ignora EXTRA_SUBJECT no ACTION_SENDTO — é o único jeito
+                // confiável de preencher o campo Assunto (spec de 12/10).
+                // Concateno na mão (não uso buildUpon) pra não perder o destinatário.
+                intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
+                        + Uri.encode(getString(R.string.contact_email_subject))));
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
@@ -166,11 +170,11 @@ public class SettingsFragment extends Fragment {
             try {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 // Email central criado pelo Kaio (Reportar bug)
-                intent.setData(Uri.parse("mailto:centralserpenteando@gmail.com"));
-                // Modelo de mensagem (item 26 do doc, 30/09): já vem com o
-                // roteiro do que descrever, editável pelo usuário.
-                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.bug_email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.bug_email_body));
+                // Assunto com o template (26 do doc, 30/09) dentro da URI mailto:
+                // o Gmail preenche o campo Assunto a partir daqui (spec de 12/10).
+                // Concateno na mão (não uso buildUpon) pra não perder o destinatário.
+                intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
+                        + Uri.encode(getString(R.string.bug_email_subject))));
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
