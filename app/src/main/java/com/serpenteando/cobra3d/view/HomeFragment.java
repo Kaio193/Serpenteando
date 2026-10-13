@@ -128,10 +128,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             // Arte mais estreita que o card: não tem corte lateral, nada pra ajustar
             if (sobraX <= 4f) return;
 
-            // A arte termina com uma ponta transparente (a clara tem ~9px, a escura
-            // nenhum). Essa ponta precisa cair FORA do card, senão aparecem alguns
-            // pixels do fundo do card na borda direita — no modo claro isso virava
-            // uma faixinha clara de ~5px (visto no print, 12/10).
+            // A arte termina com uma ponta transparente (a clara tem ~9px, a escura nenhum).
+            // Essa ponta precisa cair FORA do card, senão aparecem pixels do fundo do card
+            // na borda direita — no modo claro virava uma faixinha clara de ~5px (print 12/10).
             float pontaTransparente = transparenciaNoFim(desenho, escala);
             float folga = pontaTransparente + 4f;   // 4px (~1,5dp) de segurança
 
@@ -213,9 +212,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     // Navegação entre telas usando Navigation Component
-    // [TEI Intents] No slide 05, o prof. usa startActivity(new Intent(...))
-    // Aqui usamos NavGraph porque é o padrão moderno pra navegar entre Fragments
-    // (Activity única + vários Fragments = melhor performance)
+    // [TEI Intents] O prof. usa startActivity(new Intent(...)) no slide 05; aqui é
+    // NavGraph, que é o padrão pra navegar entre Fragments (Activity + Fragments).
 
     @Override
     public void showContent(String category) {
@@ -240,7 +238,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void showAnatomy3D() {
         // Tela do 3D — inovadora, o professor vai perguntar!
-        // Usa Filament (engine 3D do Google) pra renderizar a cobra
+        // Usa Filament pra renderizar a cobra
         Navigation.findNavController(requireView())
                 .navigate(R.id.nav_anatomy);
     }

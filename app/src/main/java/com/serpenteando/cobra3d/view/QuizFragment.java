@@ -100,15 +100,11 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     private void manterBarraDoAppClicavel(Dialog dialog) {
         Window w = dialog.getWindow();
         if (w != null) {
-            // FLAG_NOT_TOUCH_MODAL: os toques de FORA da janela do dialog vão pro
-            // app, então a barrinha de baixo continua clicável — é por ela que o
-            // aluno sai do quiz.
-            //
-            // FLAG_WATCH_OUTSIDE_TOUCH fica DESLIGADA de propósito (clearFlags):
-            // é ela que faz o toque de fora virar ACTION_OUTSIDE no dialog e
-            // fechá-lo. Como o Kaio quer o quiz fechando só pela barrinha, a
-            // flag sai. (Medido em 07/10: com a flag a janela sobe fl=d840022 e
-            // fecha; sem ela, fl=d800022 e o toque fora não faz nada.)
+            // FLAG_NOT_TOUCH_MODAL: os toques de FORA da janela do dialog vão pro app, então
+            // a barrinha de baixo continua clicável — é por ela que o aluno sai do quiz.
+            // FLAG_WATCH_OUTSIDE_TOUCH fica DESLIGADA de propósito (clearFlags): é ela que
+            // faz o toque de fora fechar o dialog, e o quiz só fecha pela barrinha. (Medido
+            // em 07/10: com a flag a janela sobe fl=d840022 e fecha; sem ela não faz nada.)
             w.clearFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
             w.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         }
@@ -138,9 +134,8 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         hideQuizContent();
 
         // [TEI Dialogs] Dialog de seleção de dificuldade — padrão do slide 05.1
-        // AlertDialog como tava, com as 3 opções sempre visíveis. A janela do
-        // dialog é limitada pra não cobrir a barra de navegação (ela continua
-        // funcionando).
+        // AlertDialog com as 3 opções sempre visíveis. A janela é limitada pra não
+        // cobrir a barra de navegação (ela continua funcionando).
         showDifficultyDialog();
 
         view.findViewById(R.id.backButton).setOnClickListener(vista ->
@@ -404,10 +399,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
     @Override
     public void showResult(int score, int total, boolean passed) {
         if (!isAdded()) return;
-        // O contador do nível (QUIZ_FACIL/MEDIO/DIFICIL) é gravado pelo
-        // QuizPresenter ao terminar o quiz. Antes ele era gravado AQUI de novo
-        // quando o aluno passava — o quiz passado contava 2x e as missões
-        // ("Responda 3 quizzes do nível fácil") avançavam dobrado.
+        // O contador do nível (QUIZ_FACIL/MEDIO/DIFICIL) é gravado pelo QuizPresenter ao
+        // terminar o quiz. Antes era gravado AQUI de novo quando o aluno passava: o quiz
+        // contava 2x e as missões ("3 quizzes do fácil") avançavam dobrado.
         showQuizResultDialog(score, total, passed);
     }
 
@@ -422,10 +416,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         dialog.setContentView(R.layout.dialog_quiz_confirm);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        // Tocar fora NÃO fecha (pedido do Kaio, 08/10): quem sai do quiz é a
-        // barrinha do app, que fica clicável por baixo (ver
-        // manterBarraDoAppClicavel). O botão Cancelar continua devolvendo a
-        // alternativa ao estado anterior.
+        // Tocar fora NÃO fecha (pedido do Kaio, 08/10): quem sai do quiz é a barrinha do
+        // app, que fica clicável por baixo (ver manterBarraDoAppClicavel). O botão
+        // Cancelar continua devolvendo a alternativa ao estado anterior.
         dialog.setCanceledOnTouchOutside(false);
         manterBarraDoAppClicavel(dialog);
         overlayDialog = dialog;
@@ -478,11 +471,9 @@ public class QuizFragment extends Fragment implements QuizContract.View {
         dialog.getWindow().setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        // Tocar fora NÃO fecha (pedido do Kaio, 08/10). Continua cancelável
-        // pelo botão VOLTAR: aí sim desiste do quiz e volta pra tela anterior,
-        // em vez de deixar a tela do quiz em branco (o conteúdo fica escondido
-        // até escolher a dificuldade). Quem SAI pra outra tela pela barrinha do
-        // app não passa por aqui: aquilo é dismiss(), não cancel().
+        // Tocar fora NÃO fecha (pedido do Kaio, 08/10). Continua cancelável pelo botão
+        // VOLTAR: aí sim desiste do quiz e volta pra tela anterior, em vez de deixar o
+        // quiz em branco. Quem SAI pela barrinha do app não passa por aqui: é dismiss().
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(true);
 

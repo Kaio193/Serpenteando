@@ -107,10 +107,9 @@ public class QuizPresenter implements QuizContract.Presenter {
     @Override
     public void nextQuestion() {
         if (questions.isEmpty()) return;
-        // Depois de terminado, "Próxima" não faz mais nada. Sem esta trava, um
-        // toque que atravessava por baixo do dialog de resultado chamava o
-        // finishQuiz() de novo: o quiz era contado 2x no progresso e aparecia
-        // um segundo alerta na tela (era esse o "congelamento" do fim do quiz).
+        // Depois de terminado, "Próxima" não faz mais nada. Sem essa trava, um toque
+        // por baixo do dialog de resultado chamava o finishQuiz() de novo: o quiz era
+        // contado 2x no progresso e aparecia um segundo alerta (o "congelamento" do fim).
         if (finished) return;
         currentIndex++;
         selectedAnswer = -1;

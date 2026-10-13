@@ -11,16 +11,10 @@ import com.serpenteando.cobra3d.receiver.NotificationReceiver;
 import java.util.Calendar;
 
 // Agenda e cancela os alarmes das notificações (AlarmManager)
-// [Não existe nos slides do prof. Alexandre] — é a parte extra das notificações
-//
-// Dois alarmes: o lembrete do dia e o lembrete das missões pendentes.
-// Os dois tocam às 00:00 e o próprio receiver reagenda pro dia seguinte —
-// o AlarmManager só dispara UMA vez por agendamento.
-// O BootReceiver reagenda tudo quando o celular reinicia.
-//
-// O alarme é exato (setExactAndAllowWhileIdle): é o que faz tocar na hora,
-// mesmo com o celular em modo de economia. Se o aparelho não deixar, cai no
-// setAndAllowWhileIdle, que pode atrasar um pouco.
+// [Não existe nos slides do prof. Alexandre] — parte extra das notificações
+// Lembrete do dia e das missões pendentes, os dois às 00:00. O alarme é exato
+// pro lembrete não atrasar e quem reagenda pro dia seguinte é o receiver. No
+// reboot, o BootReceiver põe tudo de volta.
 public class AlarmScheduler {
 
     private static final int REQUEST_DAILY = 2001;

@@ -20,11 +20,9 @@ import com.serpenteando.cobra3d.view.renderer.AnatomySurfaceView;
 
 // Tela 3D — a parte INOVADORA do TCC
 // [Não existe nos slides do prof. Alexandre] — o professor vai pedir explicação
-//
 // Só o modelo na tela: arrastar gira e a pinça dá zoom (quem trata o toque é o
 // AnatomySurfaceView). Enquanto o arquivo de 66 MB carrega, fica na frente a
-// tela de "CARREGANDO MODELO 3D..." — quem carrega é o Anatomy3DRenderer, numa
-// thread de fundo, e aqui a gente só acompanha pra saber quando esconder.
+// tela de "CARREGANDO MODELO 3D...", que some quando o renderer avisa.
 public class Anatomy3DFragment extends Fragment {
 
     // De quanto em quanto tempo conferir se o modelo já ficou pronto

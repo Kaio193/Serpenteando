@@ -245,11 +245,10 @@ public class MissionFragment extends Fragment implements MissionContract.View {
         dialog.setContentView(R.layout.dialog_mission_complete);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        // Tocar fora fecha o "Missão Completa!" (pedido do Kaio, 08/10 — é o
-        // único dialog que fecha assim; o do quiz NÃO fecha).
-        // O setCanceledOnTouchOutside(true) sozinho não basta: a janela precisa
-        // também da FLAG_WATCH_OUTSIDE_TOUCH, senão o toque de fora nunca chega
-        // no dialog (medido no device em 07/10).
+        // Tocar fora fecha o "Missão Completa!" (pedido do Kaio, 08/10 — é o único
+        // dialog que fecha assim; o do quiz NÃO fecha). O setCanceledOnTouchOutside
+        // sozinho não basta: precisa também da FLAG_WATCH_OUTSIDE_TOUCH, senão o toque
+        // de fora nunca chega no dialog (medido no device em 07/10).
         dialog.setCanceledOnTouchOutside(true);
         Window janelaMissao = dialog.getWindow();
         if (janelaMissao != null) {

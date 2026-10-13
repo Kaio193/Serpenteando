@@ -11,12 +11,8 @@ import com.serpenteando.cobra3d.util.NotificationHelper;
 import com.serpenteando.cobra3d.util.PreferenceManager;
 
 // Recebe o alarme das 00:00 e mostra a notificação certa
-//
-// No fim de cada disparo ele reagenda pro dia seguinte — o AlarmManager
-// só toca uma vez por agendamento, e sem isso o lembrete não voltava.
-// O texto sai no idioma escolhido no app (o NotificationHelper cuida disso).
-//
-// Não existe mais notificação de "nova missão": agora é lembrete do que falta.
+// No fim de cada disparo ele reagenda pro dia seguinte, porque o AlarmManager
+// só toca uma vez por agendamento. O texto sai no idioma escolhido no app.
 public class NotificationReceiver extends BroadcastReceiver {
 
     public static final String ACTION_DAILY_REMINDER =

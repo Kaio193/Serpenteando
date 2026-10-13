@@ -18,10 +18,8 @@ import com.serpenteando.cobra3d.view.MainActivity;
 
 // Cria os canais das notificações e dispara cada uma delas
 // (no Android 8+ todo app precisa de canal)
-//
-// Três canais: lembrete do dia, lembrete das missões pendentes e conquistas.
-// O texto sai no idioma escolhido no app (LocaleHelper.wrap) e usa o
-// BigTextStyle pra aparecer inteiro, sem cortar com "...".
+// Três canais: lembrete do dia, missões pendentes e conquistas. O texto sai no
+// idioma escolhido no app e com BigTextStyle, pra aparecer inteiro, sem "...".
 public class NotificationHelper {
 
     private static final String CHANNEL_DAILY = "serpenteando_daily";

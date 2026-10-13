@@ -138,37 +138,38 @@ public class SettingsFragment extends Fragment {
             showCreditsDialog();
         });
 
-        // [TEI Intents] Fale Conosco: abre o Gmail com o assunto já escrito
+        // [TEI Intents] Fale Conosco: abre o Gmail já com assunto e mensagem prontos
         View contactRow = view.findViewById(R.id.rowContact);
         ((ImageView) contactRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_help);
         ((TextView) contactRow.findViewById(R.id.rowTitle)).setText(R.string.settings_contact);
-        contactRow.setOnClickListener(vista -> {
-            try {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                // O assunto vai dentro da URI: o Gmail ignora o EXTRA_SUBJECT
-                intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
-                        + Uri.encode(getString(R.string.contact_email_subject))));
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
-            }
-        });
+        contactRow.setOnClickListener(vista -> abrirEmail(
+                getString(R.string.contact_email_subject),
+                getString(R.string.contact_email_body)));
 
-        // Linha Reportar Bug: abre o Gmail com o assunto já escrito
+        // Linha Reportar Bug: mesma ideia, com o roteiro do bug já escrito
         View bugRow = view.findViewById(R.id.rowBugReport);
         ((ImageView) bugRow.findViewById(R.id.rowIcon)).setImageResource(R.drawable.ic_bug_report);
         ((TextView) bugRow.findViewById(R.id.rowTitle)).setText(R.string.settings_report_bug);
-        bugRow.setOnClickListener(vista -> {
-            try {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                // Mesmo esquema do Fale Conosco: assunto dentro da URI
-                intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL + "?subject="
-                        + Uri.encode(getString(R.string.bug_email_subject))));
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
-            }
-        });
+        bugRow.setOnClickListener(vista -> abrirEmail(
+                getString(R.string.bug_email_subject),
+                getString(R.string.bug_email_body)));
+    }
+
+    // Abre o app de e-mail com destinatário, assunto e mensagem já preenchidos
+    // Vai tudo na própria URI do mailto: porque o Gmail ignora o EXTRA_SUBJECT
+    // no ACTION_SENDTO — era isso que deixava o campo da mensagem vazio (13/10)
+    private void abrirEmail(String assunto, String corpo) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:" + EMAIL_CENTRAL
+                    + "?subject=" + Uri.encode(assunto)
+                    + "&body=" + Uri.encode(corpo)));
+            intent.putExtra(Intent.EXTRA_SUBJECT, assunto);
+            intent.putExtra(Intent.EXTRA_TEXT, corpo);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), R.string.settings_no_email, Toast.LENGTH_SHORT).show();
+        }
     }
 
     // [TEI Dialogs] Dialog de créditos com layout próprio
@@ -254,16 +255,16 @@ public class SettingsFragment extends Fragment {
     private void updateLangRow(LinearLayout row, boolean selected) {
         if (row == null) return;
         row.setBackgroundResource(selected ? R.drawable.chip_active : R.drawable.chip_inactive);
-        // First child = label TextView
-        // Texto branco nos dois estados (Kaio, 07/10): a linha do idioma agora é
-        // verde como os botões, então o texto verde-claro não teria contraste.
-        // O selecionado continua marcado pelo negrito e pelo ✓.
+        // Primeiro filho da linha = o texto do idioma
+        // Texto branco nos dois estados (Kaio, 07/10): a linha do idioma agora é verde
+        // como os botões, então o texto verde-claro não teria contraste. O selecionado
+        // continua marcado pelo negrito e pelo ✓.
         if (row.getChildCount() > 0 && row.getChildAt(0) instanceof TextView) {
             TextView label = (TextView) row.getChildAt(0);
             label.setTextColor(ContextCompat.getColor(requireContext(), R.color.cascavel_on_button));
             label.setTypeface(null, selected ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
         }
-        // Second child = checkmark
+        // Segundo filho da linha = o ✓ de selecionado
         if (row.getChildCount() > 1 && row.getChildAt(1) instanceof TextView) {
             TextView check = (TextView) row.getChildAt(1);
             check.setVisibility(selected ? android.view.View.VISIBLE : android.view.View.GONE);

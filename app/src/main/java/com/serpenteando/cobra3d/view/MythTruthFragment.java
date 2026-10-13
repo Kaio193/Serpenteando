@@ -63,10 +63,9 @@ public class MythTruthFragment extends Fragment {
         // Mantém as 3 abas vivas: trocar de aba não recarrega a lista
         viewPager.setOffscreenPageLimit(2);
 
-        // SEM swipe horizontal (Kaio, 11/10 — item 17): o ViewPager2 continua
-        // existindo (é ele que guarda as 3 abas e troca na hora do toque no
-        // chip), mas o dedo não arrasta mais a lista de um lado pro outro.
-        // A rolagem VERTICAL da lista continua funcionando normalmente.
+        // SEM swipe horizontal (Kaio, 11/10 — item 17): o ViewPager2 continua existindo
+        // (é ele que guarda as 3 abas e troca na hora do toque no chip), mas o dedo não
+        // arrasta mais a lista de um lado pro outro. A rolagem vertical segue normal.
         viewPager.setUserInputEnabled(false);
 
         // Clique nos filtros → troca de aba no ViewPager2

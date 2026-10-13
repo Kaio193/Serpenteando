@@ -17,11 +17,10 @@ import java.nio.ByteOrder;
 
 // Lê o modelo Serpente_3D.glb (66 MB) em 3 passos:
 // 1. readAsset() — só lê o arquivo, então roda na thread de fundo
-// 2. create()    — monta o modelo no Filament
+// 2. create() — monta o modelo no Filament
 // 3. beginAsyncLoad() — carrega as texturas aos poucos, sem travar a tela
-//
-// Cada carregamento tem o seu dono (Carga) pra poder ser liberado no fim:
-// antes nada era destruído e cada ida à aba 3D vazava memória até o app cair.
+// Cada carregamento tem o seu dono (Carga) pra ser liberado no fim: antes nada
+// era destruído e cada ida à aba 3D vazava memória até o app cair.
 public class GlbLoader {
 
     private static final String TAG = "GlbLoader";
@@ -113,10 +112,9 @@ public class GlbLoader {
                 return null;
             }
             Log.d(TAG, "Loaded " + path + " with " + asset.getEntities().length + " entities");
-            // Observação importante (evita segurar 66 MB à toa): o gltfio COPIA o
-            // blob pra dentro do asset ("we create a copy of the source blob and
-            // stash it inside the asset"), então o buffer que veio do
-            // readAsset() pode ser liberado — quem chama é que solta a referência.
+            // Evita segurar 66 MB à toa: o gltfio copia o blob pra dentro do asset, então o
+            // buffer que veio do readAsset() pode ser liberado logo depois — quem chama é que
+            // solta a referência.
             return new Carga(asset, loader, provider);
         } catch (Throwable t) {
             Log.e(TAG, "AssetLoader falhou para " + path, t);
@@ -209,14 +207,11 @@ public class GlbLoader {
         if (carga == null) return;
 
         if (carga.resources != null) {
-            // ⚠️ ACHADO NO DEVICE (30/09/2026): sair da aba 3D com a carga
-            // assíncrona em andamento fazia o app abortar dentro do
-            // libfilament-jni ("Pointer tag ... was truncated" = free em memória
-            // já liberada). A causa é documentada: "asyncCancelLoad: calling this
-            // is only necessary if the asyncBeginLoad API was used and
-            // cancellation is required before progress reaches 100%". Sem
-            // cancelar, as threads de decodificação de textura continuam
-            // trabalhando em cima do que acaba de ser destruído.
+            // ⚠️ ACHADO NO DEVICE (30/09): sair da aba 3D com a carga assíncrona em andamento
+            // fazia o app abortar dentro do libfilament-jni ("Pointer tag ... was truncated"
+            // = free em memória já liberada). A causa: sem o asyncCancelLoad(), as threads que
+            // decodificam textura continuam trabalhando em cima do que acabou de ser
+            // destruído. Cancelar antes de liberar resolve.
             if (carga.texturasEmAndamento) {
                 try { carga.resources.asyncCancelLoad(); }
                 catch (Throwable t) { Log.w(TAG, "asyncCancelLoad", t); }

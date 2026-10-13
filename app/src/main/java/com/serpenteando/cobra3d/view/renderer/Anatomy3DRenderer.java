@@ -29,10 +29,9 @@ import java.util.List;
 
 // Quem desenha o modelo 3D na tela
 // [Não existe nos slides do prof. Alexandre] — é a parte inovadora do TCC
-//
-// A tela mostra o Serpente_3D.glb com fundo branco: arrastar gira e dois dedos
-// dão zoom. Aqui dentro ficou só o essencial: ler o arquivo (em thread de
-// fundo, com tela de carregamento), enquadrar a câmera, luz e o loop de desenho.
+// Mostra o Serpente_3D.glb com fundo branco: arrastar gira e dois dedos dão zoom.
+// Aqui ficou só o essencial: ler o arquivo em thread de fundo (com tela de
+// carregamento), enquadrar a câmera, a luz e o loop de desenho.
 public final class Anatomy3DRenderer {
 
     private static final String TAG = "Anatomy3DRenderer";
@@ -449,26 +448,22 @@ public final class Anatomy3DRenderer {
     private void setupViewDefaults() {
         view.setCamera(camera);
 
-        // Fundo do 3D: transparente (alfa 0). Quem pinta o branco na tela é a View
-        // do Android atrás do SurfaceView — porque o LUT do color grading não
-        // consegue devolver branco 255 (satura em 247) e o fundo ficava mais
-        // escuro que o branco do resto do app. Ver o comentário em
-        // AnatomySurfaceView.init(). Sem skydome nenhum — nada de gradiente.
+        // Fundo do 3D: transparente (alfa 0). Quem pinta o branco na tela é a View do
+        // Android atrás do SurfaceView — o LUT do color grading não devolve branco 255
+        // (satura em 247) e o fundo ficava mais escuro que o branco do resto do app.
+        // Ver o comentário em AnatomySurfaceView.init(). Sem skydome — nada de gradiente.
         scene.setSkybox(null);
         Renderer.ClearOptions clearOpts = new Renderer.ClearOptions();
         clearOpts.clearColor = new double[]{ 0.0, 0.0, 0.0, 0.0 };
         clearOpts.clear = true;
         renderer.setClearOptions(clearOpts);
 
-        // O tone mapping do Filament roda no frame INTEIRO, inclusive no fundo,
-        // e o ACES_LEGACY (padrão) transforma branco 1,0 em ~(230,225,219) — era
-        // por isso que o fundo do 3D "não era branco" mesmo com clear color 1,1,1.
-        // Aqui a gente troca pelo LINEAR, que devolve a cor de entrada: 1,0 = 255.
-        //
-        // ⚠️ No Filament 1.72 o antigo View.setToneMapping() está @Deprecated e o
-        // corpo dele é literalmente VAZIO (é um no-op) — quem manda no tone mapping
-        // agora é o ColorGrading. Por isso a solução é montar um ColorGrading, não
-        // chamar aquele setter.
+        // O tone mapping do Filament roda no frame INTEIRO, inclusive no fundo, e o
+        // ACES_LEGACY (padrão) transforma branco 1,0 em ~(230,225,219) — era por isso
+        // que o fundo do 3D "não era branco" mesmo com clear color 1,1,1. Trocando pro
+        // LINEAR a cor de entrada volta: 1,0 = 255.
+        // ⚠️ No Filament 1.72 o View.setToneMapping() está @Deprecated e o corpo dele é
+        // VAZIO (no-op) — quem manda no tone mapping agora é o ColorGrading.
         colorGrading = new ColorGrading.Builder()
             .toneMapper(new ToneMapper.Linear())
             .quality(ColorGrading.QualityLevel.HIGH)
@@ -613,9 +608,9 @@ public final class Anatomy3DRenderer {
         cargaAplicada = false;
 
         // O antigo vazamento morava aqui: asset, AssetLoader, UbershaderProvider e
-        // ResourceLoader nunca eram liberados (~12 MB de memória nativa por
-        // entrada na tela). TEM que ser antes do engine.destroy(), porque os
-        // materiais e as texturas vivem dentro do engine.
+        // ResourceLoader nunca eram liberados (~12 MB de memória nativa por entrada na
+        // tela). Tem que ser antes do engine.destroy(), porque os materiais e as texturas
+        // vivem dentro do engine.
         if (carga != null) {
             GlbLoader.destroy(carga);
             carga = null;

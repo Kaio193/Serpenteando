@@ -11,15 +11,14 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Teste que roda dentro do celular (instrumentado).
+ * Serve pra confirmar que o pacote do app subiu certo no aparelho.
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // Pega o contexto do app que está sendo testado
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.serpenteando.cobra3d", appContext.getPackageName());
     }

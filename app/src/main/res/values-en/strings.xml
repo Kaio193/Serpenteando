@@ -93,8 +93,10 @@
     <string name="settings_contact">Contact Us</string>
     <string name="settings_report_bug">Report Bug</string>
     <string name="settings_no_email">No email app found</string>
-    <string name="contact_email_subject">Hi! I would like to get in touch with the team to ask a question or get help. My question is:</string>
-    <string name="bug_email_subject">Hi! I would like to report a bug in the app.\nProblem description:\nWhich screen it happened on:\nWhat happened:*\nIf possible, I will send a screenshot to help identify the error.</string>
+    <string name="contact_email_subject">Contact Us — Serpenteando</string>
+    <string name="contact_email_body">Hi! I would like to get in touch with the team to ask a question or get help.\n\nMy question is:\n</string>
+    <string name="bug_email_subject">Report Bug — Serpenteando</string>
+    <string name="bug_email_body">Hi! I would like to report a bug in the app.\n\n*Problem description:*\n\n*Which screen it happened on:*\n\n*What happened:*\n\nIf possible, I will send a screenshot to help identify the error.</string>
     <string name="settings_error_dialog">Error opening dialog</string>
     <string name="settings_notif_daily">Daily reminders</string>
     <string name="settings_notif_missions">Mission reminders</string>
@@ -354,8 +356,8 @@
     <string name="notif_channel_achievements_desc">Achievements and completions</string>
     <string name="notif_daily_title">Time to learn!</string>
     <string name="notif_daily_text">Open Serpenteando and check todays tip</string>
-    <!-- Reminder of PENDING missions (13/10): the app no longer announces a
-         "new mission", it only reminds you of what is still open. -->
+    <!-- Lembrete das MISSÕES pendentes (13/10): o app não anuncia mais
+         "nova missão", só lembra o que ainda está em aberto. -->
     <string name="notif_missions_pending_title">Missions waiting for you!</string>
     <plurals name="notif_missions_pending_text">
         <item quantity="one">You still have %1$d mission to complete. Open Serpenteando and keep going.</item>

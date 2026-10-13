@@ -47,10 +47,9 @@ public class AnatomySurfaceView extends SurfaceView
 
     private void init() {
         // O fundo branco do 3D vem da View que fica atrás, não do GL: desenhando
-        // transparente, o branco é o 255 exato do resto do app (pintado pelo
-        // Filament ele ficava um pouco mais escuro)
-        // ZOrderOnTop deixa a superfície por cima, e é isso que faz o
-        // transparente do GL mostrar a View de baixo
+        // transparente, o branco é o 255 exato do resto do app (pintado pelo Filament ele
+        // ficava um pouco mais escuro). O ZOrderOnTop deixa a superfície por cima, e é
+        // isso que faz o transparente do GL mostrar a View de baixo.
         setZOrderOnTop(true);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         getHolder().addCallback(this);
