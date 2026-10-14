@@ -11,7 +11,6 @@ public class PreferenceManager {
     private static final String PREF_DARK_MODE = "dark_mode";
     private static final String PREF_LAST_MISSION = "last_mission_id";
     private static final String PREF_NOTIF_DAILY = "notif_daily";
-    private static final String PREF_NOTIF_MISSIONS = "notif_missions";
     private static final String PREF_NOTIF_ACHIEVEMENTS = "notif_achievements";
 
     private final SharedPreferences prefs;
@@ -52,14 +51,6 @@ public class PreferenceManager {
 
     public void setDailyReminderEnabled(boolean enabled) {
         prefs.edit().putBoolean(PREF_NOTIF_DAILY, enabled).apply();
-    }
-
-    public boolean isMissionNotifEnabled() {
-        return prefs.getBoolean(PREF_NOTIF_MISSIONS, true);
-    }
-
-    public void setMissionNotifEnabled(boolean enabled) {
-        prefs.edit().putBoolean(PREF_NOTIF_MISSIONS, enabled).apply();
     }
 
     public boolean isAchievementNotifEnabled() {

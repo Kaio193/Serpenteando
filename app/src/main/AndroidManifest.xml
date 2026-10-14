@@ -55,7 +55,6 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.serpenteando.cobra3d.ACTION_DAILY_REMINDER" />
-                <action android:name="com.serpenteando.cobra3d.ACTION_MISSIONS_REMINDER" />
             </intent-filter>
         </receiver>
 

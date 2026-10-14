@@ -18,12 +18,11 @@ import com.serpenteando.cobra3d.view.MainActivity;
 
 // Cria os canais das notificações e dispara cada uma delas
 // (no Android 8+ todo app precisa de canal)
-// Três canais: lembrete do dia, missões pendentes e conquistas. O texto sai no
+// Dois canais: lembrete do dia e conquistas. O texto sai no
 // idioma escolhido no app e com BigTextStyle, pra aparecer inteiro, sem "...".
 public class NotificationHelper {
 
     private static final String CHANNEL_DAILY = "serpenteando_daily";
-    private static final String CHANNEL_MISSIONS = "serpenteando_missions";
     private static final String CHANNEL_ACHIEVEMENTS = "serpenteando_achievements";
 
     private final Context context;
@@ -53,20 +52,6 @@ public class NotificationHelper {
                             .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
                             .build());
 
-            NotificationChannel missions = new NotificationChannel(
-                    CHANNEL_MISSIONS,
-                    context.getString(R.string.notif_channel_missions),
-                    NotificationManager.IMPORTANCE_HIGH);
-            missions.setDescription(context.getString(R.string.notif_channel_missions_desc));
-            missions.enableVibration(true);
-            missions.setVibrationPattern(new long[]{0, 300, 200, 300});
-            missions.setSound(
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
-                    new android.media.AudioAttributes.Builder()
-                            .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                            .build());
-
             NotificationChannel achievements = new NotificationChannel(
                     CHANNEL_ACHIEVEMENTS,
                     context.getString(R.string.notif_channel_achievements),
@@ -81,7 +66,10 @@ public class NotificationHelper {
                             .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
                             .build());
 
-            manager.createNotificationChannels(java.util.Arrays.asList(daily, missions, achievements));
+            manager.createNotificationChannels(java.util.Arrays.asList(daily, achievements));
+
+            // O canal das missões saiu do app (13/10) — apaga o que ficou salvo no sistema
+            manager.deleteNotificationChannel("serpenteando_missions");
         }
     }
 
@@ -124,25 +112,6 @@ public class NotificationHelper {
 
         if (hasPermission(context)) {
             NotificationManagerCompat.from(context).notify(1001, builder.build());
-        }
-    }
-
-    // Lembrete das missões pendentes (substituiu a antiga "nova missão")
-    // Só dispara se ainda existir missão pra concluir
-    @SuppressLint("MissingPermission")
-    public void sendPendingMissionsReminder(int pendentes) {
-        if (pendentes <= 0) return;
-
-        String title = context.getString(R.string.notif_missions_pending_title);
-        String text = context.getResources().getQuantityString(
-                R.plurals.notif_missions_pending_text, pendentes, pendentes);
-
-        NotificationCompat.Builder builder = criarBuilder(
-                CHANNEL_MISSIONS, R.drawable.ic_rocket, title, text,
-                new long[]{0, 300, 200, 300});
-
-        if (hasPermission(context)) {
-            NotificationManagerCompat.from(context).notify(1002, builder.build());
         }
     }
 

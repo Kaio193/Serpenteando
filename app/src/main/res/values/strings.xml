@@ -104,7 +104,6 @@
     <string name="bug_email_body">Olá! Gostaria de reportar um bug no aplicativo.\n\n*Descrição do problema:*\n\n*Em qual tela aconteceu:*\n\n*O que aconteceu:*\n\nSe possível, enviarei uma captura de tela para ajudar a identificar o erro.</string>
     <string name="settings_error_dialog">Erro ao abrir diálogo</string>
     <string name="settings_notif_daily">Lembretes diários</string>
-    <string name="settings_notif_missions">Lembretes de missões</string>
     <string name="settings_notif_achievements">Conquistas</string>
     <string name="settings_lang_portuguese">Português</string>
     <string name="settings_lang_english">English</string>
@@ -114,19 +113,10 @@
     <!-- ========== NOTIFICAÇÕES (canais + conteúdo) ========== -->
     <string name="notif_channel_daily">Lembrete Diário</string>
     <string name="notif_channel_daily_desc">Dica do dia sobre cobras</string>
-    <string name="notif_channel_missions">Missões</string>
-    <string name="notif_channel_missions_desc">Lembrete das missões que ainda faltam</string>
     <string name="notif_channel_achievements">Conquistas</string>
     <string name="notif_channel_achievements_desc">Conquistas e completos</string>
     <string name="notif_daily_title">Hora de aprender!</string>
     <string name="notif_daily_text">Abra o Serpenteando e confira a dica de hoje</string>
-    <!-- Lembrete das missões PENDENTES (13/10): o app não anuncia mais "nova
-         missão", só lembra do que o usuário ainda pode concluir. -->
-    <string name="notif_missions_pending_title">Missões esperando por você!</string>
-    <plurals name="notif_missions_pending_text">
-        <item quantity="one">Você ainda tem %1$d missão para concluir. Abra o Serpenteando e continue de onde parou.</item>
-        <item quantity="other">Você ainda tem %1$d missões para concluir. Abra o Serpenteando e continue de onde parou.</item>
-    </plurals>
     <string name="notif_achievement_title">Conquista desbloqueada!</string>
     <string name="notif_achievement_text">%1$s</string>
 
@@ -209,7 +199,6 @@
 
     <string name="dialog_notif_subtitle">Gerencie seus alertas</string>
     <string name="dialog_notif_daily_desc">Receba uma dica por dia</string>
-    <string name="dialog_notif_missions_desc">Lembrar das missões pendentes</string>
     <string name="dialog_notif_achievements_desc">Completar missões e quizzes</string>
     <string name="dialog_lang_subtitle">Escolha o idioma do app</string>
     <!-- ========== ABOUT ========== -->

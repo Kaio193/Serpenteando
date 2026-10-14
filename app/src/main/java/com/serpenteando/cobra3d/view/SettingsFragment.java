@@ -304,12 +304,10 @@ public class SettingsFragment extends Fragment {
 
             // Pega os switches do dialog
             SwitchCompat switchDaily = dialog.findViewById(R.id.switchDailyReminder);
-            SwitchCompat switchMissions = dialog.findViewById(R.id.switchNewMissions);
             SwitchCompat switchAchievements = dialog.findViewById(R.id.switchAchievements);
 
             // Carrega estado salvo
             if (switchDaily != null) switchDaily.setChecked(preferenceManager.isDailyReminderEnabled());
-            if (switchMissions != null) switchMissions.setChecked(preferenceManager.isMissionNotifEnabled());
             if (switchAchievements != null) switchAchievements.setChecked(preferenceManager.isAchievementNotifEnabled());
 
             // Salva ao alterar
@@ -319,15 +317,6 @@ public class SettingsFragment extends Fragment {
                     AlarmScheduler.scheduleDailyReminder(requireContext());
                 } else {
                     AlarmScheduler.cancelDailyReminder(requireContext());
-                }
-            });
-            if (switchMissions != null) switchMissions.setOnCheckedChangeListener((btn, isChecked) -> {
-                preferenceManager.setMissionNotifEnabled(isChecked);
-                // Liga/desliga o alarme do lembrete de missões pendentes
-                if (isChecked) {
-                    AlarmScheduler.scheduleMissionsReminder(requireContext());
-                } else {
-                    AlarmScheduler.cancelMissionsReminder(requireContext());
                 }
             });
             if (switchAchievements != null) switchAchievements.setOnCheckedChangeListener((btn, isChecked) -> {

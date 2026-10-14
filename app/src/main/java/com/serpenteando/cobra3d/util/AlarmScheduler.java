@@ -12,13 +12,12 @@ import java.util.Calendar;
 
 // Agenda e cancela os alarmes das notificações (AlarmManager)
 // [Não existe nos slides do prof. Alexandre] — parte extra das notificações
-// Lembrete do dia e das missões pendentes, os dois às 00:00. O alarme é exato
+// Lembrete do dia, às 00:00 (o das missões foi removido em 13/10). O alarme é exato
 // pro lembrete não atrasar e quem reagenda pro dia seguinte é o receiver. No
 // reboot, o BootReceiver põe tudo de volta.
 public class AlarmScheduler {
 
     private static final int REQUEST_DAILY = 2001;
-    private static final int REQUEST_MISSIONS = 2002;
 
     // ========== AGENDAR ==========
 
@@ -27,19 +26,20 @@ public class AlarmScheduler {
         agendarTodoDia(context, NotificationReceiver.ACTION_DAILY_REMINDER, REQUEST_DAILY);
     }
 
-    /** Agenda o lembrete das missões pendentes para 00:00 todo dia */
-    public static void scheduleMissionsReminder(Context context) {
-        agendarTodoDia(context, NotificationReceiver.ACTION_MISSIONS_REMINDER, REQUEST_MISSIONS);
-    }
-
     /** Cancela o lembrete diário */
     public static void cancelDailyReminder(Context context) {
         cancelar(context, NotificationReceiver.ACTION_DAILY_REMINDER, REQUEST_DAILY);
     }
 
-    /** Cancela o lembrete de missões pendentes */
-    public static void cancelMissionsReminder(Context context) {
-        cancelar(context, NotificationReceiver.ACTION_MISSIONS_REMINDER, REQUEST_MISSIONS);
+    // Limpa o alarme do lembrete de missões: o recurso saiu do app em 13/10,
+    // mas quem já tinha o alarme agendado ainda receberia a notificação.
+    private static void limparAlarmeDeMissoes(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.setAction("com.serpenteando.cobra3d.ACTION_MISSIONS_REMINDER");
+        alarmManager.cancel(PendingIntent.getBroadcast(context, 2002, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
     }
 
     // ========== UTILITÁRIOS ==========
@@ -54,11 +54,9 @@ public class AlarmScheduler {
             cancelDailyReminder(context);
         }
 
-        if (prefs.isMissionNotifEnabled()) {
-            scheduleMissionsReminder(context);
-        } else {
-            cancelMissionsReminder(context);
-        }
+        // O lembrete de missões saiu do app (13/10): cancela o alarme que ficou
+        // agendado nas versões antigas, senão ele ainda dispararia.
+        limparAlarmeDeMissoes(context);
     }
 
     /**

@@ -96,51 +96,6 @@
             android:layout_height="1dp"
             android:background="@color/cascavel_outline" />
 
-        <!-- Novas missões -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/space_8">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_notif_missions"
-                    android:textSize="@dimen/serp_callout"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/inter_semibold"
-                    android:textColor="@color/cascavel_on_bg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/dialog_notif_missions_desc"
-                    android:textSize="@dimen/serp_footnote"
-                    android:textColor="@color/cascavel_on_surface_variant" />
-            </LinearLayout>
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchNewMissions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="@color/cascavel_jade_bright"
-                android:trackTint="@color/cascavel_outline"
-                android:checked="true" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/cascavel_outline" />
-
         <!-- Conquistas -->
         <LinearLayout
             android:layout_width="match_parent"

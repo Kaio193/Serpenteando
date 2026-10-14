@@ -99,7 +99,6 @@
     <string name="bug_email_body">Hi! I would like to report a bug in the app.\n\n*Problem description:*\n\n*Which screen it happened on:*\n\n*What happened:*\n\nIf possible, I will send a screenshot to help identify the error.</string>
     <string name="settings_error_dialog">Error opening dialog</string>
     <string name="settings_notif_daily">Daily reminders</string>
-    <string name="settings_notif_missions">Mission reminders</string>
     <string name="settings_notif_achievements">Achievements</string>
     <string name="settings_lang_portuguese">Português</string>
     <string name="settings_lang_english">English</string>
@@ -107,8 +106,6 @@
     <string name="settings_close">Close</string>
 
     <!-- ========== NOTIFICATIONS (channels + content) ========== -->
-    <string name="notif_channel_missions">Missions</string>
-    <string name="notif_channel_missions_desc">Reminder of the missions still to do</string>
 
     <!-- ========== SECTION HEADERS ========== -->
     <string name="section_general">GENERAL</string>
@@ -188,7 +185,6 @@
 
     <string name="dialog_notif_subtitle">Manage your alerts</string>
     <string name="dialog_notif_daily_desc">Receive a tip per day</string>
-    <string name="dialog_notif_missions_desc">Remind me of pending missions</string>
     <string name="dialog_notif_achievements_desc">Complete missions and quizzes</string>
     <string name="dialog_lang_subtitle">Choose the app language</string>
     <!-- ========== ABOUT ========== -->
@@ -356,13 +352,6 @@
     <string name="notif_channel_achievements_desc">Achievements and completions</string>
     <string name="notif_daily_title">Time to learn!</string>
     <string name="notif_daily_text">Open Serpenteando and check todays tip</string>
-    <!-- Lembrete das MISSÕES pendentes (13/10): o app não anuncia mais
-         "nova missão", só lembra o que ainda está em aberto. -->
-    <string name="notif_missions_pending_title">Missions waiting for you!</string>
-    <plurals name="notif_missions_pending_text">
-        <item quantity="one">You still have %1$d mission to complete. Open Serpenteando and keep going.</item>
-        <item quantity="other">You still have %1$d missions to complete. Open Serpenteando and keep going.</item>
-    </plurals>
     <string name="notif_achievement_title">Achievement unlocked!</string>
     <string name="notif_achievement_text">%1$s</string>
 
