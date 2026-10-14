@@ -224,6 +224,7 @@
     <string name="quiz_result_failed_title">¡Casi!</string>
     <string name="quiz_result_passed_msg">¡Pasaste el 60%! ¡Sigue así!</string>
     <string name="quiz_result_failed_msg">Inténtalo de nuevo para superar el 60%. ¡Tú puedes!</string>
+    <string name="quiz_result_record">Récord del nivel %1$s: %2$d pts</string>
     <string name="quiz_counter_format2" formatted="false">Pregunta %1$d de %2$d</string>
     <!-- ========== MISSION LAYOUT ========== -->
     <string name="mission_default_score">2.450 pts</string>

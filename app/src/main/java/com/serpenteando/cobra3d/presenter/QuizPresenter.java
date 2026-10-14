@@ -132,7 +132,8 @@ public class QuizPresenter implements QuizContract.Presenter {
         if (finished) return;   // Já salvou e já mostrou o resultado: não repete
         finished = true;
         boolean passed = !questions.isEmpty() && score >= (questions.size() * 0.6);
-        progressRepository.updateQuizScore(score);
+        // Recorde por nível: passa a dificuldade pra pontuação ser independente
+        progressRepository.updateQuizScore(score, currentDifficulty);
         // Registra qual dificuldade foi completada
         String trigger;
         switch (currentDifficulty) {

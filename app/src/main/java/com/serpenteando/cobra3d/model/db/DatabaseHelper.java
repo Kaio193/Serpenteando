@@ -267,6 +267,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         bancoDados.execSQL("CREATE TABLE IF NOT EXISTS " + UserProgressTable.TABLE_NAME + " (" +
                 UserProgressTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 UserProgressTable.COL_QUIZ_HIGH_SCORE + " INTEGER DEFAULT 0, " +
+                UserProgressTable.COL_QUIZ_HIGH_FACIL + " INTEGER DEFAULT 0, " +
+                UserProgressTable.COL_QUIZ_HIGH_MEDIO + " INTEGER DEFAULT 0, " +
+                UserProgressTable.COL_QUIZ_HIGH_DIFICIL + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_QUIZZES_COMPLETED + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_MISSIONS_COMPLETED + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_TOTAL_POINTS + " INTEGER DEFAULT 0, " +
@@ -374,6 +377,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
                         " ADD COLUMN " + UserProgressTable.COL_LAST_MISSION_DATE + " TEXT");
             } catch (Exception ignored) {}
+        }
+        if (oldVersion < 8) {
+            // v7→v8: pontuação independente por nível. Cada nível (fácil/médio/difícil)
+            // nasce em 0 e cresce sozinho; o recorde geral (quiz_high_score) é o maior
+            // dos três e nunca desce, então o card da Home não perde o valor antigo.
+            for (String col : new String[]{
+                    UserProgressTable.COL_QUIZ_HIGH_FACIL,
+                    UserProgressTable.COL_QUIZ_HIGH_MEDIO,
+                    UserProgressTable.COL_QUIZ_HIGH_DIFICIL
+            }) {
+                try {
+                    bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
+                            " ADD COLUMN " + col + " INTEGER DEFAULT 0");
+                } catch (Exception ignored) {}
+            }
         }
     }
 }

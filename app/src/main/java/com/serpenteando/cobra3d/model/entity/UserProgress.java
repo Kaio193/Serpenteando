@@ -5,6 +5,10 @@ public class UserProgress {
 
     private long id;
     private int quizHighScore;
+    // Recorde por nível (v8): fácil, médio e difícil não disputam entre si
+    private int quizHighScoreFacil;
+    private int quizHighScoreMedio;
+    private int quizHighScoreDificil;
     private int quizzesCompleted;
     private int missionsCompleted;
     private int totalPoints;
@@ -23,6 +27,9 @@ public class UserProgress {
     // [ALÉM DO TEI] Campos mapeados para colunas SQLite — lidos via Cursor pelo ProgressRepository e gravados com ContentValues
     public UserProgress() {
         this.quizHighScore = 0;
+        this.quizHighScoreFacil = 0;
+        this.quizHighScoreMedio = 0;
+        this.quizHighScoreDificil = 0;
         this.quizzesCompleted = 0;
         this.missionsCompleted = 0;
         this.totalPoints = 0;
@@ -34,6 +41,15 @@ public class UserProgress {
 
     public int getQuizHighScore() { return quizHighScore; }
     public void setQuizHighScore(int quizHighScore) { this.quizHighScore = quizHighScore; }
+
+    public int getQuizHighScoreFacil() { return quizHighScoreFacil; }
+    public void setQuizHighScoreFacil(int v) { this.quizHighScoreFacil = v; }
+
+    public int getQuizHighScoreMedio() { return quizHighScoreMedio; }
+    public void setQuizHighScoreMedio(int v) { this.quizHighScoreMedio = v; }
+
+    public int getQuizHighScoreDificil() { return quizHighScoreDificil; }
+    public void setQuizHighScoreDificil(int v) { this.quizHighScoreDificil = v; }
 
     public int getQuizzesCompleted() { return quizzesCompleted; }
     public void setQuizzesCompleted(int quizzesCompleted) { this.quizzesCompleted = quizzesCompleted; }

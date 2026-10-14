@@ -230,6 +230,7 @@
     <string name="quiz_result_failed_title">Quase lá!</string>
     <string name="quiz_result_passed_msg">Você passou de 60% de acerto! Continue assim!</string>
     <string name="quiz_result_failed_msg">Tenta de novo pra bater os 60% de acerto. Você consegue!</string>
+    <string name="quiz_result_record">Recorde do nível %1$s: %2$d pts</string>
     <string name="quiz_counter_format2" formatted="false">Questão %1$d de %2$d</string>
     <!-- ========== MISSION LAYOUT ========== -->
     <string name="mission_default_score">2.450 pts</string>

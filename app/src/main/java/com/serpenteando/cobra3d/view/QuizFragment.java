@@ -26,6 +26,7 @@ import com.serpenteando.cobra3d.contract.QuizContract;
 import com.serpenteando.cobra3d.presenter.QuizPresenter;
 import com.serpenteando.cobra3d.util.PressSpring;
 import com.serpenteando.cobra3d.model.db.DatabaseHelper;
+import com.serpenteando.cobra3d.model.repository.ProgressRepository;
 import com.serpenteando.cobra3d.model.entity.Question;
 
 /**
@@ -582,7 +583,18 @@ public class QuizFragment extends Fragment implements QuizContract.View {
 
         dialogTitle.setText(passed ? R.string.quiz_result_passed_title : R.string.quiz_result_failed_title);
         dialogScore.setText(String.format(Locale.getDefault(), "%d / %d", score, total));
-        dialogMessage.setText(passed ? R.string.quiz_result_passed_msg : R.string.quiz_result_failed_msg);
+        // Recorde do NÍVEL que foi jogado (fácil/médio/difícil são independentes):
+        // trocar de nível compara só com a pontuação do próprio nível.
+        int recordeNivel = new ProgressRepository(
+                DatabaseHelper.getInstance(requireContext()).getWritableDatabase())
+                .getRecordeDoNivel(presenter != null ? presenter.getCurrentDifficulty() : 1);
+        int labelNivel = R.string.quiz_difficulty_label_1;
+        if (presenter != null) {
+            if (presenter.getCurrentDifficulty() == 2) labelNivel = R.string.quiz_difficulty_label_2;
+            else if (presenter.getCurrentDifficulty() == 3) labelNivel = R.string.quiz_difficulty_label_3;
+        }
+        dialogMessage.setText(getString(passed ? R.string.quiz_result_passed_msg : R.string.quiz_result_failed_msg)
+                + "\n" + getString(R.string.quiz_result_record, getString(labelNivel), recordeNivel));
 
         dialog.findViewById(R.id.dialogCloseButton).setOnClickListener(vista -> {
             dialog.dismiss();

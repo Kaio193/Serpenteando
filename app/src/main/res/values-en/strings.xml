@@ -216,6 +216,7 @@
     <string name="quiz_result_failed_title">Almost there!</string>
     <string name="quiz_result_passed_msg">You scored over 60%! Keep it up!</string>
     <string name="quiz_result_failed_msg">Try again to beat the 60% mark. You can do it!</string>
+    <string name="quiz_result_record">%1$s level record: %2$d pts</string>
     <string name="quiz_counter_format2" formatted="false">Question %1$d of %2$d</string>
     <!-- ========== MISSION LAYOUT ========== -->
     <string name="mission_default_score">2,450 pts</string>

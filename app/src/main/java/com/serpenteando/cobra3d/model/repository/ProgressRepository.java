@@ -37,6 +37,9 @@ public class ProgressRepository {
     public void insertProgress(UserProgress progress) {
         ContentValues valores = new ContentValues();
         valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, progress.getQuizHighScore());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_FACIL, progress.getQuizHighScoreFacil());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_MEDIO, progress.getQuizHighScoreMedio());
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_DIFICIL, progress.getQuizHighScoreDificil());
         valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted());
         valores.put(Contract.UserProgressTable.COL_MISSIONS_COMPLETED, progress.getMissionsCompleted());
         valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints());
@@ -95,14 +98,31 @@ public class ProgressRepository {
         return value;
     }
 
-    public void updateQuizScore(int score) {
+    // Recorde POR NÍVEL (v8): fácil, médio e dificil são independentes — a pontuação
+    // de um nível só disputa com a do MESMO nível, então trocar de nível conta sempre.
+    // O recorde geral (card da Home) vira o maior entre o valor já guardado e os três
+    // níveis: ele só sobe, nunca perde o melhor resultado da história.
+    public void updateQuizScore(int score, int dificuldade) {
         UserProgress progress = getProgress();
         ContentValues valores = new ContentValues();
         String hoje = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        if (score > progress.getQuizHighScore()) {
-            valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, score);
+        int facil = progress.getQuizHighScoreFacil();
+        int medio = progress.getQuizHighScoreMedio();
+        int dificil = progress.getQuizHighScoreDificil();
+        if (dificuldade == 2) {
+            if (score > medio) medio = score;
+        } else if (dificuldade == 3) {
+            if (score > dificil) dificil = score;
+        } else if (score > facil) {
+            facil = score;
         }
+        int geral = Math.max(progress.getQuizHighScore(),
+                Math.max(facil, Math.max(medio, dificil)));
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_FACIL, facil);
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_MEDIO, medio);
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_DIFICIL, dificil);
+        valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, geral);
         valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted() + 1);
         valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + score);
 
@@ -150,6 +170,14 @@ public class ProgressRepository {
         return 0;
     }
 
+    // Recorde do nível 1/2/3 (fácil/médio/difícil) — mostra no dialog de resultado
+    public int getRecordeDoNivel(int dificuldade) {
+        UserProgress progress = getProgress();
+        if (dificuldade == 2) return progress.getQuizHighScoreMedio();
+        if (dificuldade == 3) return progress.getQuizHighScoreDificil();
+        return progress.getQuizHighScoreFacil();
+    }
+
     private String diaDeHoje() {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     }
@@ -180,6 +208,9 @@ public class ProgressRepository {
         UserProgress progress = new UserProgress();
         progress.setId(cursor.getLong(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ID)));
         progress.setQuizHighScore(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE)));
+        progress.setQuizHighScoreFacil(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_FACIL)));
+        progress.setQuizHighScoreMedio(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_MEDIO)));
+        progress.setQuizHighScoreDificil(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZ_HIGH_DIFICIL)));
         progress.setQuizzesCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_QUIZZES_COMPLETED)));
         progress.setMissionsCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_MISSIONS_COMPLETED)));
         progress.setTotalPoints(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_TOTAL_POINTS)));

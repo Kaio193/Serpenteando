@@ -5,7 +5,7 @@ public final class Contract {
     private Contract() {}
 
     public static final String DATABASE_NAME = "serpenteando.db";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
 
     public static final class QuestionsTable {
         public static final String TABLE_NAME = "questions";
@@ -109,6 +109,11 @@ public final class Contract {
         public static final String TABLE_NAME = "user_progress";
         public static final String COL_ID = "id";
         public static final String COL_QUIZ_HIGH_SCORE = "quiz_high_score";
+        // Recorde POR NÍVEL (v8): fácil, médio e difícil têm pontuação
+        // independente — trocar de nível não disputa com o outro nível.
+        public static final String COL_QUIZ_HIGH_FACIL = "quiz_high_facil";
+        public static final String COL_QUIZ_HIGH_MEDIO = "quiz_high_medio";
+        public static final String COL_QUIZ_HIGH_DIFICIL = "quiz_high_dificil";
         public static final String COL_QUIZZES_COMPLETED = "quizzes_completed";
         public static final String COL_MISSIONS_COMPLETED = "missions_completed";
         public static final String COL_TOTAL_POINTS = "total_points";
