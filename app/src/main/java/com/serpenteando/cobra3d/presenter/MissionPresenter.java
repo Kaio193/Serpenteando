@@ -110,9 +110,16 @@ public class MissionPresenter implements MissionContract.Presenter {
 
             view.showMission(mission, currentItems);
 
-            if (justCompleted || mission.isCompleted()) {
-                // Missão completa!
+            // Celebra apenas a conclusão que ACABOU DE acontecer agora (não já premiada).
+            // Isso evita conceder 500 pts de novo só por reabrir o app: se a missão
+            // ja estava completa e ja premiou, o awarded_missions nao permite repetir.
+            if (justCompleted) {
                 view.showResult(true, mission.getPoints(),
+                        context.getString(R.string.mission_complete_congrats));
+            } else if (mission.isCompleted()) {
+                // Missao ja completada (e ja premiada) — apenas atualiza a visualizacao,
+                // sem conceder pontos de novo.
+                view.showResult(false, 0,
                         context.getString(R.string.mission_complete_congrats));
             } else {
                 // Missão em andamento — mostra progresso específico

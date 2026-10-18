@@ -53,6 +53,8 @@ public class ProgressRepository {
         valores.put(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT, progress.getContentDetailCount());
         valores.put(Contract.UserProgressTable.COL_AWARDED_MISSIONS,
                 progress.getAwardedMissions() != null ? progress.getAwardedMissions() : "");
+        valores.put(Contract.UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT,
+                progress.getTotalQuestionsCorrect());
         bancoDados.insert(Contract.UserProgressTable.TABLE_NAME, null, valores);
     }
 
@@ -124,7 +126,10 @@ public class ProgressRepository {
         valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_DIFICIL, dificil);
         valores.put(Contract.UserProgressTable.COL_QUIZ_HIGH_SCORE, geral);
         valores.put(Contract.UserProgressTable.COL_QUIZZES_COMPLETED, progress.getQuizzesCompleted() + 1);
-        valores.put(Contract.UserProgressTable.COL_TOTAL_POINTS, progress.getTotalPoints() + score);
+        // Soma apenas as questoes acertadas neste quiz ao total acumulado de acertos.
+        // Cada acerto conta 1, independente da dificuldade ou pontuacao da missao.
+        valores.put(Contract.UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT,
+                progress.getTotalQuestionsCorrect() + score);
 
         // A sequência de dias NÃO é mais contada pelo quiz (regra nova, 13/10):
         // o dia só conta quando o usuário conclui uma MISSÃO — ver
@@ -225,6 +230,7 @@ public class ProgressRepository {
         progress.setAnatomyLayerCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_ANATOMY_LAYER_COUNT)));
         progress.setContentDetailCount(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_CONTENT_DETAIL_COUNT)));
         progress.setAwardedMissions(cursor.getString(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_AWARDED_MISSIONS)));
+        progress.setTotalQuestionsCorrect(cursor.getInt(cursor.getColumnIndexOrThrow(Contract.UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT)));
         return progress;
     }
 }

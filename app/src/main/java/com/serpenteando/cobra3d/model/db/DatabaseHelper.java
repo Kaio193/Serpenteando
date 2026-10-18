@@ -284,6 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UserProgressTable.COL_ANATOMY_LAYER_COUNT + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_CONTENT_DETAIL_COUNT + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_AWARDED_MISSIONS + " TEXT DEFAULT '', " +
+                UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT + " INTEGER DEFAULT 0, " +
                 UserProgressTable.COL_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
         DatabaseInitializer.initialize(context, bancoDados);
@@ -392,6 +393,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             " ADD COLUMN " + col + " INTEGER DEFAULT 0");
                 } catch (Exception ignored) {}
             }
+        }
+        if (oldVersion < 9) {
+            // v8→v9: separar contagem de questões acertadas (soma por acerto) do total_points
+            // (que continua sendo usado apenas para pontos de missão).
+            try {
+                bancoDados.execSQL("ALTER TABLE " + UserProgressTable.TABLE_NAME +
+                        " ADD COLUMN " + UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT +
+                        " INTEGER DEFAULT 0");
+            } catch (Exception ignored) {}
         }
     }
 }

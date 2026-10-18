@@ -92,7 +92,13 @@ public class AnatomySurfaceView extends SurfaceView
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         if (!ready) return;
         scene3d.attachSwapChain(swapChain, width, height);
+        // Garante que o modelo aparece automaticamente ao carregar, sem toque.
+        aquecerQuadros();
         onResumeFrame();
+    }
+
+    private void aquecerQuadros() {
+        if (scene3d != null) scene3d.aquecerQuadros();
     }
 
     @Override
@@ -110,12 +116,20 @@ public class AnatomySurfaceView extends SurfaceView
 
     public void onResumeFrame() {
         if (choreographer == null) choreographer = Choreographer.getInstance();
-        // Garante alguns quadros antes do loop poder parar de novo
+        // Garante alguns quadros antes do loop poder parar de novo.
+        // Isso faz o modelo aparecer sozinho ao abrir a aba 3D, sem precisar tocar.
         if (scene3d != null) scene3d.aquecerQuadros();
         if (ready && !running) {
             running = true;
             choreographer.postFrameCallback(this);
         }
+    }
+
+    /** Garante que a renderização continua por alguns quadros após a superfície mudar,
+     *  para que o modelo apareça automaticamente quando o carregamento termina. */
+    public void surfaceReady() {
+        if (scene3d != null) scene3d.aquecerQuadros();
+        onResumeFrame();
     }
 
     public void onPauseFrame() {

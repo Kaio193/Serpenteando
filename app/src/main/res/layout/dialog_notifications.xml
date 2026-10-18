@@ -124,7 +124,8 @@
                     android:layout_marginTop="2dp"
                     android:text="@string/dialog_notif_achievements_desc"
                     android:textSize="@dimen/serp_footnote"
-                    android:textColor="@color/cascavel_on_surface_variant" />
+                    android:textColor="@color/cascavel_on_surface_variant"
+                    android:fontFamily="@font/inter_regular" />
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat

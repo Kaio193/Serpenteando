@@ -23,6 +23,7 @@ public class UserProgress {
     private int anatomyLayerCount;
     private int contentDetailCount;
     private String awardedMissions;
+    private int totalQuestionsCorrect;
 
     // [ALÉM DO TEI] Campos mapeados para colunas SQLite — lidos via Cursor pelo ProgressRepository e gravados com ContentValues
     public UserProgress() {
@@ -93,4 +94,7 @@ public class UserProgress {
 
     public String getAwardedMissions() { return awardedMissions; }
     public void setAwardedMissions(String ids) { this.awardedMissions = ids; }
+
+    public int getTotalQuestionsCorrect() { return totalQuestionsCorrect; }
+    public void setTotalQuestionsCorrect(int total) { this.totalQuestionsCorrect = total; }
 }

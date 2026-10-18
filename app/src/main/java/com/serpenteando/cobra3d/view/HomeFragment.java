@@ -203,10 +203,12 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void showProgress(UserProgress progress) {
-        int score = progress != null ? progress.getQuizHighScore() : 0;
+        // Card de pontuação: mostra apenas o total acumulado de questoes acertadas nos quizzes.
+        // Cada acerto conta 1, somado ao total existente; sai e volta ao app nao zera.
+        int totalAcertos = progress != null ? progress.getTotalQuestionsCorrect() : 0;
         int missions = progress != null ? progress.getMissionsCompleted() : 0;
         int streak = progress != null ? progress.getCurrentStreak() : 0;
-        if (progressScoreText != null) progressScoreText.setText(String.valueOf(score));
+        if (progressScoreText != null) progressScoreText.setText(String.valueOf(totalAcertos));
         if (progressMissionsText != null) progressMissionsText.setText(String.valueOf(missions));
         if (progressStreakText != null) progressStreakText.setText(String.valueOf(streak));
     }

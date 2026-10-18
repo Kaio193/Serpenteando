@@ -137,13 +137,27 @@ public class MissionFragment extends Fragment implements MissionContract.View {
                 missionPercentText.setText(percent + "%");
             }
 
-            // Texto do dia: "Dia X de Y" — usa totalDays da missão (mockup: "Dia 5 de 7")
+            // Texto do dia: "Dia X de Y" — usa a sequência real de dias consecutivos.
+            // O dia avança apenas quando o usuário conclui uma missão em um dia novo;
+            // várias etapas no mesmo dia contam como um dia só.
             if (missionProgressText != null) {
                 int totalDays = mission.getTotalDays();
                 if (totalDays > 0) {
-                    // Dia proporcional ao progresso: 75% de 7 dias = Dia 5
-                    int day = (int) Math.round(percent / 100f * totalDays);
-                    day = Math.max(1, Math.min(day, totalDays));
+                    int effectiveStreak = 0;
+                    try {
+                        com.serpenteando.cobra3d.model.repository.ProgressRepository repo =
+                                new com.serpenteando.cobra3d.model.repository.ProgressRepository(
+                                        DatabaseHelper.getInstance(requireContext()).getReadableDatabase());
+                        com.serpenteando.cobra3d.model.entity.UserProgress p = repo.getProgress();
+                        if (p != null) {
+                            // Sequência efetiva: só vale se o usuário concluiu missão hoje ou
+                            // ontem; se ficou mais de um dia sem concluir, quebrou (0).
+                            effectiveStreak = repo.getSequenciaEfetiva(p);
+                        }
+                    } catch (Exception ignored) {}
+                    // O dia atual é a sequência efetiva, limitada ao total de dias da missão.
+                    // Se não há sequência (streak 0), mostra Dia 0 de Y.
+                    int day = Math.max(0, Math.min(effectiveStreak, totalDays));
                     missionProgressText.setText(getString(R.string.mission_day_counter, day, totalDays));
                     missionProgressText.setVisibility(View.VISIBLE);
                 } else {

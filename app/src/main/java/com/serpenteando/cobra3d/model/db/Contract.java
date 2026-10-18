@@ -130,6 +130,8 @@ public final class Contract {
         public static final String COL_ANATOMY_LAYER_COUNT = "anatomy_layer_count";
         public static final String COL_CONTENT_DETAIL_COUNT = "content_detail_count";
         public static final String COL_AWARDED_MISSIONS = "awarded_missions";
+        /** Total acumulado de questoes acertadas em todos os quizzes (soma por acerto, nao por tentativa). */
+        public static final String COL_TOTAL_QUESTIONS_CORRECT = "total_questions_correct";
         public static final String COL_UPDATED_AT = "updated_at";
     }
 }
