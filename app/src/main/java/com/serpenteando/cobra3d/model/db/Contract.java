@@ -5,10 +5,11 @@ public final class Contract {
     private Contract() {}
 
     public static final String DATABASE_NAME = "serpenteando.db";
-    // v9: adiciona total_questions_correct em user_progress (migração em
-    // DatabaseHelper.onUpgrade). Subir a versão é obrigatório: sem isso a
-    // migração não roda em quem já tem o app e o SELECT quebra no Home.
-    public static final int DATABASE_VERSION = 9;
+    // v9: adiciona total_questions_correct em user_progress.
+    // v10: recupera o histórico de acertos de quem já usava o app (o total_points
+    // antigo era soma dos acertos + recompensas de missão). Sem essas migrações
+    // a Home quebra ou mostra 0.
+    public static final int DATABASE_VERSION = 10;
 
     public static final class QuestionsTable {
         public static final String TABLE_NAME = "questions";

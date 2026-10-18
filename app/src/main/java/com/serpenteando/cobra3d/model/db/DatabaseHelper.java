@@ -1,11 +1,16 @@
 package com.serpenteando.cobra3d.model.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.serpenteando.cobra3d.model.db.Contract.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Gerencia o banco de dados SQLite do app (singleton).
@@ -105,6 +110,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DatabaseHelper helper = new DatabaseHelper(context.getApplicationContext());
         SQLiteDatabase bancoDados = helper.getWritableDatabase();
 
+        // Guarda quais missões já estavam concluídas: o respawn do conteúdo
+        // recria a tabela e, sem isso, a missão voltaria a premiar 500 pontos
+        // só por o usuário ter trocado o idioma ou atualizado o conteúdo.
+        // Usa o ID (não o título) porque o título muda com o idioma.
+        List<Long> missoesConcluidas = new ArrayList<>();
+        try {
+            Cursor cursor = bancoDados.rawQuery(
+                    "SELECT " + MissionsTable.COL_ID + " FROM " + MissionsTable.TABLE_NAME +
+                            " WHERE " + MissionsTable.COL_IS_COMPLETED + " = 1", null);
+            if (cursor != null) {
+                while (cursor.moveToNext()) missoesConcluidas.add(cursor.getLong(0));
+                cursor.close();
+            }
+        } catch (Exception ignored) {
+        }
+
         // Só dropa tabelas de conteúdo — user_progress fica intacto
         String[] contentTables = {
                 Contract.QuestionsTable.TABLE_NAME,
@@ -122,6 +143,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Recria tabelas de conteúdo e popula com JSON do idioma novo
         helper.onCreate(bancoDados);
+
+        // Devolve o "concluída" das missões que já tinham sido premiadas.
+        // O progresso dos itens é recalculado pelos contadores de ações.
+        for (Long id : missoesConcluidas) {
+            try {
+                ContentValues valores = new ContentValues();
+                valores.put(MissionsTable.COL_IS_COMPLETED, 1);
+                bancoDados.update(MissionsTable.TABLE_NAME, valores,
+                        MissionsTable.COL_ID + " = ?", new String[]{String.valueOf(id)});
+            } catch (Exception ignored) {
+            }
+        }
 
         // Fecha e limpa singleton pra reabrir limpo
         helper.close();
@@ -402,6 +435,71 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         " ADD COLUMN " + UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT +
                         " INTEGER DEFAULT 0");
             } catch (Exception ignored) {}
+        }
+        if (oldVersion < 10) {
+            // v9→v10: quem já usava o app tinha o histórico só em total_points.
+            // Recupera os acertos antigos para o card não começar zerado.
+            backfillTotalQuestionsCorrect(bancoDados);
+        }
+    }
+
+    /**
+     * Recupera o total de acertos antigos a partir do total_points histórico.
+     *
+     * Até a v9, total_points = soma dos acertos dos quizzes + recompensas das
+     * missões concluídas. O awarded_missions guarda cada missão premiada (pode
+     * repetir o id quando a missão foi concluída mais de uma vez), então o
+     * valor de cada recompensa é descontado uma vez por ocorrência.
+     *
+     * Só preenche quando a coluna ainda está em 0: nunca sobrescreve acertos
+     * que o usuário já tenha somado depois da atualização.
+     */
+    private void backfillTotalQuestionsCorrect(SQLiteDatabase bancoDados) {
+        Cursor cursor = null;
+        try {
+            cursor = bancoDados.rawQuery(
+                    "SELECT " + UserProgressTable.COL_TOTAL_POINTS + ", " +
+                            UserProgressTable.COL_AWARDED_MISSIONS + ", " +
+                            UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT +
+                            " FROM " + UserProgressTable.TABLE_NAME +
+                            " WHERE " + UserProgressTable.COL_ID + " = 1", null);
+            if (cursor == null || !cursor.moveToFirst()) return;
+
+            int totalPoints = cursor.getInt(0);
+            String awarded = cursor.isNull(1) ? "" : cursor.getString(1);
+            int acertosAtuais = cursor.getInt(2);
+            if (acertosAtuais != 0 || totalPoints <= 0) return;
+
+            int recompensas = 0;
+            if (awarded != null) {
+                for (String idTexto : awarded.split(",")) {
+                    String id = idTexto.trim();
+                    if (id.isEmpty()) continue;
+                    Cursor missao = null;
+                    try {
+                        missao = bancoDados.rawQuery(
+                                "SELECT " + MissionsTable.COL_POINTS +
+                                        " FROM " + MissionsTable.TABLE_NAME +
+                                        " WHERE " + MissionsTable.COL_ID + " = ?",
+                                new String[]{id});
+                        if (missao != null && missao.moveToFirst()) {
+                            recompensas += missao.getInt(0);
+                        }
+                    } catch (Exception ignored) {
+                    } finally {
+                        if (missao != null) missao.close();
+                    }
+                }
+            }
+
+            int acertos = Math.max(0, totalPoints - recompensas);
+            ContentValues valores = new ContentValues();
+            valores.put(UserProgressTable.COL_TOTAL_QUESTIONS_CORRECT, acertos);
+            bancoDados.update(UserProgressTable.TABLE_NAME, valores,
+                    UserProgressTable.COL_ID + " = 1", null);
+        } catch (Exception ignored) {
+        } finally {
+            if (cursor != null) cursor.close();
         }
     }
 }

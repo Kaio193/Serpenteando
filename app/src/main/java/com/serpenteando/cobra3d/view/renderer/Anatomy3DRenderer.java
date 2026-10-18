@@ -303,6 +303,11 @@ public final class Anatomy3DRenderer {
 
         modelBuilt = true;
         frameCamera(true);
+        // O loop só desenha enquanto está carregando ou há quadros de aquecimento.
+        // Sem reservar quadros aqui, um carregamento mais longo que o aquecimento
+        // inicial terminava com a cena pronta e nenhum desenho — o modelo só
+        // aparecia depois do primeiro toque. Isto garante o quadro automático.
+        aquecerQuadros();
         estadoModelo = MODELO_PRONTO;
         Log.d(TAG, MODELO + " na cena com " + entities.length + " entidades");
     }

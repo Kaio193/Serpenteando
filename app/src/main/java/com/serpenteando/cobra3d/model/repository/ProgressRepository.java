@@ -74,6 +74,41 @@ public class ProgressRepository {
         bancoDados.execSQL("UPDATE " + Contract.UserProgressTable.TABLE_NAME +
                 " SET " + column + " = " + column + " + 1" +
                 " WHERE " + Contract.UserProgressTable.COL_ID + " = 1");
+        // A ação que alimenta uma missão também conta o dia da sequência.
+        // Várias ações no mesmo dia continuam valendo 1 dia só.
+        registrarAtividadeDoDia();
+    }
+
+    /**
+     * Marca que houve atividade válida de missão hoje.
+     *
+     * A sequência é por DIA, não por etapa: a primeira ação do dia começa em 1,
+     * a do dia seguinte soma 1 e um dia inteiro sem ação reinicia em 1. Chamado
+     * pelos contadores de quiz/conteúdo/anatomia (os mesmos gatilhos das
+     * missões) e pela conclusão de missão. Abrir o app sozinho não chama isto.
+     */
+    private void registrarAtividadeDoDia() {
+        try {
+            UserProgress progress = getProgress();
+            String hoje = diaDeHoje();
+            String ultimo = progress.getLastMissionDate();
+            int novaSequencia = calcularSequencia(ultimo, progress.getCurrentStreak(), hoje);
+
+            // Já contou hoje e o valor não mudou: não regrava à toa.
+            if (ultimo != null && hoje.equals(ultimo.trim())
+                    && novaSequencia == progress.getCurrentStreak()) {
+                return;
+            }
+
+            ContentValues valores = new ContentValues();
+            valores.put(Contract.UserProgressTable.COL_CURRENT_STREAK, novaSequencia);
+            valores.put(Contract.UserProgressTable.COL_LAST_MISSION_DATE, hoje);
+            valores.put(Contract.UserProgressTable.COL_UPDATED_AT,
+                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
+            bancoDados.update(Contract.UserProgressTable.TABLE_NAME, valores,
+                    Contract.UserProgressTable.COL_ID + " = 1", null);
+        } catch (Exception ignored) {
+        }
     }
 
     // Quantas vezes o usuário já realizou a ação X (usado pelas missões)
