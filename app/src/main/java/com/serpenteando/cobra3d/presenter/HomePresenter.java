@@ -4,7 +4,6 @@ import com.serpenteando.cobra3d.contract.HomeContract;
 import com.serpenteando.cobra3d.model.db.DatabaseHelper;
 import com.serpenteando.cobra3d.model.entity.Tip;
 import com.serpenteando.cobra3d.model.entity.UserProgress;
-import com.serpenteando.cobra3d.model.repository.MissionRepository;
 import com.serpenteando.cobra3d.model.repository.ProgressRepository;
 import com.serpenteando.cobra3d.model.repository.TipRepository;
 
@@ -26,13 +25,11 @@ public class HomePresenter implements HomeContract.Presenter {
     private final HomeContract.View view;
     private final TipRepository tipRepository;
     private final ProgressRepository progressRepository;
-    private final MissionRepository missionRepository;
 
     public HomePresenter(HomeContract.View view, DatabaseHelper dbHelper) {
         this.view = view;
         this.tipRepository = new TipRepository(dbHelper.getWritableDatabase());
         this.progressRepository = new ProgressRepository(dbHelper.getWritableDatabase());
-        this.missionRepository = new MissionRepository(dbHelper.getWritableDatabase());
     }
 
     @Override
@@ -53,9 +50,7 @@ public class HomePresenter implements HomeContract.Presenter {
             // ontem; se ficou dias sem concluir, o card mostra 0 (quebrou).
             progress.setCurrentStreak(progressRepository.getSequenciaEfetiva(progress));
         }
-        // Contador do card: quantidade de missões concluídas, contando cada
-        // missão individualmente (is_completed = 1). Sem número fixo.
-        view.showProgress(progress, missionRepository.getCompletedCount());
+        view.showProgress(progress);
     }
 
     @Override

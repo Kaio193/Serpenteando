@@ -202,17 +202,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void showProgress(UserProgress progress, int completedMissions) {
+    public void showProgress(UserProgress progress) {
         // Card de pontuação: mostra apenas o total acumulado de questoes acertadas nos quizzes.
         // Cada acerto conta 1, somado ao total existente; sai e volta ao app nao zera.
         int totalAcertos = progress != null ? progress.getTotalQuestionsCorrect() : 0;
+        // Card de missões: total real de conclusões registradas (missions_completed).
+        int missions = progress != null ? progress.getMissionsCompleted() : 0;
         int streak = progress != null ? progress.getCurrentStreak() : 0;
         if (progressScoreText != null) progressScoreText.setText(String.valueOf(totalAcertos));
-        // Card de missões: quantidade de missões concluídas, cada uma contada
-        // separadamente. Ex.: 1 missão concluída -> 1; duas -> 2.
-        if (progressMissionsText != null) {
-            progressMissionsText.setText(String.valueOf(completedMissions));
-        }
+        if (progressMissionsText != null) progressMissionsText.setText(String.valueOf(missions));
         if (progressStreakText != null) progressStreakText.setText(String.valueOf(streak));
     }
 
