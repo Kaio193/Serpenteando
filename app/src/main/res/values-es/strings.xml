@@ -56,6 +56,8 @@
     <string name="missions_select">Selecciona una misión</string>
     <string name="missions_back">Volver</string>
     <string name="missions_complete_title">¡Misión Completa!</string>
+    <string name="missions_all_complete_title">¡Felicidades!</string>
+    <string name="missions_all_complete_message">¡Completaste todas las misiones!</string>
     <string name="missions_retry_title">Intentar de Nuevo</string>
     <string name="missions_ok">OK</string>
 

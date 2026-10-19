@@ -15,6 +15,7 @@ public interface MissionContract {
         void showMissionList(List<Mission> missions);
         void showMissionChangeDialog();
         void showResult(boolean success, int points, String message);
+        void showAllMissionsCompleted();
         void showProgressMessage(String message);
         void showLoading();
         void hideLoading();

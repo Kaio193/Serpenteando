@@ -291,6 +291,59 @@ public class MissionFragment extends Fragment implements MissionContract.View {
     }
 
     /**
+     * Dialog de conclusão final — aparece quando o usuário já completou a missão
+     * e clica em "Verificar progresso" de novo. Reutiliza o mesmo layout, troféu
+     * e animação do dialog de recompensa, mas sem exibir pontos e sem alterar
+     * a pontuação do usuário.
+     */
+    @Override
+    public void showAllMissionsCompleted() {
+        if (!isAdded() || getContext() == null) return;
+
+        try {
+            if (adapter != null) {
+                adapter.setEnabled(false);
+                adapter.notifyDataSetChanged();
+            }
+            if (verifyButton != null) {
+                verifyButton.setVisibility(View.GONE);
+            }
+            updateScore();
+
+            Dialog dialog = new Dialog(requireContext());
+            dialog.setContentView(R.layout.dialog_mission_complete);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCanceledOnTouchOutside(true);
+            Window janelaConclusao = dialog.getWindow();
+            if (janelaConclusao != null) {
+                janelaConclusao.addFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+            }
+
+            ImageView trophyIcon = dialog.findViewById(R.id.dialogTrophyIcon);
+            trophyIcon.setScaleX(0f);
+            trophyIcon.setScaleY(0f);
+
+            ((TextView) dialog.findViewById(R.id.dialogTitle)).setText(R.string.missions_all_complete_title);
+            dialog.findViewById(R.id.dialogPoints).setVisibility(View.GONE);
+            ((TextView) dialog.findViewById(R.id.dialogMessage)).setText(R.string.missions_all_complete_message);
+
+            dialog.setOnShowListener(d -> trophyIcon.animate().scaleX(1f).scaleY(1f).setDuration(400)
+                    .setInterpolator(new OvershootInterpolator()).start());
+
+            dialog.findViewById(R.id.dialogOkButton).setOnClickListener(v -> dialog.dismiss());
+
+            resultDialog = dialog;
+            dialog.show();
+        } catch (Exception e) {
+            Log.e("Serpenteando", "Completion dialog error", e);
+            if (getContext() != null) {
+                Toast.makeText(getContext(), getString(R.string.error_prefix) + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
      * Dialog informativo de progresso — mostra quando o usuário clica em
      * "Verificar Progresso" e a missão ainda não está completa.
      * [TEI Dialogs] Dialog customizado com botão OK simples.

@@ -117,10 +117,9 @@ public class MissionPresenter implements MissionContract.Presenter {
                 view.showResult(true, mission.getPoints(),
                         context.getString(R.string.mission_complete_congrats));
             } else if (mission.isCompleted()) {
-                // Missao ja completada (e ja premiada) — apenas atualiza a visualizacao,
-                // sem conceder pontos de novo.
-                view.showResult(false, 0,
-                        context.getString(R.string.mission_complete_congrats));
+                // Missao ja completada (e ja premiada) — mostra a conclusao final
+                // reaproveitando o dialog de recompensa, sem conceder pontos de novo.
+                view.showAllMissionsCompleted();
             } else {
                 // Missão em andamento — mostra progresso específico
                 int fulfilled = 0;
