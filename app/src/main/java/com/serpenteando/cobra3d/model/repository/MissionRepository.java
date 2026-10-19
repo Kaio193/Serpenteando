@@ -90,6 +90,35 @@ public class MissionRepository {
                 new String[]{String.valueOf(itemId)});
     }
 
+    /**
+     * Soma os pontos das missões registradas em awarded_missions (cada
+     * conclusão, inclusive repetições). É usado só para exibir o total
+     * acumulado na tela de Missões; não altera a pontuação salva.
+     */
+    public int getAwardedPoints(String awardedIds) {
+        if (awardedIds == null || awardedIds.trim().isEmpty()) return 0;
+        int total = 0;
+        for (String parte : awardedIds.split(",")) {
+            String id = parte.trim();
+            if (id.isEmpty()) continue;
+            Cursor cursor = null;
+            try {
+                cursor = bancoDados.rawQuery(
+                        "SELECT " + Contract.MissionsTable.COL_POINTS +
+                                " FROM " + Contract.MissionsTable.TABLE_NAME +
+                                " WHERE " + Contract.MissionsTable.COL_ID + " = ?",
+                        new String[]{id});
+                if (cursor != null && cursor.moveToFirst()) {
+                    total += cursor.getInt(0);
+                }
+            } catch (Exception ignored) {
+            } finally {
+                if (cursor != null) cursor.close();
+            }
+        }
+        return total;
+    }
+
     public int getCompletedCount() {
         Cursor cursor = bancoDados.rawQuery(
                 "SELECT COUNT(*) FROM " + Contract.MissionsTable.TABLE_NAME +

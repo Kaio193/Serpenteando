@@ -532,7 +532,14 @@ public class MissionFragment extends Fragment implements MissionContract.View {
                     DatabaseHelper.getInstance(requireContext()).getReadableDatabase());
             com.serpenteando.cobra3d.model.entity.UserProgress p = repo.getProgress();
             if (p != null) {
-                missionScoreText.setText(p.getTotalPoints() + " " + getString(R.string.mission_pts_label));
+                // Total exibido = pontos das missões concluídas (cada recompensa
+                // registrada em awarded_missions) + questões certas nos quizzes.
+                com.serpenteando.cobra3d.model.repository.MissionRepository missionRepo =
+                        new com.serpenteando.cobra3d.model.repository.MissionRepository(
+                                DatabaseHelper.getInstance(requireContext()).getReadableDatabase());
+                int pontosMissoes = missionRepo.getAwardedPoints(p.getAwardedMissions());
+                int total = pontosMissoes + p.getTotalQuestionsCorrect();
+                missionScoreText.setText(total + " " + getString(R.string.mission_pts_label));
             }
         } catch (Exception ignored) {}
     }
