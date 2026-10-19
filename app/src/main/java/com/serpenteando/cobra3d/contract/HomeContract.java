@@ -20,7 +20,7 @@ public interface HomeContract {
     // O que a tela precisa conseguir fazer
     interface View {
         void showTip(Tip tip);
-        void showProgress(UserProgress progress);
+        void showProgress(UserProgress progress, int completedMissions);
         void showContent(String category);
         void showQuiz();
         void showMissions();
