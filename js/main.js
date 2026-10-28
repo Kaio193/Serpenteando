@@ -108,6 +108,28 @@ if (pontosCaixa) {
 
 var pontos = document.querySelectorAll(".ponto");
 
+// Texto ao lado do carrossel: troca junto com a tela que está aparecendo
+var tituloLateral = document.getElementById("app-info-titulo");
+var textoLateral = document.getElementById("app-info-texto");
+
+function atualizarLateral() {
+    if (!tituloLateral || !textoLateral || !slides[slideAtual]) {
+        return;
+    }
+
+    var nome = slides[slideAtual].getAttribute("data-tela") || "splash";
+    var chaveTitulo = "tela_" + nome + "_titulo";
+    var chaveTexto = "tela_" + nome + "_texto";
+    var textos = TEXTOS[idiomaAtual] || TEXTOS.pt;
+
+    // Guarda a chave no elemento: quando trocar o idioma, o aplicarIdioma
+    // já encontra o texto certo desta tela.
+    tituloLateral.setAttribute("data-i18n", chaveTitulo);
+    textoLateral.setAttribute("data-i18n", chaveTexto);
+    tituloLateral.textContent = textos[chaveTitulo] || "";
+    textoLateral.textContent = textos[chaveTexto] || "";
+}
+
 function irPara(indice) {
     if (indice < 0) {
         indice = slides.length - 1;
@@ -125,23 +147,73 @@ function irPara(indice) {
     slides[slideAtual].classList.add("ativa");
     pontos[slideAtual].classList.add("ativo");
     pontos[slideAtual].setAttribute("aria-selected", "true");
+
+    atualizarLateral();
+}
+
+// ---------- 5. Passagem automática das telas ----------
+// Fica rodando sozinha. Se a pessoa clicar (seta, pontinho ou teclado),
+// para na hora e só volta depois de alguns segundos sem clique.
+
+var INTERVALO_AUTO = 5000;
+var ESPERA_VOLTA = 9000;
+var relogioAuto = null;
+var relogioVolta = null;
+
+function podePassarSozinho() {
+    if (slides.length < 2) {
+        return false;
+    }
+    // Quem pediu menos animação no sistema não leva carrossel automático
+    if (window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return false;
+    }
+    return true;
+}
+
+function ligarAuto() {
+    if (!podePassarSozinho() || relogioAuto) {
+        return;
+    }
+    relogioAuto = window.setInterval(function () {
+        irPara(slideAtual + 1);
+    }, INTERVALO_AUTO);
+}
+
+function desligarAuto() {
+    if (relogioAuto) {
+        window.clearInterval(relogioAuto);
+        relogioAuto = null;
+    }
+}
+
+function pausarPorClique() {
+    desligarAuto();
+    if (relogioVolta) {
+        window.clearTimeout(relogioVolta);
+    }
+    relogioVolta = window.setTimeout(ligarAuto, ESPERA_VOLTA);
 }
 
 if (slides.length > 0 && pontos.length > 0) {
     if (botaoAnterior) {
         botaoAnterior.addEventListener("click", function () {
+            pausarPorClique();
             irPara(slideAtual - 1);
         });
     }
 
     if (botaoProximo) {
         botaoProximo.addEventListener("click", function () {
+            pausarPorClique();
             irPara(slideAtual + 1);
         });
     }
 
     for (var p = 0; p < pontos.length; p++) {
         pontos[p].addEventListener("click", function () {
+            pausarPorClique();
             irPara(parseInt(this.getAttribute("data-indice"), 10));
         });
     }
@@ -152,35 +224,28 @@ if (slides.length > 0 && pontos.length > 0) {
             return;
         }
         if (evento.key === "ArrowLeft") {
+            pausarPorClique();
             irPara(slideAtual - 1);
         }
         if (evento.key === "ArrowRight") {
+            pausarPorClique();
             irPara(slideAtual + 1);
         }
     });
+
+    atualizarLateral();
+    ligarAuto();
 }
 
-// ---------- 5. Animação de entrada ao rolar ----------
-// Só esconde os blocos se o navegador tiver IntersectionObserver;
-// assim o conteúdo nunca fica invisível por falta de suporte.
-
-var blocosRevelar = document.querySelectorAll(".revelar");
-
-if ("IntersectionObserver" in window && blocosRevelar.length > 0) {
-    document.body.classList.add("com-revelacao");
-
-    var observadorRevelar = new IntersectionObserver(function (entradas) {
-        for (var e = 0; e < entradas.length; e++) {
-            if (entradas[e].isIntersecting) {
-                entradas[e].target.classList.add("visivel");
-                observadorRevelar.unobserve(entradas[e].target);
-            }
+// Com a aba escondida não faz sentido continuar trocando de tela
+if (document.addEventListener) {
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            desligarAuto();
+        } else if (!relogioVolta) {
+            ligarAuto();
         }
-    }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
-
-    for (var r = 0; r < blocosRevelar.length; r++) {
-        observadorRevelar.observe(blocosRevelar[r]);
-    }
+    });
 }
 
 // ---------- 6. Vídeo do YouTube ----------

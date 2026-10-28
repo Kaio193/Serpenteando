@@ -516,29 +516,12 @@ select:focus-visible {
     border-radius: 6px;
 }
 
-/* ---------- Animação de entrada ao rolar ---------- */
-
-.revelar {
-    transition: opacity 760ms var(--curva), transform 760ms var(--curva);
-    transition-delay: var(--atraso, 0ms);
-}
-
-/* O esconde-só-acontece-quando-o-JS-está-ativo:
-   se o JavaScript falhar, o conteúdo continua visível. */
-body.com-revelacao .revelar {
-    opacity: 0;
-    transform: translateY(26px);
-}
-
-body.com-revelacao .revelar.visivel {
-    opacity: 1;
-    transform: none;
-}
+/* A animação de entrada fica só no topo (.entra). O resto da página
+   aparece direto: nada de esconder conteúdo esperando o scroll. */
 
 /* ---------- Respeita quem desativa animações ---------- */
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     * { animation: none !important; transition: none !important; }
-    body.com-revelacao .revelar { opacity: 1; transform: none; }
 }

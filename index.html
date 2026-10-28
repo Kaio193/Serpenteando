@@ -113,7 +113,7 @@
                 <a class="botao botao-contorno" href="#sobre" data-i18n="hero_btn2">Conhecer o projeto</a>
             </div>
 
-            <p class="hero-info entra" style="--atraso: 360ms" data-i18n="hero_info">Android 6.0 ou superior · versão 0.1.0</p>
+            <p class="hero-info entra" style="--atraso: 360ms" data-i18n="hero_info">Android 10.0 ou superior · versão 0.1.0</p>
         </div>
 
         <div class="hero-celular">
@@ -122,15 +122,6 @@
                     <img src="img/tela-inicializacao.jpeg" width="822" height="1601"
                          alt="Tela de inicialização do app, com a logo e o nome Serpenteando">
                 </div>
-            </div>
-
-            <div class="flutuante flutuante-3d">
-                <strong data-i18n="badge_3d_titulo">Anatomia 3D</strong>
-                <span data-i18n="badge_3d_texto">Gire, dê zoom e toque nos pontos</span>
-            </div>
-            <div class="flutuante flutuante-idioma">
-                <strong data-i18n="badge_idioma_titulo">3 idiomas</strong>
-                <span data-i18n="badge_idioma_texto">PT · EN · ES</span>
             </div>
         </div>
     </div>
@@ -142,7 +133,7 @@
 <section class="secao secao-app" id="app">
     <div class="container">
 
-        <div class="secao-topo revelar">
+        <div class="secao-topo">
             <p class="rotulo" data-i18n="app_rotulo">O aplicativo</p>
             <h2 data-i18n="app_titulo">O app por dentro</h2>
             <p class="secao-descricao" data-i18n="app_texto">
@@ -154,10 +145,10 @@
         <div class="app-grade">
 
             <!-- Carrossel: cada tela dentro de uma moldura de celular -->
-            <div class="carrossel revelar" aria-roledescription="carrossel" aria-label="Telas do aplicativo">
+            <div class="carrossel" aria-roledescription="carrossel" aria-label="Telas do aplicativo">
                 <div class="carrossel-palco" id="carrossel-palco">
 
-                    <figure class="slide ativa" data-indice="0">
+                    <figure class="slide ativa" data-indice="0" data-tela="splash">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/tela-inicializacao.jpeg" alt="Tela de inicialização do app" loading="lazy">
@@ -166,7 +157,7 @@
                         <figcaption data-i18n="legenda_splash">Tela de inicialização</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="1">
+                    <figure class="slide" data-indice="1" data-tela="home">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/tela-inicial.jpeg" alt="Tela inicial do aplicativo com pontuação, missões e sequência" loading="lazy">
@@ -175,7 +166,7 @@
                         <figcaption data-i18n="legenda_home">Tela inicial com pontuação, missões e sequência</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="2">
+                    <figure class="slide" data-indice="2" data-tela="ficha">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/ficha-especies.jpeg" alt="Ficha de uma espécie de serpente" loading="lazy">
@@ -184,7 +175,7 @@
                         <figcaption data-i18n="legenda_ficha">Ficha completa das espécies mais conhecidas</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="3">
+                    <figure class="slide" data-indice="3" data-tela="quiz">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/quiz-dificuldade.jpeg" alt="Tela do quiz com seleção de dificuldade" loading="lazy">
@@ -193,7 +184,7 @@
                         <figcaption data-i18n="legenda_quiz">Quiz com níveis fácil, médio e difícil</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="4">
+                    <figure class="slide" data-indice="4" data-tela="3d">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/modelo-3d.jpeg" alt="Modelo 3D interativo da píton-real" loading="lazy">
@@ -202,7 +193,7 @@
                         <figcaption data-i18n="legenda_3d">Modelo 3D interativo da píton-real (Python regius)</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="5">
+                    <figure class="slide" data-indice="5" data-tela="mitos">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/mitos-verdades.jpeg" alt="Tela de mitos e verdades" loading="lazy">
@@ -211,7 +202,7 @@
                         <figcaption data-i18n="legenda_mitos">Mitos e verdades com explicação científica</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="6">
+                    <figure class="slide" data-indice="6" data-tela="missoes">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/missoes.jpeg" alt="Tela de missões com acompanhamento de progresso" loading="lazy">
@@ -220,7 +211,7 @@
                         <figcaption data-i18n="legenda_missoes">Missões com acompanhamento de progresso</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="7">
+                    <figure class="slide" data-indice="7" data-tela="idiomas">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/idiomas.jpeg" alt="Escolha de idioma do aplicativo" loading="lazy">
@@ -229,7 +220,7 @@
                         <figcaption data-i18n="legenda_idiomas">Escolha do idioma: português, inglês ou espanhol</figcaption>
                     </figure>
 
-                    <figure class="slide" data-indice="8">
+                    <figure class="slide" data-indice="8" data-tela="config">
                         <div class="iphone">
                             <div class="iphone-tela">
                                 <img src="img/configuracoes.jpeg" alt="Tela de configurações do aplicativo" loading="lazy">
@@ -254,12 +245,11 @@
             </div>
 
             <!-- Texto ao lado -->
-            <div class="app-info revelar" style="--atraso: 120ms">
-                <h3 data-i18n="app_info_titulo">Um guia de bolso sobre serpentes</h3>
-                <p data-i18n="app_info_texto">
-                    O app reúne conteúdo sobre jararaca, cascavel, coral verdadeira, jiboia, sucuri,
-                    urutu, caninana e outras espécies, com a indicação de quais são peçonhentas.
-                    Tudo foi escrito para o público do ensino médio.
+            <div class="app-info">
+                <h3 id="app-info-titulo" data-i18n="tela_splash_titulo">Abertura do aplicativo</h3>
+                <p id="app-info-texto" data-i18n="tela_splash_texto">
+                    A tela de inicialização mostra a logo e o nome do app enquanto o conteúdo é
+                    carregado.
                 </p>
 
                 <ul class="lista-check">
@@ -282,7 +272,7 @@
 <!-- ================= SOBRE ================= -->
 <section class="secao secao-sobre" id="sobre">
     <div class="container sobre-grade">
-        <div class="revelar">
+        <div>
             <p class="rotulo" data-i18n="sobre_rotulo">Sobre o projeto</p>
             <h2 data-i18n="sobre_titulo">O que é o Serpenteando</h2>
 
@@ -299,18 +289,10 @@
                 responde quiz, cumpre missões e explora o modelo 3D da píton-real.
             </p>
 
-            <figure class="sobre-figura revelar" style="--atraso: 120ms">
-                <div class="iphone iphone-figura">
-                    <div class="iphone-tela">
-                        <img src="img/mitos-verdades.jpeg" alt="Tela de mitos e verdades do aplicativo" loading="lazy">
-                    </div>
-                </div>
-                <figcaption data-i18n="sobre_figura">Mitos e verdades: cada crença vem com a explicação científica</figcaption>
-            </figure>
         </div>
 
         <div class="sobre-cartoes">
-            <article class="cartao revelar">
+            <article class="cartao">
                 <h3 data-i18n="sobre_card1_titulo">O problema</h3>
                 <p data-i18n="sobre_card1_texto">
                     O conteúdo sobre serpentes costuma aparecer espalhado e distante da rotina do
@@ -319,7 +301,7 @@
                 </p>
             </article>
 
-            <article class="cartao revelar" style="--atraso: 90ms">
+            <article class="cartao">
                 <h3 data-i18n="sobre_card2_titulo">A proposta</h3>
                 <p data-i18n="sobre_card2_texto">
                     Juntar conteúdo, prática e recompensa no mesmo lugar, com uma linguagem simples
@@ -327,7 +309,7 @@
                 </p>
             </article>
 
-            <article class="cartao revelar" style="--atraso: 180ms">
+            <article class="cartao">
                 <h3 data-i18n="sobre_card3_titulo">Para quem?</h3>
                 <p data-i18n="sobre_card3_texto">
                     Estudantes do ensino médio que querem aprender biologia de forma mais leve e
@@ -343,7 +325,7 @@
 <!-- ================= RECURSOS ================= -->
 <section class="secao secao-recursos" id="recursos">
     <div class="container">
-        <div class="secao-topo revelar">
+        <div class="secao-topo">
             <p class="rotulo" data-i18n="rec_rotulo">Recursos</p>
             <h2 data-i18n="rec_titulo">O que já funciona no app</h2>
             <p class="secao-descricao" data-i18n="rec_texto">
@@ -353,7 +335,7 @@
 
         <div class="recursos-grade">
 
-            <article class="recurso revelar">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/>
@@ -367,7 +349,7 @@
                 </p>
             </article>
 
-            <article class="recurso revelar" style="--atraso: 70ms">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="9"/>
@@ -382,7 +364,7 @@
                 </p>
             </article>
 
-            <article class="recurso revelar" style="--atraso: 140ms">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 21V6a2 2 0 012-2h7l5 5v12"/>
@@ -396,7 +378,7 @@
                 </p>
             </article>
 
-            <article class="recurso revelar">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>
@@ -410,7 +392,7 @@
                 </p>
             </article>
 
-            <article class="recurso revelar" style="--atraso: 70ms">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/>
@@ -423,7 +405,7 @@
                 </p>
             </article>
 
-            <article class="recurso revelar" style="--atraso: 140ms">
+            <article class="recurso">
                 <span class="recurso-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 7h9M17 7h3M4 17h3M11 17h9"/>
@@ -453,7 +435,7 @@
 -->
 <section class="secao secao-video" id="video">
     <div class="container">
-        <div class="secao-topo revelar">
+        <div class="secao-topo">
             <p class="rotulo" data-i18n="video_rotulo">Apresentação</p>
             <h2 data-i18n="video_titulo">Vídeo do projeto</h2>
             <p class="secao-descricao" data-i18n="video_texto">
@@ -462,7 +444,7 @@
             </p>
         </div>
 
-        <div class="video-moldura revelar" id="video-moldura" data-youtube="">
+        <div class="video-moldura" id="video-moldura" data-youtube="">
             <div class="video-aviso" id="video-aviso">
                 <span class="video-icone" aria-hidden="true">
                     <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -483,7 +465,7 @@
 
 <!-- ================= DOWNLOAD ================= -->
 <section class="secao secao-download" id="download">
-    <div class="container download-grade revelar">
+    <div class="container download-grade">
         <div>
             <p class="rotulo" data-i18n="down_rotulo">Download</p>
             <h2 data-i18n="down_titulo">Instale o Serpenteando</h2>
@@ -508,7 +490,7 @@
 
             <dl class="download-detalhes">
                 <div><dt data-i18n="down_tam_label">Tamanho</dt><dd>152 MB</dd></div>
-                <div><dt data-i18n="down_req_label">Requisitos</dt><dd data-i18n="down_req">Android 6.0 ou superior</dd></div>
+                <div><dt data-i18n="down_req_label">Requisitos</dt><dd data-i18n="down_req">Android 10.0 ou superior</dd></div>
                 <div><dt data-i18n="down_tipo_label">Formato</dt><dd>APK</dd></div>
             </dl>
 
@@ -528,9 +510,9 @@
 <!-- ================= EQUIPE ================= -->
 <section class="secao secao-equipe" id="equipe">
     <div class="container">
-        <div class="secao-topo revelar">
+        <div class="secao-topo">
             <p class="rotulo" data-i18n="equipe_rotulo">Equipe</p>
-            <h2 data-i18n="equipe_titulo">Quem fez o Serpenteando</h2>
+            <h2 data-i18n="equipe_titulo">Quem fez o Serpenteando?</h2>
             <p class="secao-descricao" data-i18n="equipe_texto">
                 Trabalho de Conclusão de Curso do Instituto Federal da Paraíba.
             </p>
@@ -538,7 +520,7 @@
 
         <div class="equipe-grade">
 
-            <article class="pessoa revelar">
+            <article class="pessoa">
                 <div class="pessoa-foto">
                     <img src="img/equipe/kaio.jpeg" alt="Foto de Kaio Dantas" loading="lazy">
                 </div>
@@ -546,7 +528,7 @@
                 <p class="pessoa-cargo" data-i18n="cargo_desenvolvedor">Desenvolvedor</p>
             </article>
 
-            <article class="pessoa revelar" style="--atraso: 70ms">
+            <article class="pessoa">
                 <div class="pessoa-foto">
                     <img src="img/equipe/ebert.jpeg" alt="Foto de Ebert Souza" loading="lazy">
                 </div>
@@ -554,7 +536,7 @@
                 <p class="pessoa-cargo" data-i18n="cargo_desenvolvedor">Desenvolvedor</p>
             </article>
 
-            <article class="pessoa pessoa-professor revelar" style="--atraso: 140ms">
+            <article class="pessoa pessoa-professor">
                 <div class="pessoa-foto">
                     <img src="img/equipe/alexandre.jpeg" alt="Foto de Alexandre Costa" loading="lazy">
                 </div>
@@ -562,7 +544,7 @@
                 <p class="pessoa-cargo" data-i18n="cargo_orientador">Orientador</p>
             </article>
 
-            <article class="pessoa pessoa-professor revelar" style="--atraso: 210ms">
+            <article class="pessoa pessoa-professor">
                 <div class="pessoa-foto">
                     <img src="img/equipe/felipe.jpeg" alt="Foto de Felipe Barbosa" loading="lazy">
                 </div>
@@ -570,12 +552,12 @@
                 <p class="pessoa-cargo" data-i18n="cargo_avaliador">Avaliador</p>
             </article>
 
-            <article class="pessoa pessoa-professor revelar" style="--atraso: 280ms">
+            <article class="pessoa pessoa-professor">
                 <div class="pessoa-foto">
                     <img src="img/equipe/paulo.jpeg" alt="Foto de Paulo Ragner" loading="lazy">
                 </div>
                 <h3>Paulo Ragner</h3>
-                <p class="pessoa-cargo" data-i18n="cargo_cliente">Cliente</p>
+                <p class="pessoa-cargo" data-i18n="cargo_cliente">Cliente e avaliador</p>
             </article>
 
         </div>

@@ -19,9 +19,6 @@
     .iphone-hero { width: 250px; }
     .hero-anel { right: -160px; opacity: 0.35; }
 
-    .flutuante-3d { left: 0; top: 24px; }
-    .flutuante-idioma { right: 0; bottom: 24px; }
-
     .recursos-grade { grid-template-columns: repeat(2, 1fr); }
     .equipe-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -68,9 +65,6 @@
     html { scroll-padding-top: 84px; }
 
     .carrossel-palco { height: 420px; }
-
-    .sobre-figura { align-items: center; }
-    .sobre-figura figcaption { text-align: center; }
 }
 
 /* ---------- Até 640px (celular) ---------- */
@@ -89,17 +83,12 @@
     .idioma { padding: 4px 8px; }
     .tema-botao, .menu-botao { width: 38px; height: 38px; }
 
-    .iphone { padding: 7px; border-radius: 38px; }
-    .iphone-tela { border-radius: 31px; }
-    .iphone::after { top: 13px; height: 15px; }
+    .iphone { padding: 8px; border-radius: 38px; }
+    .iphone-tela { border-radius: 30px; padding-top: 18px; }
+    .iphone-tela::before { height: 18px; font-size: 9px; padding: 0 11px; }
+    .iphone-tela::after { top: 6px; right: 11px; width: 30px; height: 7px; }
 
     .iphone-hero { width: 214px; }
-
-    .flutuante { padding: 9px 12px; }
-    .flutuante strong { font-size: 0.8rem; }
-    .flutuante span { font-size: 0.7rem; }
-    .flutuante-3d { top: 8px; }
-    .flutuante-idioma { bottom: 8px; }
 
     .hero-botoes .botao { width: 100%; }
     .hero-anel { display: none; }
@@ -116,7 +105,6 @@
 
     .pessoa { padding: 20px 12px; }
     .pessoa-foto { width: 84px; height: 84px; }
-    .iphone-figura { width: 168px; }
 
     .download-grade {
         padding: 26px 20px;
