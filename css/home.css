@@ -1,0 +1,540 @@
+/* =========================================================
+   home.css — seções da página inicial
+   ========================================================= */
+
+/* ---------- Apresentação principal ---------- */
+
+.hero {
+    position: relative;
+    padding: 88px 0 104px;
+    overflow: hidden;
+}
+
+.hero-luz {
+    position: absolute;
+    top: -220px;
+    right: -120px;
+    width: 720px;
+    height: 720px;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.16), transparent 62%);
+    pointer-events: none;
+}
+
+.hero-grade {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+}
+
+.selo {
+    display: inline-block;
+    margin: 0 0 18px;
+    padding: 6px 14px;
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jade);
+}
+
+.hero h1 { margin-bottom: 20px; }
+
+.hero-descricao {
+    font-size: 1.06rem;
+    max-width: 52ch;
+    color: var(--texto-fraco);
+}
+
+.hero-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0 18px;
+}
+
+.hero-info {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--texto-fraco);
+}
+
+/* Celular desenhado em CSS, com a tela do app dentro */
+.hero-celular {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.celular {
+    width: 300px;
+    padding: 10px;
+    border-radius: 46px;
+    background: linear-gradient(160deg, #22302a, #101a16 55%, #1b2620);
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(76, 175, 80, 0.22),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.celular-tela {
+    border-radius: 36px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 840 / 1520;
+}
+
+.celular-tela img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.flutuante {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: rgba(26, 42, 31, 0.86);
+    border: 1px solid rgba(76, 175, 80, 0.28);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.42);
+}
+
+.flutuante strong {
+    font-size: 0.9rem;
+    color: var(--texto);
+}
+
+.flutuante span {
+    font-size: 0.76rem;
+    color: var(--texto-fraco);
+}
+
+.flutuante-3d { top: 54px; left: -6px; }
+.flutuante-idioma { bottom: 58px; right: -8px; }
+
+/* ---------- Carrossel ---------- */
+
+.app-grade {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items: center;
+}
+
+.carrossel {
+    background: rgba(20, 30, 24, 0.7);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-grande);
+    padding: 22px;
+}
+
+.carrossel-palco {
+    position: relative;
+    aspect-ratio: 840 / 1520;
+    max-height: 560px;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #08100C;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
+}
+
+.slide.ativa {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.slide figcaption {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(9, 15, 12, 0.82);
+    backdrop-filter: blur(6px);
+    font-size: 0.8rem;
+    color: var(--texto);
+    text-align: center;
+}
+
+.carrossel-controles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.carrossel-botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--borda);
+    background: transparent;
+    color: var(--texto);
+    cursor: pointer;
+    transition: border-color var(--transicao), background-color var(--transicao);
+}
+
+.carrossel-botao:hover {
+    border-color: var(--jade);
+    background: rgba(76, 175, 80, 0.12);
+}
+
+.carrossel-pontos {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.ponto {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--borda);
+    cursor: pointer;
+    transition: width var(--transicao), background-color var(--transicao);
+}
+
+.ponto.ativo {
+    width: 20px;
+    background: var(--jade);
+}
+
+.app-info h3 { font-size: 1.5rem; margin-bottom: 14px; }
+
+.lista-check {
+    list-style: none;
+    margin: 22px 0 28px;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.lista-check li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 0.96rem;
+    color: var(--texto-fraco);
+}
+
+.lista-check li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(76, 175, 80, 0.6);
+    background:
+        linear-gradient(45deg, transparent 45%, var(--jade) 45% 55%, transparent 55%) no-repeat 3px 7px / 10px 6px;
+}
+
+/* ---------- Sobre ---------- */
+
+.sobre-grade {
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    gap: 56px;
+    align-items: start;
+}
+
+.sobre-cartoes {
+    display: grid;
+    gap: 16px;
+}
+
+.cartao {
+    padding: 22px 24px;
+    border-radius: var(--raio);
+    background: var(--musgo);
+    border: 1px solid var(--borda);
+}
+
+.cartao h3 { margin-bottom: 8px; color: var(--texto); }
+.cartao p { margin: 0; font-size: 0.94rem; }
+
+/* ---------- Recursos ---------- */
+
+.recursos-grade {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.recurso {
+    padding: 26px 24px;
+    border-radius: var(--raio);
+    background: rgba(20, 30, 24, 0.72);
+    border: 1px solid var(--borda);
+    transition: border-color var(--transicao), transform var(--transicao);
+}
+
+.recurso:hover {
+    border-color: rgba(76, 175, 80, 0.45);
+    transform: translateY(-2px);
+}
+
+.recurso-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background: rgba(76, 175, 80, 0.12);
+    border: 1px solid rgba(76, 175, 80, 0.28);
+    color: var(--jade);
+}
+
+.recurso-icone svg { width: 22px; height: 22px; }
+
+.recurso h3 { margin-bottom: 8px; }
+.recurso p { margin: 0; font-size: 0.92rem; }
+
+/* ---------- Vídeo ---------- */
+
+.video-moldura {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--raio-grande);
+    border: 1px dashed rgba(76, 175, 80, 0.35);
+    background:
+        radial-gradient(circle at 50% 40%, rgba(76, 175, 80, 0.10), transparent 60%),
+        rgba(20, 30, 24, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.video-moldura iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.video-aviso {
+    text-align: center;
+    padding: 24px;
+}
+
+.video-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--jade);
+}
+
+.video-aviso strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.video-aviso p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ---------- Galeria ---------- */
+
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.galeria-item {
+    margin: 0;
+    position: relative;
+    border-radius: var(--raio);
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    background: var(--musgo);
+}
+
+.galeria-item.grande { grid-row: span 2; }
+
+.galeria-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 320ms ease;
+}
+
+.galeria-item:hover img { transform: scale(1.03); }
+
+.galeria-item figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 26px 14px 12px;
+    font-size: 0.82rem;
+    color: var(--texto);
+    background: linear-gradient(180deg, transparent, rgba(8, 14, 11, 0.9));
+}
+
+/* ---------- Download ---------- */
+
+.secao-download { padding-top: 40px; }
+
+.download-grade {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+    padding: 48px;
+    border-radius: 28px;
+    border: 1px solid rgba(76, 175, 80, 0.28);
+    background:
+        radial-gradient(circle at 90% 10%, rgba(76, 175, 80, 0.14), transparent 55%),
+        linear-gradient(160deg, rgba(26, 42, 31, 0.9), rgba(15, 24, 19, 0.92));
+}
+
+.download-nota {
+    font-size: 0.86rem;
+    margin-bottom: 0;
+    padding-left: 14px;
+    border-left: 2px solid rgba(196, 168, 77, 0.6);
+}
+
+.download-cartao {
+    padding: 26px;
+    border-radius: 20px;
+    background: rgba(11, 18, 16, 0.75);
+    border: 1px solid var(--borda);
+}
+
+.download-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.download-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+}
+
+.download-cabecalho strong { display: block; font-size: 1.05rem; }
+.download-cabecalho span { font-size: 0.85rem; color: var(--texto-fraco); }
+
+.download-detalhes {
+    margin: 0 0 22px;
+    display: grid;
+    gap: 10px;
+}
+
+.download-detalhes div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(46, 58, 48, 0.6);
+    font-size: 0.88rem;
+}
+
+.download-detalhes div:last-child { border-bottom: 0; padding-bottom: 0; }
+.download-detalhes dt { color: var(--texto-fraco); margin: 0; }
+.download-detalhes dd { margin: 0; color: var(--texto); font-weight: 500; }
+
+.download-repo {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 0.86rem;
+    color: var(--texto-fraco);
+}
+
+.download-repo:hover { color: var(--jade); }
+
+/* ---------- Equipe ---------- */
+
+.equipe-grade {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.pessoa {
+    padding: 28px 20px;
+    border-radius: var(--raio);
+    background: rgba(20, 30, 24, 0.7);
+    border: 1px solid var(--borda);
+    text-align: center;
+}
+
+.pessoa-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--jade);
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.35);
+}
+
+.pessoa-foto.pequena {
+    width: 76px;
+    height: 76px;
+    font-size: 1.25rem;
+    color: var(--ouro);
+    background: rgba(196, 168, 77, 0.1);
+    border-color: rgba(196, 168, 77, 0.35);
+}
+
+.pessoa h3 { margin-bottom: 4px; font-size: 1rem; }
+
+.pessoa-cargo {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--texto-fraco);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}

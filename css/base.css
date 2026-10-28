@@ -1,0 +1,370 @@
+/* =========================================================
+   base.css — cores, fontes, cabeçalho, botões, rodapé
+   Mesma paleta do app (Forest Night + Jade Glow)
+   ========================================================= */
+
+@font-face {
+    font-family: "Inter";
+    src: url("../font/inter_regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../font/inter_medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../font/inter_semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../font/inter_bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Cores tiradas do DESIGN.md do projeto */
+    --floresta: #0B1210;        /* fundo principal */
+    --musgo: #141E18;           /* cartões */
+    --musgo-alto: #1A2A1F;      /* containers elevados */
+    --musgo-claro: #243329;
+    --jade: #4CAF50;            /* acento único */
+    --jade-neon: #00E676;       /* só detalhes */
+    --ouro: #C4A84D;            /* acento terciário */
+    --borda: #2E3A30;
+    --texto: #F5F5F0;
+    --texto-fraco: #9E9E96;
+
+    /* Medidas */
+    --largura: 1160px;
+    --raio: 16px;
+    --raio-grande: 22px;
+    --transicao: 180ms ease;
+}
+
+* { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+}
+
+body {
+    margin: 0;
+    background-color: var(--floresta);
+    color: var(--texto);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* Fundo com textura de escamas, bem discreto */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        radial-gradient(circle at 20% 10%, rgba(76, 175, 80, 0.10), transparent 45%),
+        radial-gradient(circle at 85% 0%, rgba(196, 168, 77, 0.07), transparent 40%),
+        repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 14px);
+    pointer-events: none;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: var(--jade); text-decoration: none; }
+a:hover { color: var(--jade-neon); }
+
+h1, h2, h3, h4 {
+    margin: 0 0 14px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+
+h1 { font-size: clamp(2rem, 4.4vw, 3.4rem); }
+h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); }
+h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+
+p { margin: 0 0 16px; color: var(--texto-fraco); }
+
+.container {
+    width: 100%;
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.topo {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11, 18, 16, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(46, 58, 48, 0.7);
+}
+
+.topo-linha {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 72px;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--texto);
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.marca-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+}
+
+.marca-nome { letter-spacing: -0.02em; }
+
+.menu {
+    display: flex;
+    gap: 26px;
+    margin-left: auto;
+}
+
+.menu a {
+    color: var(--texto-fraco);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    transition: color var(--transicao), border-color var(--transicao);
+}
+
+.menu a:hover,
+.menu a.ativo {
+    color: var(--texto);
+    border-bottom-color: var(--jade);
+}
+
+.topo-acoes {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.idioma {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--texto-fraco);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    padding: 4px 10px 4px 8px;
+    transition: border-color var(--transicao);
+}
+
+.idioma:hover { border-color: var(--jade); }
+.idioma-icone { display: flex; }
+
+.idioma select {
+    background: transparent;
+    border: 0;
+    color: var(--texto);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 2px 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.idioma select option { background: var(--musgo); color: var(--texto); }
+
+.menu-botao {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    padding: 0 10px;
+    background: transparent;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.menu-botao span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--texto);
+    border-radius: 2px;
+    transition: transform var(--transicao), opacity var(--transicao);
+}
+
+/* ---------- Botões ---------- */
+
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.98rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform var(--transicao), background-color var(--transicao), border-color var(--transicao);
+}
+
+.botao:active { transform: translateY(-1px); }
+
+.botao-principal {
+    background: var(--jade);
+    color: #08120B;
+}
+
+.botao-principal:hover {
+    background: var(--jade-neon);
+    color: #08120B;
+}
+
+.botao-contorno {
+    border-color: rgba(76, 175, 80, 0.55);
+    color: var(--texto);
+    background: transparent;
+}
+
+.botao-contorno:hover {
+    border-color: var(--jade);
+    background: rgba(76, 175, 80, 0.10);
+    color: var(--texto);
+}
+
+.botao-topo { padding: 10px 20px; font-size: 0.9rem; }
+.botao-largo { width: 100%; }
+
+/* ---------- Estrutura das seções ---------- */
+
+.secao { padding: 96px 0; }
+
+.secao-alt {
+    background: linear-gradient(180deg, rgba(20, 30, 24, 0.55), rgba(11, 18, 16, 0));
+    border-top: 1px solid rgba(46, 58, 48, 0.45);
+    border-bottom: 1px solid rgba(46, 58, 48, 0.45);
+}
+
+.secao-topo {
+    max-width: 640px;
+    margin-bottom: 48px;
+}
+
+.rotulo {
+    display: inline-block;
+    margin: 0 0 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--jade);
+}
+
+.secao-descricao { margin: 0; }
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+    margin-top: 40px;
+    padding: 56px 0 28px;
+    border-top: 1px solid var(--borda);
+    background: rgba(20, 30, 24, 0.5);
+}
+
+.rodape-grade {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.rodape-marca {
+    display: flex;
+    gap: 14px;
+    max-width: 420px;
+}
+
+.rodape-logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.rodape-marca strong { font-size: 1.05rem; }
+.rodape-marca p { margin: 6px 0 0; font-size: 0.9rem; line-height: 1.55; }
+
+.rodape-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+}
+
+.rodape-links a {
+    color: var(--texto-fraco);
+    font-size: 0.92rem;
+}
+
+.rodape-links a:hover { color: var(--texto); }
+
+.rodape-fim {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(46, 58, 48, 0.6);
+}
+
+.rodape-fim p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--texto-fraco);
+}
+
+/* Foco visível para navegação por teclado */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--jade);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* Respeita quem desativa animações no sistema */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+}

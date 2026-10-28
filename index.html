@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title data-i18n="meta_titulo">Serpenteando — app educativo sobre serpentes brasileiras</title>
+    <meta name="description" data-i18n-attr="content:meta_desc" content="Aplicativo educativo sobre serpentes brasileiras, desenvolvido como TCC do IFPB. Fichas de espécies, quiz, missões, mitos e verdades e anatomia 3D.">
+    <meta name="theme-color" content="#0B1210">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
+
+    <!-- Fontes do próprio projeto (as mesmas do app) -->
+    <link rel="preload" href="font/inter_regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="font/inter_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/responsivo.css">
+</head>
+<body>
+
+<!-- ================= CABEÇALHO ================= -->
+<header class="topo" id="topo">
+    <div class="container topo-linha">
+        <a class="marca" href="#inicio" aria-label="Serpenteando">
+            <img src="img/logo.png" alt="Logo do Serpenteando" class="marca-logo">
+            <span class="marca-nome">Serpenteando</span>
+        </a>
+
+        <nav class="menu" id="menu" aria-label="Navegação principal">
+            <a href="#app" data-i18n="nav_app">O app</a>
+            <a href="#sobre" data-i18n="nav_sobre">Sobre</a>
+            <a href="#recursos" data-i18n="nav_recursos">Recursos</a>
+            <a href="#video" data-i18n="nav_video">Vídeo</a>
+            <a href="#galeria" data-i18n="nav_galeria">Galeria</a>
+            <a href="#equipe" data-i18n="nav_equipe">Equipe</a>
+        </nav>
+
+        <div class="topo-acoes">
+            <label class="idioma" for="seletor-idioma">
+                <span class="idioma-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M4 5h8M8 3v2M11 5c0 4-3 7-7 8M6 8c1 2 3 4 6 5"/>
+                        <path d="M12.5 21l3.5-9 3.5 9M14 18h4"/>
+                    </svg>
+                </span>
+                <select id="seletor-idioma" aria-label="Idioma do site">
+                    <option value="pt">Português</option>
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                </select>
+            </label>
+
+            <a class="botao botao-principal botao-topo" href="#download" data-i18n="nav_baixar">Baixar o app</a>
+
+            <button class="menu-botao" id="menu-botao" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<!-- ================= APRESENTAÇÃO ================= -->
+<section class="hero" id="inicio">
+    <div class="hero-luz" aria-hidden="true"></div>
+    <div class="container hero-grade">
+
+        <div class="hero-texto">
+            <p class="selo" data-i18n="hero_selo">TCC · Instituto Federal da Paraíba</p>
+            <h1 data-i18n="hero_titulo">Conheça as serpentes brasileiras — e aprenda brincando</h1>
+            <p class="hero-descricao" data-i18n="hero_texto">
+                O Serpenteando é um aplicativo educativo para estudantes do ensino médio que reúne
+                fichas das espécies, quiz com três níveis, missões, mitos e verdades e um modelo 3D
+                interativo da cascavel — tudo em português, inglês e espanhol.
+            </p>
+
+            <div class="hero-botoes">
+                <a class="botao botao-principal" href="#download" data-i18n="hero_btn1">Baixar o APK</a>
+                <a class="botao botao-contorno" href="#sobre" data-i18n="hero_btn2">Conhecer o projeto</a>
+            </div>
+
+            <p class="hero-info" data-i18n="hero_info">Android 6.0 ou superior · versão 0.1.0</p>
+        </div>
+
+        <div class="hero-celular">
+            <div class="celular">
+                <div class="celular-tela">
+                    <img src="img/modelo-3d.jpeg" alt="Tela do modelo 3D da serpente no aplicativo" width="840" height="1520">
+                </div>
+            </div>
+            <div class="flutuante flutuante-3d">
+                <strong data-i18n="badge_3d_titulo">Anatomia 3D</strong>
+                <span data-i18n="badge_3d_texto">Gire, dê zoom e toque nos pontos</span>
+            </div>
+            <div class="flutuante flutuante-idioma">
+                <strong data-i18n="badge_idioma_titulo">3 idiomas</strong>
+                <span data-i18n="badge_idioma_texto">PT · EN · ES</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= O APP / CARROSSEL ================= -->
+<section class="secao" id="app">
+    <div class="container">
+
+        <div class="secao-topo">
+            <p class="rotulo" data-i18n="app_rotulo">O aplicativo</p>
+            <h2 data-i18n="app_titulo">O app por dentro</h2>
+            <p class="secao-descricao" data-i18n="app_texto">
+                As telas abaixo são do aplicativo em funcionamento. Percorra no carrossel para
+                conhecer cada parte do Serpenteando.
+            </p>
+        </div>
+
+        <div class="app-grade">
+
+            <!-- Carrossel -->
+            <div class="carrossel" aria-roledescription="carrossel" aria-label="Telas do aplicativo">
+                <div class="carrossel-palco" id="carrossel-palco">
+
+                    <figure class="slide ativa" data-indice="0">
+                        <img src="img/tela-inicial.jpeg" alt="Tela inicial do aplicativo com pontuação, missões e sequência" loading="lazy">
+                        <figcaption data-i18n="legenda_home">Tela inicial com pontuação, missões e sequência</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="1">
+                        <img src="img/ficha-especies.jpeg" alt="Ficha de uma espécie de serpente" loading="lazy">
+                        <figcaption data-i18n="legenda_ficha">Ficha completa das espécies mais conhecidas</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="2">
+                        <img src="img/quiz-dificuldade.jpeg" alt="Tela do quiz com seleção de dificuldade" loading="lazy">
+                        <figcaption data-i18n="legenda_quiz">Quiz com níveis fácil, médio e difícil</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="3">
+                        <img src="img/modelo-3d.jpeg" alt="Modelo 3D interativo da serpente" loading="lazy">
+                        <figcaption data-i18n="legenda_3d">Modelo 3D interativo da cascavel</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="4">
+                        <img src="img/mitos-verdades.jpeg" alt="Tela de mitos e verdades" loading="lazy">
+                        <figcaption data-i18n="legenda_mitos">Mitos e verdades com explicação científica</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="5">
+                        <img src="img/missoes.jpeg" alt="Tela de missões com acompanhamento de progresso" loading="lazy">
+                        <figcaption data-i18n="legenda_missoes">Missões com acompanhamento de progresso</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="6">
+                        <img src="img/idiomas.jpeg" alt="Escolha de idioma do aplicativo" loading="lazy">
+                        <figcaption data-i18n="legenda_idiomas">Escolha do idioma: português, inglês ou espanhol</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="7">
+                        <img src="img/configuracoes.jpeg" alt="Tela de configurações do aplicativo" loading="lazy">
+                        <figcaption data-i18n="legenda_config">Configurações do app</figcaption>
+                    </figure>
+
+                    <figure class="slide" data-indice="8">
+                        <img src="img/tela-inicializacao.jpeg" alt="Tela de inicialização do aplicativo" loading="lazy">
+                        <figcaption data-i18n="legenda_splash">Tela de inicialização</figcaption>
+                    </figure>
+
+                </div>
+
+                <div class="carrossel-controles">
+                    <button class="carrossel-botao" id="anterior" aria-label="Imagem anterior">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+
+                    <div class="carrossel-pontos" id="pontos" role="tablist" aria-label="Selecionar imagem"></div>
+
+                    <button class="carrossel-botao" id="proximo" aria-label="Próxima imagem">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Texto ao lado -->
+            <div class="app-info">
+                <h3 data-i18n="app_info_titulo">Um guia de bolso sobre serpentes</h3>
+                <p data-i18n="app_info_texto">
+                    O app reúne conteúdo sobre jararaca, cascavel, coral verdadeira, jiboia, sucuri,
+                    urutu, caninana e outras espécies, com a indicação de quais são peçonhentas.
+                    Tudo foi escrito para o público do ensino médio.
+                </p>
+
+                <ul class="lista-check">
+                    <li data-i18n="app_item_1">Fichas com nome científico, habitat, alimentação e curiosidades</li>
+                    <li data-i18n="app_item_2">Quiz com explicação da resposta certa</li>
+                    <li data-i18n="app_item_3">Missões que acompanham o seu progresso</li>
+                    <li data-i18n="app_item_4">Anatomia 3D da cascavel com pontos interativos</li>
+                    <li data-i18n="app_item_5">Mitos e verdades com justificativa científica</li>
+                    <li data-i18n="app_item_6">Português, inglês e espanhol</li>
+                </ul>
+
+                <a class="botao botao-contorno" href="#recursos" data-i18n="app_btn">Ver todos os recursos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section class="secao secao-alt" id="sobre">
+    <div class="container sobre-grade">
+        <div>
+            <p class="rotulo" data-i18n="sobre_rotulo">Sobre o projeto</p>
+            <h2 data-i18n="sobre_titulo">O que é o Serpenteando</h2>
+
+            <p data-i18n="sobre_p1">
+                O Serpenteando é um aplicativo para celular criado para ajudar alunos a aprender
+                sobre as serpentes brasileiras, tanto as peçonhentas quanto as que não são. Ele foi
+                desenvolvido do zero em Android, com Java, como Trabalho de Conclusão de Curso do
+                Instituto Federal da Paraíba.
+            </p>
+
+            <p data-i18n="sobre_p2">
+                A proposta é tornar o estudo de biologia e a prevenção de acidentes com serpentes
+                mais fácil, dinâmico e organizado: em vez de só ler, o estudante consulta fichas,
+                responde quiz, cumpre missões e explora o modelo 3D da cascavel.
+            </p>
+        </div>
+
+        <div class="sobre-cartoes">
+            <article class="cartao">
+                <h3 data-i18n="sobre_card1_titulo">O problema</h3>
+                <p data-i18n="sobre_card1_texto">
+                    O conteúdo sobre serpentes costuma aparecer espalhado e distante da rotina do
+                    aluno, o que dificulta reconhecer espécies e entender o que fazer em caso de
+                    acidente.
+                </p>
+            </article>
+
+            <article class="cartao">
+                <h3 data-i18n="sobre_card2_titulo">A proposta</h3>
+                <p data-i18n="sobre_card2_texto">
+                    Juntar conteúdo, prática e recompensa no mesmo lugar, com uma linguagem simples
+                    e telas feitas para o celular.
+                </p>
+            </article>
+
+            <article class="cartao">
+                <h3 data-i18n="sobre_card3_titulo">Para quem</h3>
+                <p data-i18n="sobre_card3_texto">
+                    Estudantes do ensino médio que querem aprender biologia de forma mais leve e
+                    também entender como se proteger de animais peçonhentos.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ================= RECURSOS ================= -->
+<section class="secao" id="recursos">
+    <div class="container">
+        <div class="secao-topo">
+            <p class="rotulo" data-i18n="rec_rotulo">Recursos</p>
+            <h2 data-i18n="rec_titulo">O que já funciona no app</h2>
+            <p class="secao-descricao" data-i18n="rec_texto">
+                Só está listado aqui o que já está implementado e funcionando no aplicativo.
+            </p>
+        </div>
+
+        <div class="recursos-grade">
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/>
+                        <path d="M8 7h7M8 10h5"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec1_titulo">Fichas das espécies</h3>
+                <p data-i18n="rec1_texto">
+                    Nome comum e científico, família, se é peçonhenta, descrição, habitat,
+                    alimentação, distribuição, reprodução e curiosidades.
+                </p>
+            </article>
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.2 9a2.8 2.8 0 015.4.9c0 1.9-2.6 2.1-2.6 4"/>
+                        <path d="M12 17.2v.2"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec2_titulo">Quiz com três níveis</h3>
+                <p data-i18n="rec2_texto">
+                    Perguntas de múltipla escolha em fácil, médio e difícil, com correção na hora e
+                    explicação do assunto.
+                </p>
+            </article>
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 21V6a2 2 0 012-2h7l5 5v12"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec3_titulo">Missões com progresso</h3>
+                <p data-i18n="rec3_texto">
+                    Objetivos como responder quizzes ou consultar conteúdos, com itens de
+                    acompanhamento e aviso de missão concluída.
+                </p>
+            </article>
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/>
+                        <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec4_titulo">Anatomia 3D da cascavel</h3>
+                <p data-i18n="rec4_texto">
+                    Modelo interativo para girar e dar zoom, com pontos que explicam cabeça, olhos,
+                    língua, escamas e guizo, além de um tour guiado.
+                </p>
+            </article>
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec5_titulo">Mitos e verdades</h3>
+                <p data-i18n="rec5_texto">
+                    Crenças populares classificadas como mito ou verdade, cada uma com a explicação
+                    científica do porquê.
+                </p>
+            </article>
+
+            <article class="recurso">
+                <span class="recurso-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 7h9M17 7h3M4 17h3M11 17h9"/>
+                        <circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>
+                    </svg>
+                </span>
+                <h3 data-i18n="rec6_titulo">Ajustes e idiomas</h3>
+                <p data-i18n="rec6_texto">
+                    Tema escuro, escolha do idioma do aplicativo (português, inglês e espanhol),
+                    versão do app e reporte de problemas.
+                </p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= VÍDEO ================= -->
+<!--
+    ██ ÁREA DO VÍDEO (etapa 2 — responsabilidade do Kaio) ██
+    Para publicar o vídeo, troque o valor do atributo data-youtube abaixo
+    pelo ID do vídeo do YouTube (o trecho depois de "v=") ou pela URL completa.
+    Ex.: data-youtube="dQw4w9WgXcQ"  ou  data-youtube="https://youtu.be/dQw4w9WgXcQ"
+    Nada mais precisa ser alterado: o player aparece sozinho no lugar do aviso.
+-->
+<section class="secao secao-alt" id="video">
+    <div class="container">
+        <div class="secao-topo">
+            <p class="rotulo" data-i18n="video_rotulo">Apresentação</p>
+            <h2 data-i18n="video_titulo">Vídeo do projeto</h2>
+            <p class="secao-descricao" data-i18n="video_texto">
+                Apresentação em vídeo do Serpenteando, mostrando o aplicativo em funcionamento e as
+                decisões do projeto.
+            </p>
+        </div>
+
+        <div class="video-moldura" id="video-moldura" data-youtube="">
+            <div class="video-aviso" id="video-aviso">
+                <span class="video-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2.5" y="5" width="19" height="14" rx="3"/>
+                        <path d="M10 9.5l5 2.5-5 2.5z"/>
+                    </svg>
+                </span>
+                <strong data-i18n="video_aviso_titulo">Vídeo em breve</strong>
+                <p data-i18n="video_aviso_texto">
+                    A apresentação em vídeo será publicada nesta seção.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= GALERIA ================= -->
+<section class="secao" id="galeria">
+    <div class="container">
+        <div class="secao-topo">
+            <p class="rotulo" data-i18n="galeria_rotulo">Galeria</p>
+            <h2 data-i18n="galeria_titulo">Telas do aplicativo</h2>
+            <p class="secao-descricao" data-i18n="galeria_texto">
+                Imagens do app em uso, registradas no celular durante o desenvolvimento do TCC.
+            </p>
+        </div>
+
+        <div class="galeria">
+            <figure class="galeria-item grande">
+                <img src="img/modelo-3d.jpeg" alt="Modelo 3D da serpente" loading="lazy">
+                <figcaption data-i18n="legenda_3d">Modelo 3D interativo da cascavel</figcaption>
+            </figure>
+            <figure class="galeria-item">
+                <img src="img/mitos-verdades.jpeg" alt="Seção de mitos e verdades" loading="lazy">
+                <figcaption data-i18n="legenda_mitos">Mitos e verdades</figcaption>
+            </figure>
+            <figure class="galeria-item">
+                <img src="img/missoes.jpeg" alt="Seção de missões" loading="lazy">
+                <figcaption data-i18n="legenda_missoes">Missões</figcaption>
+            </figure>
+            <figure class="galeria-item">
+                <img src="img/ficha-especies.jpeg" alt="Ficha de espécies" loading="lazy">
+                <figcaption data-i18n="legenda_ficha">Fichas das espécies</figcaption>
+            </figure>
+            <figure class="galeria-item">
+                <img src="img/quiz-dificuldade.jpeg" alt="Seleção de dificuldade do quiz" loading="lazy">
+                <figcaption data-i18n="legenda_quiz">Quiz</figcaption>
+            </figure>
+            <figure class="galeria-item">
+                <img src="img/idiomas.jpeg" alt="Escolha de idioma" loading="lazy">
+                <figcaption data-i18n="legenda_idiomas">Idiomas</figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<!-- ================= DOWNLOAD ================= -->
+<section class="secao secao-download" id="download">
+    <div class="container download-grade">
+        <div>
+            <p class="rotulo" data-i18n="down_rotulo">Download</p>
+            <h2 data-i18n="down_titulo">Instale o Serpenteando</h2>
+            <p data-i18n="down_texto">
+                O aplicativo é distribuído como arquivo APK, para instalar direto no celular
+                Android. Não é necessário cadastro.
+            </p>
+            <p class="download-nota" data-i18n="down_nota">
+                Ao instalar, o Android pode pedir para permitir a instalação de aplicativos de
+                fontes desconhecidas — é normal em APKs baixados fora da Play Store.
+            </p>
+        </div>
+
+        <div class="download-cartao">
+            <div class="download-cabecalho">
+                <img src="img/logo.png" alt="" class="download-logo">
+                <div>
+                    <strong>Serpenteando</strong>
+                    <span data-i18n="down_versao">Versão 0.1.0</span>
+                </div>
+            </div>
+
+            <dl class="download-detalhes">
+                <div><dt data-i18n="down_tam_label">Tamanho</dt><dd>152 MB</dd></div>
+                <div><dt data-i18n="down_req_label">Requisitos</dt><dd data-i18n="down_req">Android 6.0 ou superior</dd></div>
+                <div><dt data-i18n="down_tipo_label">Formato</dt><dd>APK</dd></div>
+            </dl>
+
+            <a class="botao botao-principal botao-largo" href="https://github.com/Kaio193/Serpenteando/releases/latest" data-i18n="down_btn" target="_blank" rel="noopener">
+                Baixar o APK
+            </a>
+
+            <a class="download-repo" href="https://github.com/Kaio193/Serpenteando" target="_blank" rel="noopener" data-i18n="down_repo">
+                Ver o código no GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= EQUIPE ================= -->
+<section class="secao" id="equipe">
+    <div class="container">
+        <div class="secao-topo">
+            <p class="rotulo" data-i18n="equipe_rotulo">Equipe</p>
+            <h2 data-i18n="equipe_titulo">Quem fez o Serpenteando</h2>
+            <p class="secao-descricao" data-i18n="equipe_texto">
+                Trabalho de Conclusão de Curso do Instituto Federal da Paraíba.
+            </p>
+        </div>
+
+        <div class="equipe-grade">
+
+            <article class="pessoa">
+                <div class="pessoa-foto" aria-hidden="true">KD</div>
+                <h3>Kaio Dantas</h3>
+                <p class="pessoa-cargo" data-i18n="cargo_desenvolvedor">Desenvolvedor</p>
+            </article>
+
+            <article class="pessoa">
+                <div class="pessoa-foto" aria-hidden="true">ES</div>
+                <h3>Ebert Souza</h3>
+                <p class="pessoa-cargo" data-i18n="cargo_desenvolvedor">Desenvolvedor</p>
+            </article>
+
+            <article class="pessoa">
+                <div class="pessoa-foto pequena" aria-hidden="true">AC</div>
+                <h3>Prof. Alexandre Costa</h3>
+                <p class="pessoa-cargo" data-i18n="cargo_orientador">Orientador</p>
+            </article>
+
+            <article class="pessoa">
+                <div class="pessoa-foto pequena" aria-hidden="true">PR</div>
+                <h3>Paulo Ragner</h3>
+                <p class="pessoa-cargo" data-i18n="cargo_cliente">Cliente e avaliador</p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="rodape">
+    <div class="container rodape-grade">
+        <div class="rodape-marca">
+            <img src="img/logo.png" alt="Logo do Serpenteando" class="rodape-logo">
+            <div>
+                <strong>Serpenteando</strong>
+                <p data-i18n="rodape_texto">
+                    App educativo sobre serpentes brasileiras, feito como TCC do Instituto Federal
+                    da Paraíba.
+                </p>
+            </div>
+        </div>
+
+        <nav class="rodape-links" aria-label="Links do rodapé">
+            <a href="#app" data-i18n="nav_app">O app</a>
+            <a href="#sobre" data-i18n="nav_sobre">Sobre</a>
+            <a href="#recursos" data-i18n="nav_recursos">Recursos</a>
+            <a href="#download" data-i18n="nav_baixar">Baixar o app</a>
+            <a href="https://github.com/Kaio193/Serpenteando" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+    </div>
+
+    <div class="container rodape-fim">
+        <p data-i18n="rodape_credito">Desenvolvido por Kaio Dantas e Ebert Souza · IFPB · 2026</p>
+        <p data-i18n="rodape_tcc">Trabalho de Conclusão de Curso · Curso Técnico em Informática</p>
+    </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
