@@ -1,6 +1,7 @@
 /* =========================================================
-   base.css — cores, fontes, cabeçalho, botões, rodapé
-   Mesma paleta do app (Forest Night + Jade Glow)
+   base.css — cores, temas (escuro/claro), fontes, cabeçalho,
+   botões, divisoras e rodapé.
+   Paleta tirada do DESIGN.md do app: Forest Night + Jade Glow.
    ========================================================= */
 
 @font-face {
@@ -32,24 +33,75 @@
     font-display: swap;
 }
 
+/* ---------- Tema escuro (padrão, o mesmo do app) ---------- */
+
 :root {
-    /* Cores tiradas do DESIGN.md do projeto */
-    --floresta: #0B1210;        /* fundo principal */
-    --musgo: #141E18;           /* cartões */
-    --musgo-alto: #1A2A1F;      /* containers elevados */
-    --musgo-claro: #243329;
-    --jade: #4CAF50;            /* acento único */
-    --jade-neon: #00E676;       /* só detalhes */
-    --ouro: #C4A84D;            /* acento terciário */
-    --borda: #2E3A30;
-    --texto: #F5F5F0;
-    --texto-fraco: #9E9E96;
+    --fundo: #0B1210;           /* Forest Night */
+    --fundo-2: #101A15;         /* uma seção acima do fundo */
+    --fundo-3: #0D1613;         /* seção alternativa */
+    --superficie: #141E18;      /* Moss Surface */
+    --superficie-2: #1A2A1F;    /* Deep Container */
+    --superficie-3: #243329;    /* Lifted Moss */
+
+    --borda: #2E3A30;           /* Lichen Border */
+    --borda-suave: rgba(46, 58, 48, 0.55);
+    --borda-jade: rgba(76, 175, 80, 0.38);
+
+    --jade: #4CAF50;            /* Jade Glow — acento único */
+    --jade-neon: #00E676;
+    --ouro: #C4A84D;            /* Caatinga Gold */
+    --texto-no-jade: #08120B;
+
+    --texto: #F5F5F0;           /* Cloud Text */
+    --texto-fraco: #9E9E96;     /* Mist Text */
+
+    --vidro: rgba(11, 18, 16, 0.82);
+    --tipografia-escama: rgba(255, 255, 255, 0.022);
+    --sombra-celular:
+        0 40px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(76, 175, 80, 0.18),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --sombra-cartao: 0 20px 44px rgba(0, 0, 0, 0.35);
+    --sombra-suave: 0 14px 34px rgba(0, 0, 0, 0.28);
 
     /* Medidas */
     --largura: 1160px;
     --raio: 16px;
-    --raio-grande: 22px;
-    --transicao: 180ms ease;
+    --raio-grande: 24px;
+    --transicao: 220ms ease;
+    --curva: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ---------- Tema claro (o mesmo "mode_light" do app) ---------- */
+
+html.claro {
+    --fundo: #F2F0E9;
+    --fundo-2: #EAE6DC;
+    --fundo-3: #F7F5EE;
+    --superficie: #FBFAF4;
+    --superficie-2: #F0EDE3;
+    --superficie-3: #E4E0D4;
+
+    --borda: #D6D1C4;
+    --borda-suave: rgba(184, 178, 162, 0.55);
+    --borda-jade: rgba(46, 125, 50, 0.38);
+
+    --jade: #2E7D32;            /* Moss Deep Light */
+    --jade-neon: #1B5E20;
+    --ouro: #96771F;
+    --texto-no-jade: #F7F6F0;
+
+    --texto: #1C1C1E;           /* Forest Ink */
+    --texto-fraco: #5C6058;
+
+    --vidro: rgba(242, 240, 233, 0.86);
+    --tipografia-escama: rgba(28, 28, 30, 0.035);
+    --sombra-celular:
+        0 26px 60px rgba(38, 34, 24, 0.22),
+        0 0 0 1px rgba(46, 125, 50, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    --sombra-cartao: 0 16px 38px rgba(38, 34, 24, 0.10);
+    --sombra-suave: 0 10px 26px rgba(38, 34, 24, 0.08);
 }
 
 * { box-sizing: border-box; }
@@ -61,26 +113,34 @@ html {
 
 body {
     margin: 0;
-    background-color: var(--floresta);
+    background-color: var(--fundo);
     color: var(--texto);
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: 17px;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background-color 300ms ease, color 300ms ease;
 }
 
-/* Fundo com textura de escamas, bem discreto */
+/* Textura de escamas, bem discreta, atrás de tudo */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     background-image:
-        radial-gradient(circle at 20% 10%, rgba(76, 175, 80, 0.10), transparent 45%),
-        radial-gradient(circle at 85% 0%, rgba(196, 168, 77, 0.07), transparent 40%),
-        repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 14px);
+        radial-gradient(circle at 20% 8%, rgba(76, 175, 80, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 0%, rgba(196, 168, 77, 0.06), transparent 40%),
+        repeating-radial-gradient(circle at 0 0, var(--tipografia-escama) 0 1px, transparent 1px 14px);
     pointer-events: none;
+}
+
+html.claro body::before {
+    background-image:
+        radial-gradient(circle at 18% 6%, rgba(46, 125, 50, 0.10), transparent 46%),
+        radial-gradient(circle at 90% 2%, rgba(150, 119, 31, 0.08), transparent 42%),
+        repeating-radial-gradient(circle at 0 0, var(--tipografia-escama) 0 1px, transparent 1px 14px);
 }
 
 img { max-width: 100%; display: block; }
@@ -93,6 +153,7 @@ h1, h2, h3, h4 {
     line-height: 1.2;
     letter-spacing: -0.02em;
     font-weight: 700;
+    color: var(--texto);
 }
 
 h1 { font-size: clamp(2rem, 4.4vw, 3.4rem); }
@@ -114,16 +175,17 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(11, 18, 16, 0.82);
+    background: var(--vidro);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(46, 58, 48, 0.7);
+    border-bottom: 1px solid var(--borda-suave);
+    transition: background-color 300ms ease, border-color 300ms ease;
 }
 
 .topo-linha {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
     height: 72px;
 }
 
@@ -147,7 +209,7 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
 
 .menu {
     display: flex;
-    gap: 26px;
+    gap: 24px;
     margin-left: auto;
 }
 
@@ -169,7 +231,7 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
 .topo-acoes {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
 .idioma {
@@ -197,7 +259,38 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
     outline: none;
 }
 
-.idioma select option { background: var(--musgo); color: var(--texto); }
+.idioma select option { background: var(--superficie); color: var(--texto); }
+
+/* Botão de tema: mostra o sol no escuro e a lua no claro */
+.tema-botao {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--borda);
+    background: transparent;
+    color: var(--texto);
+    cursor: pointer;
+    transition: border-color var(--transicao), background-color var(--transicao);
+}
+
+.tema-botao:hover {
+    border-color: var(--jade);
+    background: rgba(76, 175, 80, 0.12);
+}
+
+.tema-icone {
+    position: absolute;
+    transition: opacity 240ms var(--curva), transform 320ms var(--curva);
+}
+
+.tema-icone-lua { opacity: 0; transform: rotate(-40deg) scale(0.7); }
+html.claro .tema-icone-sol { opacity: 0; transform: rotate(40deg) scale(0.7); }
+html.claro .tema-icone-lua { opacity: 1; transform: none; }
 
 .menu-botao {
     display: none;
@@ -242,16 +335,16 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
 
 .botao-principal {
     background: var(--jade);
-    color: #08120B;
+    color: var(--texto-no-jade);
 }
 
 .botao-principal:hover {
     background: var(--jade-neon);
-    color: #08120B;
+    color: var(--texto-no-jade);
 }
 
 .botao-contorno {
-    border-color: rgba(76, 175, 80, 0.55);
+    border-color: var(--borda-jade);
     color: var(--texto);
     background: transparent;
 }
@@ -267,12 +360,72 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
 
 /* ---------- Estrutura das seções ---------- */
 
-.secao { padding: 96px 0; }
+.secao {
+    position: relative;
+    padding: 96px 0;
+}
 
-.secao-alt {
-    background: linear-gradient(180deg, rgba(20, 30, 24, 0.55), rgba(11, 18, 16, 0));
-    border-top: 1px solid rgba(46, 58, 48, 0.45);
-    border-bottom: 1px solid rgba(46, 58, 48, 0.45);
+/* Cada seção tem o seu fundo, pra separar um assunto do outro */
+.secao-app {
+    background: linear-gradient(180deg, var(--fundo-2), var(--fundo) 78%);
+}
+
+.secao-sobre {
+    background:
+        linear-gradient(180deg, rgba(76, 175, 80, 0.05), transparent 40%),
+        var(--fundo-3);
+}
+
+.secao-recursos {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(76, 175, 80, 0.08), transparent 42%),
+        var(--fundo-2);
+}
+
+.secao-video {
+    background: linear-gradient(180deg, var(--fundo), var(--fundo-3) 50%, var(--fundo));
+}
+
+.secao-download {
+    background:
+        radial-gradient(circle at 78% 12%, rgba(76, 175, 80, 0.12), transparent 52%),
+        var(--fundo);
+}
+
+.secao-equipe {
+    background:
+        radial-gradient(circle at 85% 8%, rgba(196, 168, 77, 0.10), transparent 46%),
+        var(--fundo-2);
+}
+
+/* Divisa entre as seções: linha + losango no meio */
+.divisa {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 68px;
+    background: transparent;
+}
+
+.divisa::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(100% - 48px, var(--largura));
+    height: 1px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(90deg, transparent, var(--borda), transparent);
+}
+
+.divisa::after {
+    content: "";
+    width: 9px;
+    height: 9px;
+    transform: rotate(45deg);
+    background: var(--fundo);
+    border: 1px solid var(--borda-jade);
+    border-radius: 2px;
 }
 
 .secao-topo {
@@ -295,10 +448,9 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
 /* ---------- Rodapé ---------- */
 
 .rodape {
-    margin-top: 40px;
     padding: 56px 0 28px;
     border-top: 1px solid var(--borda);
-    background: rgba(20, 30, 24, 0.5);
+    background: var(--fundo-2);
 }
 
 .rodape-grade {
@@ -345,7 +497,7 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
     justify-content: space-between;
     margin-top: 36px;
     padding-top: 20px;
-    border-top: 1px solid rgba(46, 58, 48, 0.6);
+    border-top: 1px solid var(--borda-suave);
 }
 
 .rodape-fim p {
@@ -354,7 +506,8 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
     color: var(--texto-fraco);
 }
 
-/* Foco visível para navegação por teclado */
+/* ---------- Foco visível para teclado ---------- */
+
 a:focus-visible,
 button:focus-visible,
 select:focus-visible {
@@ -363,8 +516,29 @@ select:focus-visible {
     border-radius: 6px;
 }
 
-/* Respeita quem desativa animações no sistema */
+/* ---------- Animação de entrada ao rolar ---------- */
+
+.revelar {
+    transition: opacity 760ms var(--curva), transform 760ms var(--curva);
+    transition-delay: var(--atraso, 0ms);
+}
+
+/* O esconde-só-acontece-quando-o-JS-está-ativo:
+   se o JavaScript falhar, o conteúdo continua visível. */
+body.com-revelacao .revelar {
+    opacity: 0;
+    transform: translateY(26px);
+}
+
+body.com-revelacao .revelar.visivel {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- Respeita quem desativa animações ---------- */
+
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     * { animation: none !important; transition: none !important; }
+    body.com-revelacao .revelar { opacity: 1; transform: none; }
 }

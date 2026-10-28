@@ -16,17 +16,21 @@
     }
 
     .hero-celular { order: -1; }
-    .celular { width: 260px; }
+    .iphone-hero { width: 250px; }
+    .hero-anel { right: -160px; opacity: 0.35; }
 
     .flutuante-3d { left: 0; top: 24px; }
     .flutuante-idioma { right: 0; bottom: 24px; }
 
     .recursos-grade { grid-template-columns: repeat(2, 1fr); }
-    .equipe-grade { grid-template-columns: repeat(2, 1fr); }
+    .equipe-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .carrossel-palco { height: 470px; }
 
     .download-grade { padding: 36px; }
 
     .secao { padding: 76px 0; }
+    .divisa { height: 56px; }
 }
 
 /* ---------- Até 860px (menu vira gaveta) ---------- */
@@ -42,7 +46,7 @@
         flex-direction: column;
         gap: 0;
         padding: 10px 24px 18px;
-        background: rgba(11, 18, 16, 0.98);
+        background: var(--fundo);
         border-bottom: 1px solid var(--borda);
         display: none;
     }
@@ -51,7 +55,7 @@
 
     .menu a {
         padding: 13px 0;
-        border-bottom: 1px solid rgba(46, 58, 48, 0.6);
+        border-bottom: 1px solid var(--borda-suave);
         font-size: 1rem;
     }
 
@@ -60,9 +64,13 @@
     .botao-topo { display: none; }
 
     .topo-linha { height: 64px; }
+    .menu { top: 64px; }
     html { scroll-padding-top: 84px; }
 
-    .carrossel-palco { max-height: 440px; }
+    .carrossel-palco { height: 420px; }
+
+    .sobre-figura { align-items: center; }
+    .sobre-figura figcaption { text-align: center; }
 }
 
 /* ---------- Até 640px (celular) ---------- */
@@ -73,13 +81,19 @@
     .container { padding: 0 18px; }
 
     .secao { padding: 60px 0; }
-
     .secao-topo { margin-bottom: 32px; }
-
     .hero { padding: 40px 0 60px; }
 
-    .celular { width: 232px; padding: 8px; border-radius: 38px; }
-    .celular-tela { border-radius: 30px; }
+    .topo-linha { gap: 10px; }
+    .marca-nome { display: none; }
+    .idioma { padding: 4px 8px; }
+    .tema-botao, .menu-botao { width: 38px; height: 38px; }
+
+    .iphone { padding: 7px; border-radius: 38px; }
+    .iphone-tela { border-radius: 31px; }
+    .iphone::after { top: 13px; height: 15px; }
+
+    .iphone-hero { width: 214px; }
 
     .flutuante { padding: 9px 12px; }
     .flutuante strong { font-size: 0.8rem; }
@@ -88,23 +102,21 @@
     .flutuante-idioma { bottom: 8px; }
 
     .hero-botoes .botao { width: 100%; }
+    .hero-anel { display: none; }
 
-    .carrossel { padding: 14px; }
-    .carrossel-palco { max-height: 62vh; }
-    .slide figcaption { font-size: 0.75rem; }
+    .carrossel { padding: 16px; border-radius: 20px; }
+    .carrossel-palco { height: 360px; }
+    .slide figcaption { font-size: 0.76rem; max-width: 250px; }
 
     .recursos-grade,
     .equipe-grade {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .galeria {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
     }
 
-    .galeria-item.grande { grid-row: auto; grid-column: span 2; }
+    .pessoa { padding: 20px 12px; }
+    .pessoa-foto { width: 84px; height: 84px; }
+    .iphone-figura { width: 168px; }
 
     .download-grade {
         padding: 26px 20px;
@@ -116,15 +128,15 @@
     .video-moldura { border-radius: var(--raio); }
 
     .rodape-fim { flex-direction: column; }
-
     .rodape-links { gap: 8px 18px; }
+
+    .divisa { height: 44px; }
 }
 
 /* ---------- Telas muito estreitas ---------- */
 
 @media (max-width: 360px) {
-    .marca-nome { font-size: 0.98rem; }
+    .equipe-grade { grid-template-columns: 1fr; }
     .hero h1 { font-size: 1.7rem; }
-    .galeria { grid-template-columns: 1fr; }
-    .galeria-item.grande { grid-column: auto; }
+    .carrossel-palco { height: 320px; }
 }
