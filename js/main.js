@@ -122,6 +122,7 @@ function atualizarLateral() {
     var chaveTexto = "tela_" + nome + "_texto";
     var textos = TEXTOS[idiomaAtual] || TEXTOS.pt;
 
+
     // Guarda a chave no elemento: quando trocar o idioma, o aplicarIdioma
     // já encontra o texto certo desta tela.
     tituloLateral.setAttribute("data-i18n", chaveTitulo);
@@ -250,6 +251,9 @@ if (document.addEventListener) {
 
 // ---------- 6. Vídeo do YouTube ----------
 // Basta preencher data-youtube no HTML com o ID ou a URL do vídeo.
+// A capa (thumbnail real) fica no lugar do player e o clique abre o vídeo no
+// YouTube, em outra aba. A incorporação saiu de propósito: o player dentro do
+// site devolvia "Erro 153 — erro de configuração do player".
 
 var molduraVideo = document.getElementById("video-moldura");
 
@@ -266,15 +270,20 @@ if (molduraVideo) {
         }
         idVideo = idVideo.split("&")[0].split("?")[0];
 
-        var player = document.createElement("iframe");
-        player.src = "https://www.youtube-nocookie.com/embed/" + idVideo;
-        player.title = "Vídeo de apresentação do Serpenteando";
-        player.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
-        player.setAttribute("allowfullscreen", "");
-        player.setAttribute("loading", "lazy");
+        var capaVideo = document.getElementById("video-capa");
+        var imagemCapa = capaVideo ? capaVideo.querySelector(".video-capa-imagem") : null;
 
-        molduraVideo.innerHTML = "";
-        molduraVideo.appendChild(player);
+        // Capa e link saem do mesmo ID (data-youtube); a capa nunca some
+        if (capaVideo) {
+            capaVideo.href = "https://youtu.be/" + idVideo;
+        }
+
+        if (imagemCapa) {
+            imagemCapa.src = "https://i.ytimg.com/vi/" + idVideo + "/maxresdefault.jpg";
+            imagemCapa.addEventListener("error", function () {
+                this.src = "https://i.ytimg.com/vi/" + idVideo + "/hqdefault.jpg";
+            }, { once: true });
+        }
     }
 }
 

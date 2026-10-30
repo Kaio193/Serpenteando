@@ -217,6 +217,7 @@ p { margin: 0 0 16px; color: var(--texto-fraco); }
     color: var(--texto-fraco);
     font-size: 0.95rem;
     font-weight: 500;
+    white-space: nowrap;
     padding: 6px 0;
     border-bottom: 2px solid transparent;
     transition: color var(--transicao), border-color var(--transicao);
@@ -323,6 +324,7 @@ html.claro .tema-icone-lua { opacity: 1; transform: none; }
     justify-content: center;
     gap: 8px;
     padding: 13px 26px;
+    white-space: nowrap;
     border-radius: 999px;
     font-weight: 600;
     font-size: 0.98rem;

@@ -30,6 +30,17 @@
     .divisa { height: 56px; }
 }
 
+/* ---------- Até 1100px (o menu já tem o item Download) ---------- */
+/* O botão verde do topo sai primeiro: sem ele o cabeçalho não estoura
+   a largura e o download continua no menu. */
+
+@media (max-width: 1100px) {
+    .botao-topo { display: none; }
+
+    .menu { gap: 18px; }
+    .topo-linha { gap: 14px; }
+}
+
 /* ---------- Até 860px (menu vira gaveta) ---------- */
 
 @media (max-width: 860px) {
@@ -84,9 +95,7 @@
     .tema-botao, .menu-botao { width: 38px; height: 38px; }
 
     .iphone { padding: 8px; border-radius: 38px; }
-    .iphone-tela { border-radius: 30px; padding-top: 18px; }
-    .iphone-tela::before { height: 18px; font-size: 9px; padding: 0 11px; }
-    .iphone-tela::after { top: 6px; right: 11px; width: 30px; height: 7px; }
+    .iphone-tela { border-radius: 30px; }
 
     .iphone-hero { width: 214px; }
 

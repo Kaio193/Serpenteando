@@ -11,7 +11,9 @@ css/home.css        seções (apresentação, carrossel, recursos, vídeo, downl
 css/responsivo.css  ajustes de tablet e celular
 js/i18n.js          textos em português, inglês e espanhol
 js/main.js          tema claro/escuro, menu, carrossel automático, idioma e vídeo
-img/                logo oficial e telas do aplicativo (em moldura de celular)
+img/                logo oficial e telas do aplicativo em português (em moldura de celular)
+img/en/             as mesmas telas em inglês
+img/es/             as mesmas telas em espanhol
 img/equipe/         fotos da equipe (as mesmas do app: profile_*.jpeg)
 font/               fonte Inter (a mesma usada no app)
 ```
@@ -25,9 +27,11 @@ nos blocos `:root` (escuro) e `html.claro` (claro).
 
 HTML, CSS e JavaScript puro — sem frameworks e sem bibliotecas.
 
-## Como publicar o vídeo (etapa 2)
+## Como trocar o vídeo
 
-Abra o `index.html` e procure a linha:
+O vídeo do aplicativo já está publicado (o `data-youtube` está preenchido e o
+`js/main.js` monta o player com a capa e os controles do YouTube dentro do molde).
+Para trocar por outro vídeo, abra o `index.html` e procure a linha:
 
 ```html
 <div class="video-moldura" id="video-moldura" data-youtube="">
@@ -46,12 +50,17 @@ Salve o arquivo e publique de novo. O player aparece no lugar do aviso automatic
 - **Tela de app sempre inteira:** as capturas usam `object-fit: contain` e a moldura
   tem proporção `144 / 271` (a das capturas). Nada de `cover` — foi o que cortava
   (dava "zoom") a tela do 3D.
-- **Sem notch por cima da tela:** a ilha cobria o topo da captura. A moldura desenha
-  a barra de status (9:41 + sinal, wi-fi e bateria) porque os prints do app vêm sem ela.
+- **Sem notch e sem barra de status desenhada:** a moldura mostra só a moldura e a
+  captura real do app. O horário "9:41" e os ícones falsos saíram em 29/10/2026 (pedido
+  do Kaio) — os prints do app já começam no conteúdo.
 - **O modelo 3D é uma píton-real (Python regius)**, não uma cascavel. Qualquer texto
   novo sobre o 3D precisa dizer píton-real.
 - **Toda imagem de app vai dentro de `.iphone`** (moldura de celular), pra manter o
   alinhamento do carrossel e do topo.
+- **As capturas acompanham o idioma:** cada `<img>` de tela tem `data-imagem` (splash,
+  home, ficha, quiz, 3d, mitos, missoes, idiomas, config) e o `js/i18n.js` troca o `src`
+  pelo mapa `IMAGENS` ao aplicar o idioma. As versões em inglês e espanhol ficam em
+  `img/en/` e `img/es/` com o mesmo nome de arquivo da pasta `img/`.
 - **Carrossel automático:** passa a cada 5s (`INTERVALO_AUTO` em `js/main.js`). Clique em
   seta/pontinho pausa e a passagem volta depois de 9s (`ESPERA_VOLTA`).
 - **O texto ao lado do carrossel muda com a tela:** cada slide tem `data-tela`

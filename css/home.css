@@ -137,43 +137,14 @@ html.claro .hero-luz { background: radial-gradient(circle, rgba(46, 125, 50, 0.1
 
 /* Sem ilha/notch por cima: ela cobria o topo da captura. */
 
+/* A moldura tem só a moldura e a captura real do app: sem barra de status
+   desenhada (o horário "9:41" saiu a pedido do Kaio em 29/10/2026). */
 .iphone-tela {
     position: relative;
     height: 100%;
     border-radius: 36px;
     overflow: hidden;
     background: #060A08;
-    padding-top: 22px;   /* faixa da barra de status, desenhada por nós */
-}
-
-/* As capturas do app vêm sem barra de status (o print já começa no conteúdo).
-   Sem ela, a tela parece cortada em cima dentro da moldura. */
-.iphone-tela::before {
-    content: "9:41";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    padding: 0 14px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    color: #EDEDED;
-    background: #060A08;
-    z-index: 2;
-}
-
-/* Sinal, wi-fi e bateria, no mesmo tom da barra */
-.iphone-tela::after {
-    content: "";
-    position: absolute;
-    top: 7px;
-    right: 14px;
-    width: 36px;
-    height: 9px;
-    z-index: 2;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 10'><rect x='0' y='6' width='2.4' height='4' rx='1' fill='%23EDEDED'/><rect x='4' y='4.4' width='2.4' height='5.6' rx='1' fill='%23EDEDED'/><rect x='8' y='2.8' width='2.4' height='7.2' rx='1' fill='%23EDEDED'/><rect x='12' y='1.4' width='2.4' height='8.6' rx='1' fill='%23EDEDED'/><path d='M20.2 4.4a6 6 0 016 0' stroke='%23EDEDED' stroke-width='1.4' fill='none' stroke-linecap='round'/><path d='M21.8 6.6a3.5 3.5 0 012.8 0' stroke='%23EDEDED' stroke-width='1.4' fill='none' stroke-linecap='round'/><circle cx='23.2' cy='8.7' r='0.85' fill='%23EDEDED'/><rect x='29.5' y='1.6' width='10' height='7' rx='2' stroke='%23EDEDED' stroke-width='1.1' fill='none'/><rect x='31' y='3.1' width='5.8' height='3.9' rx='1' fill='%23EDEDED'/><rect x='40.6' y='3.7' width='1' height='3' rx='0.5' fill='%23EDEDED'/></svg>") no-repeat center / contain;
 }
 
 /* A tela inteira aparece, sem cortar o conteúdo (nada de zoom) */
@@ -251,6 +222,9 @@ html.claro .hero-luz { background: radial-gradient(circle, rgba(46, 125, 50, 0.1
     max-width: 300px;
 }
 
+/* Só a frase da imagem ativa aparece — inclusive durante a troca */
+.slide:not(.ativa) figcaption { visibility: hidden; }
+
 .carrossel-controles {
     display: flex;
     align-items: center;
@@ -295,40 +269,13 @@ html.claro .hero-luz { background: radial-gradient(circle, rgba(46, 125, 50, 0.1
     transition: width var(--transicao), background-color var(--transicao);
 }
 
+/* Indicador da imagem atual (só a bolinha, sem o ✓) */
 .ponto.ativo {
     width: 20px;
     background: var(--jade);
 }
 
 .app-info h3 { font-size: 1.5rem; margin-bottom: 14px; }
-
-.lista-check {
-    list-style: none;
-    margin: 22px 0 28px;
-    padding: 0;
-    display: grid;
-    gap: 12px;
-}
-
-.lista-check li {
-    position: relative;
-    padding-left: 30px;
-    font-size: 0.96rem;
-    color: var(--texto-fraco);
-}
-
-.lista-check li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 4px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 1px solid var(--borda-jade);
-    background:
-        linear-gradient(45deg, transparent 45%, var(--jade) 45% 55%, transparent 55%) no-repeat 3px 7px / 10px 6px;
-}
 
 /* ---------- Sobre ---------- */
 
@@ -417,34 +364,58 @@ html.claro .hero-luz { background: radial-gradient(circle, rgba(46, 125, 50, 0.1
     border: 0;
 }
 
-.video-aviso {
-    text-align: center;
-    padding: 24px;
-}
-
-.video-icone {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 66px;
-    height: 66px;
-    margin-bottom: 14px;
-    border-radius: 50%;
-    border: 1px solid var(--borda-jade);
-    background: rgba(76, 175, 80, 0.10);
-    color: var(--jade);
-}
-
-.video-aviso strong {
+/* Capa do vídeo: a thumbnail real do YouTube ocupa o mesmo espaço do player */
+.video-capa {
+    position: absolute;
+    inset: 0;
     display: block;
-    font-size: 1.05rem;
-    margin-bottom: 6px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
 }
 
-.video-aviso p {
-    margin: 0;
-    font-size: 0.9rem;
+.video-capa-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
+
+/* Botão de play no estilo do YouTube */
+.video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    line-height: 0;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+    transition: transform var(--transicao);
+}
+
+.video-play svg { width: 68px; height: 48px; }
+
+.video-capa:hover .video-play,
+.video-capa:focus-visible .video-play { transform: translate(-50%, -50%) scale(1.08); }
+
+.video-alternativa {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(11, 18, 16, 0.72);
+    color: #F5F5F0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    backdrop-filter: blur(6px);
+}
+
+.video-alternativa:hover { background: rgba(11, 18, 16, 0.88); color: #fff; }
 
 /* ---------- Download ---------- */
 
@@ -574,4 +545,5 @@ html.claro .hero-luz { background: radial-gradient(circle, rgba(46, 125, 50, 0.1
 }
 
 .pessoa-professor .pessoa-foto { border-color: rgba(196, 168, 77, 0.45); }
-.pessoa-professor .pessoa-cargo { color: var(--ouro); }
+
+/* O cargo usa a mesma cor em todos os cards (padrão dos desenvolvedores) */
