@@ -1,75 +1,75 @@
-# Serpenteando
+# 🐍 Serpenteando
 
-App educacional Android sobre serpentes brasileiras. TCC de ensino técnico.
+Aplicativo Android educacional sobre **serpentes brasileiras** e **prevenção de acidentes**, feito como Trabalho de Conclusão de Curso do **Técnico em Informática Integrado ao Ensino Médio do IFPB, campus Santa Luzia**.
 
-**Público:** Estudantes 16-20 anos  
-**Tom:** Premium, educativo, moderno — nunca infantil  
-**Inspiração:** Apple Fitness+ encontra National Geographic
+**Autores:** Kaio Dantas de Medeiros e Ebert Souza Damasceno Silva
+**Orientador:** prof. Antonio Alexandre Moura Costa
 
-## Identidade Visual "Cascavel"
+---
 
-- **Animal símbolo:** Cascavel (*Crotalus durissus*)
-- **Essência:** "Jade neon na floresta escura"
-- **Paleta:** Background `#0B1210`, Accent jade `#4CAF50`, Gold `#C4A84D`
-- **Estilo:** Glassmorphism, gradiente radial, bordas neon, bottom nav flutuante
+## O que o app tem
 
-## Funcionalidades
+| Seção | Conteúdo |
+|---|---|
+| 📚 Enciclopédia | 10 espécies: jararaca, cascavel, coral-verdadeira, jiboia, sucuri, surucucu, urutu, caninana, cobra-cipó e muçurana, com nome científico, habitat, dieta, importância médica e curiosidades |
+| ❓ Quiz | 30 questões em 3 níveis de dificuldade |
+| 🎯 Missões | 3 missões gamificadas com progresso e recompensas |
+| ⚖️ Mitos e verdades | 15 cartões |
+| 💡 Dica do dia | 85 curiosidades, com notificação diária |
+| 🧊 Anatomia 3D | Modelo 3D interativo (girar e dar zoom) renderizado com Google Filament |
+| 🌎 Idiomas | Português, inglês e espanhol |
 
-- Quiz com 3 níveis de dificuldade (30 perguntas em JSON em `assets/content/`)
-- Mitos e Verdades sobre serpentes (15 cards)
-- Missões gamificadas com anel de progresso
-- Anatomia 3D com modelo cascavel.glb (Filament)
-- Enciclopédia de espécies (10 serpentes em JSON)
-- Dica do Dia (32 curiosidades em JSON)
-- Onboarding (3 etapas)
+O app funciona **100% offline**: todo o conteúdo fica em arquivos JSON dentro do app.
 
-## Status do Desenvolvimento
+---
 
-### ✅ Concluído
-- Estrutura de navegação (Navigation Component, 5 abas)
-- Glassmorphism completo (cards translúcidos + borda neon)
-- Gradiente radial jade glow
-- Bottom nav flutuante com estilo floating dock
-- Quiz states em vidro (correto/incorreto translúcido)
-- 53 drawables vetoriais
-- Build: `assembleDebug` — SUCCESS
-- **100% de fidelidade estática** com as imagens de referência (avaliado por Gemini)
+## Tecnologias
 
-### 🔄 Em Andamento
-- **PRIORIDADE 1:** Favicon/launcher icon temático + imagens das espécies
-- **PRIORIDADE 2:** Integrar JSONs de assets/content/ (dicas, perguntas, missões, mitos - atualmente não conectados) + integrar assets (envs/, textures/)
-- **PRIORIDADE 3:** Animações (fade+slide entre fragments, press scale nos cards)
+- **Linguagem:** Java
+- **Plataforma:** Android nativo (minSdk 23, targetSdk 36)
+- **Arquitetura:** MVP (Contract → Presenter → View)
+- **Navegação:** Navigation Component, uma Activity com Fragments
+- **3D:** Google Filament (`Serpente_3D.glb`)
+- **Dados locais:** SQLite (`SQLiteOpenHelper`) e SharedPreferences
+- **Notificações:** AlarmManager + NotificationCompat (dica do dia)
 
-## Estrutura de Assets
+---
+
+## Estrutura
 
 ```
-assets/
-├── content/
-│   ├── dicas.json              # 32 curiosidades
-│   ├── missoes.json            # 6 missões gamificadas
-│   ├── mitos_verdades.json     # 15 mitos vs verdades
-│   ├── perguntas.json          # 30 perguntas de quiz (3 níveis)
-│   └── serpentes.json          # 10 espécies
-├── models/
-│   └── cascavel.glb            # Modelo 3D
-├── envs/                       # (vazio)
-└── textures/                   # (vazio)
+app/src/main/
+├── assets/
+│   ├── content/        # serpentes, perguntas, missões, mitos e dicas (PT, EN, ES)
+│   ├── images/         # fotos das 10 espécies
+│   └── Serpente_3D.glb # modelo 3D
+└── java/com/serpenteando/cobra3d/
+    ├── contract/       # contratos do MVP
+    ├── presenter/      # regras de cada tela
+    ├── view/           # Activities, Fragments e o renderizador 3D
+    ├── model/          # banco SQLite e modelos
+    ├── adapter/        # listas (RecyclerView)
+    ├── receiver/       # alarme da dica do dia
+    └── util/           # idioma, notificações, preferências
 ```
 
-## Stack Técnica
+---
 
-- **Linguagem:** Kotlin
-- **Arquitetura:** MVP (Contract → Presenter → Fragment)
-- **Navegação:** Navigation Component (Single Activity)
-- **3D:** Google Filament (cascavel.glb)
-- **Banco:** SQLite via SQLiteOpenHelper
-- **Design:** XML 100% (53 drawables, glassmorphism, gradiente radial)
-- **Tema:** Dark mode nativo (daynight), palela Apple HIG
+## Testes
 
-## Repositório
+Dos **15 casos de teste funcional** planejados no TCC, **13 foram executados e aprovados**.
 
-```bash
-git clone https://github.com/Kaio193/Serpenteando.git
-```
+---
 
-Último commit: `e652fbb` — refactor(ui): glassmorphism + gradiente radial + quiz states glass
+## Como rodar
+
+1. Instale o **Android Studio** (com JDK 17).
+2. Clone o repositório:
+   ```bash
+   git clone https://github.com/Kaio193/Serpenteando.git
+   ```
+3. Abra a pasta no Android Studio e espere o Gradle sincronizar.
+4. Rode num emulador ou celular com Android 6.0 ou mais novo, ou gere o APK:
+   ```bash
+   ./gradlew assembleDebug
+   ```
